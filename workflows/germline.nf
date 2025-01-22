@@ -417,6 +417,7 @@ workflow GERMLINE {
     )
     ch_versions = ch_versions.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.versions)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
+    def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
 
     //
     // Split the BED files
@@ -895,6 +896,7 @@ workflow GERMLINE {
     gemini          = ch_final_dbs                  // channel: [ val(meta), path(db) ]
     peds            = ch_final_peds                 // channel: [ val(meta), path(ped) ]
     single_beds     = ch_single_beds                // channel: [ val(meta), path(bed) ]
+    perbase_beds    = ch_perbase_beds               // channel: [ val(meta), path(bed), path(csi) ]
     joint_beds      = ch_joint_beds                 // channel: [ val(meta), path(bed) ]
     final_reports   = ch_final_reports              // channel: [ val(meta), path(report) ]
     gvcf_reports    = ch_gvcf_reports               // channel: [ val(meta), path(report) ]
