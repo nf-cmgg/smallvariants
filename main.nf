@@ -99,10 +99,6 @@ workflow {
         if(!(caller in GlobalVariables.availableCallers)) { error("\"${caller}\" is not a supported callers please use one or more of these instead: ${GlobalVariables.availableCallers}")}
     }
 
-    if (params.output_suffix && callers.size() > 1) {
-        error("Cannot use --output_suffix with more than one caller")
-    }
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         CONFIG FILES
@@ -219,6 +215,7 @@ workflow {
     publish:
     ch_gvcfs_out >> 'gvcfs'
     GERMLINE.out.single_beds >> 'single_beds'
+    GERMLINE.out.perbase_beds >> 'perbase_beds'
     GERMLINE.out.validation >> 'validation'
     GERMLINE.out.gvcf_reports >> 'gvcf_reports'
     GERMLINE.out.genomicsdb >> 'genomicsdb'
@@ -244,6 +241,14 @@ output {
     }
     'single_beds' {
         path { meta, _bed -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed" } }
+    }
+    'perbase_beds' {
+        path { meta, bed, _csi -> { file -> 
+            if(file == bed.name) {
+                return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz" 
+            }
+            return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
+        } }
     }
     'validation' {
         path { meta, _report -> { file -> "${meta.family}/${meta.id}_${params.unique_out}/validation/${meta.caller}/${file}" } }
