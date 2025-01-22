@@ -331,6 +331,10 @@
                     "type": "string",
                     "description": "Don't change this value",
                     "hidden": true
+                },
+                "disable_hc_dict_validation": {
+                    "type": "boolean",
+                    "description": "Disable the sequence dictionary validation in HaplotypeCaller"
                 }
             }
         },
