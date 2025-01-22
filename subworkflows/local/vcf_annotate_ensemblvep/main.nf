@@ -138,7 +138,7 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
     }
 
     emit:
-    vcf_tbi         = ch_vep_output     // channel: [ val(meta), path(vcf), path(tbi) ]
+    vcf_tbi         = ch_ready_vcfs     // channel: [ val(meta), path(vcf), path(tbi) ]
     vep_reports     = ch_vep_reports    // channel: [ path(html) ]
     versions        = ch_versions       // channel: [ versions.yml ]
 }
