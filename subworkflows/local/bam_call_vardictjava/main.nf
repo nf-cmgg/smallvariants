@@ -1,12 +1,6 @@
 include { VARDICTJAVA                       } from '../../../modules/nf-core/vardictjava/main'
-include { TABIX_BGZIP                       } from '../../../modules/nf-core/tabix/bgzip/main'
-include { BCFTOOLS_REHEADER                 } from '../../../modules/nf-core/bcftools/reheader/main'
-include { VCFANNO                           } from '../../../modules/nf-core/vcfanno/main'
-include { TABIX_TABIX                       } from '../../../modules/nf-core/tabix/tabix/main'
-include { BCFTOOLS_STATS                    } from '../../../modules/nf-core/bcftools/stats/main'
 
 include { VCF_CONCAT_BCFTOOLS               } from '../vcf_concat_bcftools/main'
-include { VCF_FILTER_BCFTOOLS               } from '../vcf_filter_bcftools/main'
 include { VCF_DBSNP_VCFANNO                 } from '../vcf_dbsnp_vcfanno/main'
 
 workflow BAM_CALL_VARDICTJAVA {

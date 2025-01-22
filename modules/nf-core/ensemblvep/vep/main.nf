@@ -17,11 +17,12 @@ process ENSEMBLVEP_VEP {
     path  extra_files
 
     output:
-    tuple val(meta), path("*.vcf.gz")  , optional:true, emit: vcf
-    tuple val(meta), path("*.tab.gz")  , optional:true, emit: tab
-    tuple val(meta), path("*.json.gz") , optional:true, emit: json
-    path "*.html"                      , optional:true, emit: report
-    path "versions.yml"                , emit: versions
+    tuple val(meta), path("*.vcf.gz")       , optional:true, emit: vcf
+    tuple val(meta), path("*.vcf.gz.tbi")   , optional:true, emit: tbi
+    tuple val(meta), path("*.tab.gz")       , optional:true, emit: tab
+    tuple val(meta), path("*.json.gz")      , optional:true, emit: json
+    path "*.html"                           , optional:true, emit: report
+    path "versions.yml"                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -47,6 +48,9 @@ process ENSEMBLVEP_VEP {
         --dir_cache $dir_cache \\
         --fork $task.cpus
 
+    if [ $file_extension == vcf ]; then
+        tabix ${prefix}.${file_extension}.gz
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -58,6 +62,7 @@ process ENSEMBLVEP_VEP {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo "" | gzip > ${prefix}.vcf.gz
+    echo "" | gzip > ${prefix}.vcf.gz.tbi
     echo "" | gzip > ${prefix}.tab.gz
     echo "" | gzip > ${prefix}.json.gz
     touch ${prefix}_summary.html

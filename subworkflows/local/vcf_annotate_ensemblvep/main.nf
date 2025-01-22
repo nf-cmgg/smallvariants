@@ -3,11 +3,10 @@
 //
 
 include { ENSEMBLVEP_VEP         } from '../../../modules/nf-core/ensemblvep/vep/main'
-include { TABIX_TABIX            } from '../../../modules/nf-core/tabix/tabix/main'
-include { TABIX_BGZIP            } from '../../../modules/nf-core/tabix/bgzip/main'
 include { BCFTOOLS_PLUGINSCATTER } from '../../../modules/nf-core/bcftools/pluginscatter/main'
 include { BCFTOOLS_CONCAT        } from '../../../modules/nf-core/bcftools/concat/main'
 include { BCFTOOLS_SORT          } from '../../../modules/nf-core/bcftools/sort/main'
+include { ENSEMBLVEP_DOWNLOAD } from '../../../modules/nf-core/ensemblvep/download/main.nf'
 
 workflow VCF_ANNOTATE_ENSEMBLVEP {
     take:
@@ -97,6 +96,7 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
     ch_versions = ch_versions.mix(ENSEMBLVEP_VEP.out.versions.first())
 
     def ch_vep_output  = ENSEMBLVEP_VEP.out.vcf
+        .join(ENSEMBLVEP_VEP.out.tbi, failOnDuplicate:true, failOnMismatch:true)
     def ch_vep_reports = ENSEMBLVEP_VEP.out.report
 
     // Gather the files back together if they were scattered
@@ -108,13 +108,13 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
 
         def ch_concat_input = ch_vep_output
             .join(ch_scatter.count, failOnDuplicate:true, failOnMismatch:true)
-            .map { meta, vcf, id, count ->
+            .map { meta, vcf, tbi, id, count ->
                 def new_meta = meta + [id:id]
-                [ groupKey(new_meta, count), vcf ]
+                [ groupKey(new_meta, count), vcf, tbi ]
             }
             .groupTuple() // Group the VCFs which need to be concatenated
-            .map { meta, vcf ->
-                [ meta, vcf, [] ]
+            .map { meta, vcfs, tbis ->
+                [ meta, vcfs, tbis ]
             }
 
         BCFTOOLS_CONCAT(
@@ -132,33 +132,13 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
         ch_versions = ch_versions.mix(BCFTOOLS_SORT.out.versions.first())
 
         ch_ready_vcfs = BCFTOOLS_SORT.out.vcf
+            .join(BCFTOOLS_SORT.out.tbi, failOnDuplicate:true, failOnMismatch:true)
     } else {
         ch_ready_vcfs = ch_vep_output
     }
 
-    //
-    // Index the resulting bgzipped VCFs
-    //
-
-    def ch_tabix_input = ch_ready_vcfs
-        .branch { meta, vcf ->
-            // Split the bgzipped VCFs from the unzipped VCFs (only bgzipped VCFs should be indexed)
-            bgzip: vcf.extension == "gz"
-            unzip: true
-                return [ meta, vcf, [] ]
-        }
-
-    TABIX_TABIX(
-        ch_tabix_input.bgzip
-    )
-    ch_versions = ch_versions.mix(TABIX_TABIX.out.versions)
-
-    def ch_vcf_tbi = ch_tabix_input.bgzip
-        .join(TABIX_TABIX.out.tbi, failOnDuplicate: true, failOnMismatch: true)
-        .mix(ch_tabix_input.unzip)
-
     emit:
-    vcf_tbi         = ch_vcf_tbi        // channel: [ val(meta), path(vcf), path(tbi) ]
+    vcf_tbi         = ch_vep_output     // channel: [ val(meta), path(vcf), path(tbi) ]
     vep_reports     = ch_vep_reports    // channel: [ path(html) ]
     versions        = ch_versions       // channel: [ versions.yml ]
 }
