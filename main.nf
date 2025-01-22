@@ -243,9 +243,9 @@ output {
         path { meta, _bed -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed" } }
     }
     'perbase_beds' {
-        path { meta, bed, _csi -> { file -> 
+        path { meta, bed, _csi -> { file ->
             if(file == bed.name) {
-                return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz" 
+                return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz"
             }
             return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
         } }
