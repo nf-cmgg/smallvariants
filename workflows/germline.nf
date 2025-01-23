@@ -574,13 +574,8 @@ workflow GERMLINE {
             )
             ch_versions = ch_versions.mix(BCFTOOLS_NORM.out.versions.first())
 
-            TABIX_NORMALIZE(
-                BCFTOOLS_NORM.out.vcf
-            )
-            ch_versions = ch_versions.mix(TABIX_NORMALIZE.out.versions.first())
-
             ch_normalized_variants = BCFTOOLS_NORM.out.vcf
-                .join(TABIX_NORMALIZE.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+                .join(BCFTOOLS_NORM.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         } else {
             ch_normalized_variants = ch_filtered_variants
         }
@@ -633,7 +628,6 @@ workflow GERMLINE {
         // Annotation of the variants and creation of Gemini-compatible database files
         //
 
-        def ch_annotation_output = Channel.empty()
         if (annotate) {
             VCF_ANNOTATION(
                 ch_ped_vcfs,
@@ -652,31 +646,10 @@ workflow GERMLINE {
             ch_versions = ch_versions.mix(VCF_ANNOTATION.out.versions)
             ch_reports  = ch_reports.mix(VCF_ANNOTATION.out.reports)
 
-            ch_annotation_output = VCF_ANNOTATION.out.annotated_vcfs
+            ch_final_vcfs = VCF_ANNOTATION.out.annotated_vcfs
         } else {
-            ch_annotation_output = ch_ped_vcfs
+            ch_final_vcfs = ch_ped_vcfs
         }
-
-        //
-        // Tabix the resulting VCF
-        //
-
-        def ch_ann_tabix = ch_annotation_output.branch { meta, vcf, tbi=[] ->
-            indexed: tbi
-                return [ meta, vcf, tbi ]
-            not_indexed: !tbi
-                return [ meta, vcf ]
-        }
-
-        TABIX_FINAL(
-            ch_ann_tabix.not_indexed
-        )
-        ch_versions = ch_versions.mix(TABIX_FINAL.out.versions.first())
-
-        ch_final_vcfs = ch_ann_tabix.indexed
-            .mix(
-                ch_ann_tabix.not_indexed.join(TABIX_FINAL.out.tbi, failOnDuplicate:true, failOnMismatch:true)
-            )
 
         //
         // Validate the found variants
