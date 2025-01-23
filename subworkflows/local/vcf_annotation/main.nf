@@ -2,11 +2,7 @@
 // ANNOTATION
 //
 
-include { ENSEMBLVEP_VEP                      } from '../../../modules/nf-core/ensemblvep/vep/main'
 include { VCFANNO                             } from '../../../modules/nf-core/vcfanno/main'
-include { TABIX_BGZIP as BGZIP_ANNOTATED_VCFS } from '../../../modules/nf-core/tabix/bgzip/main'
-include { TABIX_TABIX as TABIX_ENSEMBLVEP     } from '../../../modules/nf-core/tabix/tabix/main'
-include { BCFTOOLS_CONCAT                     } from '../../../modules/nf-core/bcftools/concat/main'
 
 include { VCF_ANNOTATE_ENSEMBLVEP             } from '../../../subworkflows/local/vcf_annotate_ensemblvep/main'
 
@@ -31,21 +27,7 @@ workflow VCF_ANNOTATION {
     def ch_reports          = Channel.empty()
     def ch_versions         = Channel.empty()
 
-    def ch_tabix_input = ch_vcfs
-        .branch { meta, vcf, tbi=[] ->
-            tbi: tbi
-            no_tbi: !tbi
-                return [ meta, vcf ]
-        }
-
-    TABIX_ENSEMBLVEP(
-        ch_tabix_input.no_tbi
-    )
-    ch_versions = ch_versions.mix(TABIX_ENSEMBLVEP.out.versions.first())
-
-    def ch_vep_input = ch_tabix_input.no_tbi
-        .join(TABIX_ENSEMBLVEP.out.tbi, failOnDuplicate:true, failOnMismatch:true)
-        .mix(ch_tabix_input.tbi)
+    def ch_vep_input = ch_vcfs
         .map { meta, vcf, tbi ->
             [ meta, vcf, tbi, [] ]
         }
