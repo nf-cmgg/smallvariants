@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v1.10.0dev
 
+## v1.9.3 Nifty Nieuwkerke - [January 23 2025]
+
+1. Fix db postprocess in vcf2db module
+
 ## v1.9.2 - New Nieuwkerke - [January 22 2025]
 
 ## Changes
