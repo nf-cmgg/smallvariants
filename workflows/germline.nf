@@ -628,9 +628,6 @@ workflow GERMLINE {
             ch_ped_vcfs = VCF_PED_RTGTOOLS.out.ped_vcfs
         } else {
             ch_ped_vcfs = ch_normalized_variants
-                .map { meta, vcf, _tbi=[] ->
-                    [ meta, vcf ]
-                }
         }
 
         //
@@ -665,13 +662,22 @@ workflow GERMLINE {
         // Tabix the resulting VCF
         //
 
+        def ch_ann_tabix = ch_annotation_output.branch { meta, vcf, tbi=[] ->
+            indexed: tbi
+                return [ meta, vcf, tbi ]
+            not_indexed: !tbi
+                return [ meta, vcf ]
+        }
+
         TABIX_FINAL(
-            ch_annotation_output
+            ch_ann_tabix.not_indexed
         )
         ch_versions = ch_versions.mix(TABIX_FINAL.out.versions.first())
 
-        ch_final_vcfs = ch_annotation_output
-            .join(TABIX_FINAL.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        ch_final_vcfs = ch_ann_tabix.indexed
+            .mix(
+                ch_ann_tabix.not_indexed.join(TABIX_FINAL.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+            )
 
         //
         // Validate the found variants

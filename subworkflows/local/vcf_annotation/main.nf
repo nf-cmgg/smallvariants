@@ -88,20 +88,14 @@ workflow VCF_ANNOTATION {
         )
         ch_versions = ch_versions.mix(VCFANNO.out.versions.first())
 
-        BGZIP_ANNOTATED_VCFS(
-            VCFANNO.out.vcf
-        )
-        ch_versions = ch_versions.mix(BGZIP_ANNOTATED_VCFS.out.versions.first())
-
-        ch_annotated_vcfs = BGZIP_ANNOTATED_VCFS.out.output
+        ch_annotated_vcfs = VCFANNO.out.vcf.join(VCFANNO.out.tbi, failOnDuplicate:true, failOnMismatch:true)
     }
     else {
         ch_annotated_vcfs = VCF_ANNOTATE_ENSEMBLVEP.out.vcf_tbi
-            .map { meta, vcf, _tbi -> [ meta, vcf ]}
     }
 
     emit:
-    annotated_vcfs  = ch_annotated_vcfs   // [ val(meta), path(vcf) ]
+    annotated_vcfs  = ch_annotated_vcfs   // [ val(meta), path(vcf), path(tbi) ]
     reports         = ch_reports          // [ path(reports) ]
     versions        = ch_versions         // [ path(versions) ]
 }
