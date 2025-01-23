@@ -8,7 +8,7 @@ nextflow_workflow {
     tag "subworkflows_local"
     tag "vcf_filter_bcftools"
 
-    test("vcf_filter_bcftools - no_tabix") {
+    test("vcf_filter_bcftools") {
 
         config "./nextflow.config"
 
@@ -20,7 +20,6 @@ nextflow_workflow {
                     file(params.vcf1, checkIfExists:true),
                     file(params.tbi1, checkIfExists:true)
                 ])
-                input[1] = false
                 """
             }
         }
@@ -30,34 +29,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.vcfs.collect { [it[0], "variantsMD5:${path(it[1]).vcf.variantsMD5}"] }
-                ).match() }
-            )
-        }
-
-    }
-
-    test("vcf_filter_bcftools - tabix") {
-
-        config "./nextflow.config"
-
-        when {
-            workflow {
-                """
-                input[0] = Channel.of([
-                    [id:"NA24143", sample:"NA24143", family:"Ashkenazim", family_samples:"NA24143", caller:"haplotypecaller"],
-                    file(params.vcf1, checkIfExists:true),
-                    file(params.tbi1, checkIfExists:true)
-                ])
-                input[1] = true
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert snapshot(
-                    workflow.out.vcfs.collect { [it[0], "variantsMD5:${path(it[1]).vcf.variantsMD5}", it[2][-10..-1]] }
                 ).match() }
             )
         }

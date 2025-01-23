@@ -8,6 +8,8 @@ nextflow_workflow {
     tag "subworkflows_local"
     tag "vcf_dbsnp_vcfanno"
 
+    config "./nextflow.config"
+
     test("vcf_dbsnp_vcfanno - default") {
 
         when {
