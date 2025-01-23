@@ -1,36 +1,18 @@
 {
-    "vcf_concat_bcftools - tabix": {
+    "vcf_concat_bcftools": {
         "content": [
             [
                 [
                     {
-                        "id": "NA24143",
-                        "sample": "NA24143",
-                        "family": "Ashkenazim",
-                        "family_samples": "NA24143",
-                        "caller": "haplotypecaller"
-                    },
-                    "variantsMD5:843352db8fe3f441ffa026dc72a30c35",
-                    "vcf.gz.tbi"
-                ]
-            ]
-        ],
-        "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
-        },
-        "timestamp": "2024-11-14T13:41:32.794902067"
-    },
-    "vcf_concat_bcftools - no_tabix": {
-        "content": [
-            [
-                [
-                    {
-                        "id": "NA24143",
-                        "sample": "NA24143",
-                        "family": "Ashkenazim",
-                        "family_samples": "NA24143",
-                        "caller": "haplotypecaller"
+                        "groupSize": 2,
+                        "groupTarget": {
+                            "id": "NA24143",
+                            "sample": "NA24143",
+                            "family": "Ashkenazim",
+                            "family_samples": "NA24143",
+                            "caller": "haplotypecaller",
+                            "split_count": 2
+                        }
                     },
                     "variantsMD5:843352db8fe3f441ffa026dc72a30c35"
                 ]
@@ -38,8 +20,8 @@
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-14T13:42:04.623824246"
+        "timestamp": "2025-01-23T17:07:22.212689866"
     }
 }

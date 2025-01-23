@@ -8,7 +8,7 @@ include { VCF_ANNOTATE_ENSEMBLVEP             } from '../../../subworkflows/loca
 
 workflow VCF_ANNOTATION {
     take:
-        ch_vcfs                 // channel: [mandatory] [ val(meta), path(vcf) ] => The post-processed VCFs
+        ch_vcfs                 // channel: [mandatory] [ val(meta), path(vcf), path(tbi) ] => The post-processed VCFs
         ch_fasta                // channel: [mandatory] [ val(meta2), path(fasta) ] => fasta reference
         ch_vep_cache            // channel: [optional]  [ path(vep_cache) ] => The VEP cache to use
         ch_vep_extra_files      // channel: [optional]  [ path(file_1, file_2, file_3, ...) ] => All files necessary for using the desired plugins
