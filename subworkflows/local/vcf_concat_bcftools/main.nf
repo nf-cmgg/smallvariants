@@ -3,12 +3,10 @@
 //
 
 include { BCFTOOLS_CONCAT } from '../../../modules/nf-core/bcftools/concat/main'
-include { TABIX_TABIX     } from '../../../modules/nf-core/tabix/tabix/main'
 
 workflow VCF_CONCAT_BCFTOOLS {
     take:
         ch_vcfs // channel: [ val(meta), path(vcf), path(tbi) ]
-        val_tabix // boolean: whether to create a index or not
 
     main:
 
@@ -29,29 +27,8 @@ workflow VCF_CONCAT_BCFTOOLS {
         ch_concat_input
     )
     ch_versions = ch_versions.mix(BCFTOOLS_CONCAT.out.versions.first())
-
-    def ch_vcf_tbi = Channel.empty()
-    if(val_tabix) {
-        TABIX_TABIX(
-            BCFTOOLS_CONCAT.out.vcf
-        )
-        ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
-
-        ch_vcf_tbi = BCFTOOLS_CONCAT.out.vcf
-            .join(TABIX_TABIX.out.tbi, failOnDuplicate: true, failOnMismatch: true)
-            .map { meta, vcf, tbi ->
-                // Remove the bed counter from the meta field
-                def new_meta = meta - meta.subMap("split_count")
-                [ new_meta, vcf, tbi ]
-            }
-    } else {
-        ch_vcf_tbi = BCFTOOLS_CONCAT.out.vcf
-            .map { meta, vcf ->
-                // Remove the bed counter from the meta field
-                def new_meta = meta - meta.subMap("split_count")
-                [ new_meta, vcf ]
-            }
-    }
+    def ch_vcf_tbi = BCFTOOLS_CONCAT.out.vcf
+        .join(BCFTOOLS_CONCAT.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
     emit:
     vcfs = ch_vcf_tbi       // channel: [ val(meta), path(vcf), path(tbi) ]

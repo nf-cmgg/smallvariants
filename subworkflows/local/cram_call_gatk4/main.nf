@@ -82,8 +82,7 @@ workflow CRAM_CALL_GATK4 {
         .set { ch_called_variants }
 
     VCF_CONCAT_BCFTOOLS(
-        ch_called_variants,
-        true
+        ch_called_variants
     )
     ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 

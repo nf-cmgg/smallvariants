@@ -25,8 +25,7 @@ workflow BAM_CALL_VARDICTJAVA {
     ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
 
     VCF_CONCAT_BCFTOOLS(
-        VARDICTJAVA.out.vcf,
-        true
+        VARDICTJAVA.out.vcf
     )
     ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 
