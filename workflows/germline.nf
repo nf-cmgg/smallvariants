@@ -558,8 +558,7 @@ workflow GERMLINE {
         def ch_filtered_variants = Channel.empty()
         if(filter) {
             VCF_FILTER_BCFTOOLS(
-                ch_called_variants,
-                true
+                ch_called_variants
             )
             ch_versions = ch_versions.mix(VCF_FILTER_BCFTOOLS.out.versions)
             ch_filtered_variants = VCF_FILTER_BCFTOOLS.out.vcfs

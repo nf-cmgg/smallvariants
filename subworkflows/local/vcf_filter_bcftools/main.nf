@@ -9,7 +9,6 @@ include { TABIX_TABIX                 } from '../../../modules/nf-core/tabix/tab
 workflow VCF_FILTER_BCFTOOLS {
     take:
         ch_vcfs // channel: [ val(meta), path(vcf), path(tbi) ]
-        val_tabix // boolean: whether to create a index or not
 
     main:
 
@@ -21,23 +20,11 @@ workflow VCF_FILTER_BCFTOOLS {
     ch_versions = ch_versions.mix(FILTER_1.out.versions.first())
 
     FILTER_2(
-        FILTER_1.out.vcf.map { meta, vcf -> [ meta, vcf, [] ]}
+        FILTER_1.out.vcf.join(FILTER_1.out.tbi, failOnDuplicate:true, failOnMismatch:true)
     )
     ch_versions = ch_versions.mix(FILTER_2.out.versions.first())
 
-    def ch_filter_vcfs = Channel.empty()
-    if(val_tabix) {
-        TABIX_TABIX(
-            FILTER_2.out.vcf
-        )
-        ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
-
-        ch_filter_vcfs = FILTER_2.out.vcf
-            .join(TABIX_TABIX.out.tbi, failOnDuplicate: true, failOnMismatch: true)
-    } else {
-        ch_filter_vcfs = FILTER_2.out.vcf
-    }
-
+    def ch_filter_vcfs = FILTER_2.out.vcf.join(FILTER_2.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
     emit:
     vcfs = ch_filter_vcfs  // channel: [ val(meta), path(vcf), path(tbi) ]
