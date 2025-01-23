@@ -37,7 +37,7 @@ workflow VCF_PED_RTGTOOLS {
         ch_annotate_input
     )
     ch_versions = ch_versions.mix(BCFTOOLS_ANNOTATE.out.versions.first())
-    
+
     def ch_ped_vcfs = BCFTOOLS_ANNOTATE.out.vcf
         .join(BCFTOOLS_ANNOTATE.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
