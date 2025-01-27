@@ -1,4 +1,4 @@
-Changes in module 'nf-core/ensemblvep/vep'
+Changes in component 'nf-core/ensemblvep/vep'
 Changes in 'ensemblvep/vep/main.nf':
 --- modules/nf-core/ensemblvep/vep/main.nf
 +++ modules/nf-core/ensemblvep/vep/main.nf
@@ -6,8 +6,8 @@ Changes in 'ensemblvep/vep/main.nf':
  
      conda "${moduleDir}/environment.yml"
      container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
--        'https://depot.galaxyproject.org/singularity/ensembl-vep:112.0--pl5321h2a3209d_0' :
--        'biocontainers/ensembl-vep:112.0--pl5321h2a3209d_0' }"
+-        'https://depot.galaxyproject.org/singularity/ensembl-vep:113.0--pl5321h2a3209d_0' :
+-        'biocontainers/ensembl-vep:113.0--pl5321h2a3209d_0' }"
 +        'https://depot.galaxyproject.org/singularity/ensembl-vep:105.0--pl5321h4a94de4_1' :
 +        'biocontainers/ensembl-vep:105.0--pl5321h4a94de4_1' }"
  
@@ -22,11 +22,11 @@ Changes in 'ensemblvep/vep/main.nf':
 Changes in 'ensemblvep/vep/tests/main.nf.test':
 --- modules/nf-core/ensemblvep/vep/tests/main.nf.test
 +++ modules/nf-core/ensemblvep/vep/tests/main.nf.test
-@@ -107,7 +107,7 @@
+@@ -110,7 +110,7 @@
              assertAll(
                  { assert process.success },
                  { assert snapshot(process.out.versions).match() },
--                { assert path(process.out.tab.get(0).get(1)).linesGzip.contains("## ENSEMBL VARIANT EFFECT PREDICTOR v112.0") }
+-                { assert path(process.out.tab.get(0).get(1)).linesGzip.contains("## ENSEMBL VARIANT EFFECT PREDICTOR v113.0") }
 +                { assert path(process.out.tab.get(0).get(1)).linesGzip.contains("## ENSEMBL VARIANT EFFECT PREDICTOR v105.0") }
              )
          }
@@ -35,38 +35,35 @@ Changes in 'ensemblvep/vep/tests/main.nf.test':
 Changes in 'ensemblvep/vep/tests/main.nf.test.snap':
 --- modules/nf-core/ensemblvep/vep/tests/main.nf.test.snap
 +++ modules/nf-core/ensemblvep/vep/tests/main.nf.test.snap
-@@ -2,25 +2,25 @@
+@@ -2,19 +2,19 @@
      "test_ensemblvep_vep_fasta_tab_gz": {
          "content": [
              [
--                "versions.yml:md5,d06f1eb60f534489026d682eb3aa5559"
-+                "versions.yml:md5,c6d58a35e7be5e6ab46a3f9757f6e259"
+-                "versions.yml:md5,534306f30b29b830c409da4b0a26bd20"
++                "versions.yml:md5,4faee762040f2f0241cdb8b48a2ac759"
              ]
          ],
          "meta": {
--            "nf-test": "0.8.4",
--            "nextflow": "24.04.4"
-+            "nf-test": "0.9.1",
-+            "nextflow": "24.10.0"
+             "nf-test": "0.9.1",
+             "nextflow": "24.10.3"
          },
--        "timestamp": "2024-09-02T10:15:18.228927"
-+        "timestamp": "2024-11-20T14:10:59.846254319"
+-        "timestamp": "2025-01-24T10:03:33.681292738"
++        "timestamp": "2025-01-24T11:32:50.653988125"
      },
-     "test_ensemblvep_vep_fasta_vcf": {
+     "test_ensemblvep_vep_fasta_vcf - stub (not really but linting complains otherwise)": {
          "content": [
              [
--                "versions.yml:md5,d06f1eb60f534489026d682eb3aa5559"
-+                "versions.yml:md5,c6d58a35e7be5e6ab46a3f9757f6e259"
-             ]
-         ],
-         "meta": {
--            "nf-test": "0.8.4",
--            "nextflow": "24.04.4"
-+            "nf-test": "0.9.1",
-+            "nextflow": "24.10.0"
+-                "versions.yml:md5,534306f30b29b830c409da4b0a26bd20"
++                "versions.yml:md5,4faee762040f2f0241cdb8b48a2ac759"
+             ],
+             "d41d8cd98f00b204e9800998ecf8427e",
+             "test.vcf.gz.tbi"
+@@ -23,6 +23,6 @@
+             "nf-test": "0.9.1",
+             "nextflow": "24.10.3"
          },
--        "timestamp": "2024-09-02T10:14:50.193861"
-+        "timestamp": "2024-11-20T14:10:44.092773407"
+-        "timestamp": "2025-01-24T10:15:45.231110684"
++        "timestamp": "2025-01-24T11:32:28.2162697"
      }
  }
 'modules/nf-core/ensemblvep/vep/tests/nextflow.config' is unchanged

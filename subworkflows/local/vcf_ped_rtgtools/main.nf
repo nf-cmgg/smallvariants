@@ -29,8 +29,8 @@ workflow VCF_PED_RTGTOOLS {
 
     def ch_annotate_input = ch_vcfs
         .join(RTGTOOLS_PEDFILTER.out.output, failOnDuplicate:true, failOnMismatch:true)
-        .map { meta, vcf, _tbi, ped_vcf ->
-            [ meta, vcf, [], [], [], ped_vcf ]
+        .map { meta, vcf, tbi, ped_vcf ->
+            [ meta, vcf, tbi, [], [], ped_vcf ]
         }
 
     BCFTOOLS_ANNOTATE(
@@ -38,7 +38,10 @@ workflow VCF_PED_RTGTOOLS {
     )
     ch_versions = ch_versions.mix(BCFTOOLS_ANNOTATE.out.versions.first())
 
+    def ch_ped_vcfs = BCFTOOLS_ANNOTATE.out.vcf
+        .join(BCFTOOLS_ANNOTATE.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+
     emit:
-    ped_vcfs = BCFTOOLS_ANNOTATE.out.vcf    // [ val(meta), path(vcf) ]
-    versions = ch_versions                  // [ path(versions) ]
+    ped_vcfs = ch_ped_vcfs  // [ val(meta), path(vcf), path(tbi) ]
+    versions = ch_versions  // [ path(versions) ]
 }

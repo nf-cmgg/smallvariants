@@ -44,12 +44,9 @@ include { UNTAR                                                      } from '../
 include { ENSEMBLVEP_DOWNLOAD                                        } from '../modules/nf-core/ensemblvep/download/main'
 include { BCFTOOLS_STATS                                             } from '../modules/nf-core/bcftools/stats/main'
 include { BCFTOOLS_NORM                                              } from '../modules/nf-core/bcftools/norm/main'
-include { TABIX_TABIX as TABIX_DECOMPOSE                             } from '../modules/nf-core/tabix/tabix/main'
-include { TABIX_TABIX as TABIX_NORMALIZE                             } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_DBSNP                                 } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_GVCF                                  } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_TRUTH                                 } from '../modules/nf-core/tabix/tabix/main'
-include { TABIX_TABIX as TABIX_FINAL                                 } from '../modules/nf-core/tabix/tabix/main'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
 include { MULTIQC                                                    } from '../modules/nf-core/multiqc/main'
@@ -558,8 +555,7 @@ workflow GERMLINE {
         def ch_filtered_variants = Channel.empty()
         if(filter) {
             VCF_FILTER_BCFTOOLS(
-                ch_called_variants,
-                true
+                ch_called_variants
             )
             ch_versions = ch_versions.mix(VCF_FILTER_BCFTOOLS.out.versions)
             ch_filtered_variants = VCF_FILTER_BCFTOOLS.out.vcfs
@@ -575,13 +571,8 @@ workflow GERMLINE {
             )
             ch_versions = ch_versions.mix(BCFTOOLS_NORM.out.versions.first())
 
-            TABIX_NORMALIZE(
-                BCFTOOLS_NORM.out.vcf
-            )
-            ch_versions = ch_versions.mix(TABIX_NORMALIZE.out.versions.first())
-
             ch_normalized_variants = BCFTOOLS_NORM.out.vcf
-                .join(TABIX_NORMALIZE.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+                .join(BCFTOOLS_NORM.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         } else {
             ch_normalized_variants = ch_filtered_variants
         }
@@ -628,16 +619,12 @@ workflow GERMLINE {
             ch_ped_vcfs = VCF_PED_RTGTOOLS.out.ped_vcfs
         } else {
             ch_ped_vcfs = ch_normalized_variants
-                .map { meta, vcf, _tbi=[] ->
-                    [ meta, vcf ]
-                }
         }
 
         //
         // Annotation of the variants and creation of Gemini-compatible database files
         //
 
-        def ch_annotation_output = Channel.empty()
         if (annotate) {
             VCF_ANNOTATION(
                 ch_ped_vcfs,
@@ -656,22 +643,10 @@ workflow GERMLINE {
             ch_versions = ch_versions.mix(VCF_ANNOTATION.out.versions)
             ch_reports  = ch_reports.mix(VCF_ANNOTATION.out.reports)
 
-            ch_annotation_output = VCF_ANNOTATION.out.annotated_vcfs
+            ch_final_vcfs = VCF_ANNOTATION.out.annotated_vcfs
         } else {
-            ch_annotation_output = ch_ped_vcfs
+            ch_final_vcfs = ch_ped_vcfs
         }
-
-        //
-        // Tabix the resulting VCF
-        //
-
-        TABIX_FINAL(
-            ch_annotation_output
-        )
-        ch_versions = ch_versions.mix(TABIX_FINAL.out.versions.first())
-
-        ch_final_vcfs = ch_annotation_output
-            .join(TABIX_FINAL.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
         //
         // Validate the found variants

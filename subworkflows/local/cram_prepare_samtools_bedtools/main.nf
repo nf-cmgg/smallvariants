@@ -4,14 +4,11 @@
 
 include { MERGE_BEDS as MERGE_ROI_PARAMS    } from '../../../modules/local/merge_beds'
 include { MERGE_BEDS as MERGE_ROI_SAMPLE    } from '../../../modules/local/merge_beds'
-include { FILTER_BEDS                       } from '../../../modules/local/filter_beds/main'
+include { PROCESS_BEDS                      } from '../../../modules/local/process_beds'
 
 include { SAMTOOLS_MERGE                    } from '../../../modules/nf-core/samtools/merge/main'
 include { SAMTOOLS_INDEX                    } from '../../../modules/nf-core/samtools/index/main'
 include { SAMTOOLS_CONVERT                  } from '../../../modules/nf-core/samtools/convert/main'
-include { TABIX_TABIX                       } from '../../../modules/nf-core/tabix/tabix/main'
-include { TABIX_BGZIP as UNZIP_ROI          } from '../../../modules/nf-core/tabix/bgzip/main'
-include { BEDTOOLS_INTERSECT                } from '../../../modules/nf-core/bedtools/intersect/main'
 include { MOSDEPTH                          } from '../../../modules/nf-core/mosdepth/main'
 
 workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
@@ -154,33 +151,16 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     def ch_perbase_beds = MOSDEPTH.out.per_base_bed
         .join(MOSDEPTH.out.per_base_csi, failOnMismatch: true, failOnDuplicate:true)
 
-    def ch_beds_to_filter = ch_ready_rois
-        .join(MOSDEPTH.out.quantized_bed, failOnDuplicate:true, failOnMismatch:true)
+    def ch_beds_to_process = MOSDEPTH.out.quantized_bed
+        .join(ch_ready_rois, failOnDuplicate:true, failOnMismatch:true)
 
     // Filter out the regions with no coverage
-    FILTER_BEDS(
-        ch_beds_to_filter.map { meta, _roi, callable -> [ meta, callable ]}
+    PROCESS_BEDS(
+        ch_beds_to_process
     )
-    ch_versions = ch_versions.mix(FILTER_BEDS.out.versions)
+    ch_versions = ch_versions.mix(PROCESS_BEDS.out.versions)
 
-    def ch_beds_to_intersect = FILTER_BEDS.out.bed
-        .join(ch_beds_to_filter, failOnDuplicate:true, failOnMismatch:true)
-        .branch { meta, filtered_callable, roi, _callable ->
-            roi:    roi
-                return [ meta, roi, filtered_callable ]
-            no_roi: !roi
-                return [ meta, filtered_callable ]
-        }
-
-    // Intersect the ROI with the callable regions
-    BEDTOOLS_INTERSECT(
-        ch_beds_to_intersect.roi,
-        ch_fai
-    )
-    ch_versions = ch_versions.mix(BEDTOOLS_INTERSECT.out.versions)
-
-    def ch_ready_beds = ch_beds_to_intersect.no_roi
-        .mix(BEDTOOLS_INTERSECT.out.intersect)
+    def ch_ready_beds = PROCESS_BEDS.out.bed
 
     emit:
     ready_crams  = ch_ready_crams    // [ val(meta), path(cram), path(crai) ]

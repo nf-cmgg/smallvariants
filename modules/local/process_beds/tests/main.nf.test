@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process FILTER_BEDS"
+    name "Test Process PROCESS_BEDS"
     script "../main.nf"
-    process "FILTER_BEDS"
+    process "PROCESS_BEDS"
 
     tag "modules"
     tag "modules_local"
-    tag "filter_beds"
+    tag "PROCESS_BEDS"
 
     test("homo_sapiens - bed") {
 
@@ -17,7 +17,8 @@ nextflow_process {
                 """
                 input[0] = [
                     [ id:'test', single_end:false ], // meta map
-                    file(params.bed, checkIfExists:true)
+                    file(params.bed, checkIfExists:true),
+                    file(params.split1, checkIfExists:true)
                 ]
                 """
             }
@@ -42,7 +43,8 @@ nextflow_process {
                 """
                 input[0] = [
                     [ id:'test', single_end:false ], // meta map
-                    file(params.bed, checkIfExists:true)
+                    file(params.bed, checkIfExists:true),
+                    file(params.split1, checkIfExists:true)
                 ]
                 """
             }

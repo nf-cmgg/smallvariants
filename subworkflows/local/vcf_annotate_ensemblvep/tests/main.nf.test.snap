@@ -10,8 +10,8 @@
                             "single_end": false
                         }
                     },
-                    "custom_test.vcf.gz,variantsMD5:44ed24c4dc4223670a78ffea3c7459e",
-                    "custom_test.vcf.gz.tbi"
+                    "custom_test.sorted.vcf.gz,variantsMD5:44ed24c4dc4223670a78ffea3c7459e",
+                    "custom_test.sorted.vcf.gz.tbi"
                 ]
             ],
             [
@@ -21,15 +21,14 @@
                 "versions.yml",
                 "versions.yml",
                 "versions.yml",
-                "versions.yml",
                 "versions.yml"
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-20T14:31:50.569767686"
+        "timestamp": "2025-01-23T16:59:25.998935509"
     },
     "sarscov2 - ensemblvep - no scatter": {
         "content": [
@@ -47,15 +46,14 @@
                 "custom_test.vep.vcf.gz_summary.html"
             ],
             [
-                "versions.yml",
                 "versions.yml"
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-20T14:32:06.437006334"
+        "timestamp": "2025-01-23T16:56:52.901402484"
     },
     "sarscov2 - ensemblvep": {
         "content": [
@@ -68,8 +66,8 @@
                             "single_end": false
                         }
                     },
-                    "custom_test.vcf.gz,variantsMD5:44ed24c4dc4223670a78ffea3c7459e",
-                    "custom_test.vcf.gz.tbi"
+                    "custom_test.sorted.vcf.gz,variantsMD5:44ed24c4dc4223670a78ffea3c7459e",
+                    "custom_test.sorted.vcf.gz.tbi"
                 ]
             ],
             [
@@ -80,14 +78,13 @@
                 "versions.yml",
                 "versions.yml",
                 "versions.yml",
-                "versions.yml",
                 "versions.yml"
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-20T14:31:32.997494596"
+        "timestamp": "2025-01-23T16:59:09.563813963"
     }
 }

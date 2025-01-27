@@ -4,11 +4,15 @@
             [
                 [
                     {
-                        "id": "NA24143",
-                        "sample": "NA24143",
-                        "family": "Ashkenazim",
-                        "family_samples": "NA24143",
-                        "caller": "elprep"
+                        "groupSize": 3,
+                        "groupTarget": {
+                            "id": "NA24143",
+                            "sample": "NA24143",
+                            "family": "Ashkenazim",
+                            "family_samples": "NA24143",
+                            "split_count": 3,
+                            "caller": "elprep"
+                        }
                     },
                     "variantsMD5:974ed65cfad6264db7c6589d6b7d7d74",
                     "g.vcf.gz.tbi"
@@ -17,11 +21,15 @@
             [
                 [
                     {
-                        "id": "NA24143",
-                        "sample": "NA24143",
-                        "family": "Ashkenazim",
-                        "family_samples": "NA24143",
-                        "caller": "elprep"
+                        "groupSize": 3,
+                        "groupTarget": {
+                            "id": "NA24143",
+                            "sample": "NA24143",
+                            "family": "Ashkenazim",
+                            "family_samples": "NA24143",
+                            "split_count": 3,
+                            "caller": "elprep"
+                        }
                     },
                     "NA24143.elprep.bcftools_stats.txt:md5,36b9f979c03b24d87e2dc710baf3672b"
                 ]
@@ -29,20 +37,24 @@
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-06T16:23:49.669427501"
+        "timestamp": "2025-01-23T17:21:58.291545093"
     },
     "bam_call_elprep - default": {
         "content": [
             [
                 [
                     {
-                        "id": "NA24143",
-                        "sample": "NA24143",
-                        "family": "Ashkenazim",
-                        "family_samples": "NA24143",
-                        "caller": "elprep"
+                        "groupSize": 3,
+                        "groupTarget": {
+                            "id": "NA24143",
+                            "sample": "NA24143",
+                            "family": "Ashkenazim",
+                            "family_samples": "NA24143",
+                            "split_count": 3,
+                            "caller": "elprep"
+                        }
                     },
                     "variantsMD5:974ed65cfad6264db7c6589d6b7d7d74",
                     "g.vcf.gz.tbi"
@@ -51,11 +63,15 @@
             [
                 [
                     {
-                        "id": "NA24143",
-                        "sample": "NA24143",
-                        "family": "Ashkenazim",
-                        "family_samples": "NA24143",
-                        "caller": "elprep"
+                        "groupSize": 3,
+                        "groupTarget": {
+                            "id": "NA24143",
+                            "sample": "NA24143",
+                            "family": "Ashkenazim",
+                            "family_samples": "NA24143",
+                            "split_count": 3,
+                            "caller": "elprep"
+                        }
                     },
                     "NA24143.elprep.bcftools_stats.txt:md5,36b9f979c03b24d87e2dc710baf3672b"
                 ]
@@ -63,8 +79,8 @@
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-06T16:23:17.425264939"
+        "timestamp": "2025-01-23T17:21:39.582489455"
     }
 }

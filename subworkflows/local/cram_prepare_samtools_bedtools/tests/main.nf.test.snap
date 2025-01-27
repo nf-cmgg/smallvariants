@@ -36,7 +36,7 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 1
                     },
-                    "NA24143.intersect.bed:md5,b87069698afefb15282d069e56110046"
+                    "NA24143.filter.bed:md5,b87069698afefb15282d069e56110046"
                 ]
             ],
             [
@@ -60,7 +60,7 @@
             "nf-test": "0.9.1",
             "nextflow": "24.10.3"
         },
-        "timestamp": "2025-01-22T13:39:12.575142149"
+        "timestamp": "2025-01-23T16:50:04.778372478"
     },
     "cram_prepare_samtools_bedtools - default - WES": {
         "content": [
@@ -89,7 +89,7 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 1
                     },
-                    "NA24143.intersect.bed:md5,b87069698afefb15282d069e56110046"
+                    "NA24143.filter.bed:md5,b87069698afefb15282d069e56110046"
                 ]
             ],
             [
@@ -113,7 +113,7 @@
             "nf-test": "0.9.1",
             "nextflow": "24.10.3"
         },
-        "timestamp": "2025-01-22T13:39:30.958080052"
+        "timestamp": "2025-01-23T16:50:16.71563132"
     },
     "cram_prepare_samtools_bedtools - default - WGS": {
         "content": [
@@ -205,7 +205,7 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 2
                     },
-                    "NA24143.intersect.bed:md5,b87069698afefb15282d069e56110046"
+                    "NA24143.filter.bed:md5,b87069698afefb15282d069e56110046"
                 ]
             ],
             [
@@ -229,6 +229,6 @@
             "nf-test": "0.9.1",
             "nextflow": "24.10.3"
         },
-        "timestamp": "2025-01-22T13:40:12.40700375"
+        "timestamp": "2025-01-23T16:50:46.654809599"
     }
 }
