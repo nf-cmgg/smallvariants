@@ -40,14 +40,27 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.per-base.bed.gz:md5,2f773324021d6d1b18c87af240d1a18f",
+                    "NA24143.per-base.bed.gz.csi:md5,fe996e285822f6126adcdca8b7517058"
+                ]
+            ],
+            [
                 
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-14T16:07:03.620603158"
+        "timestamp": "2025-01-22T13:39:12.575142149"
     },
     "cram_prepare_samtools_bedtools - default - WES": {
         "content": [
@@ -80,14 +93,27 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.per-base.bed.gz:md5,2f773324021d6d1b18c87af240d1a18f",
+                    "NA24143.per-base.bed.gz.csi:md5,fe996e285822f6126adcdca8b7517058"
+                ]
+            ],
+            [
                 
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-14T16:07:24.688580575"
+        "timestamp": "2025-01-22T13:39:30.958080052"
     },
     "cram_prepare_samtools_bedtools - default - WGS": {
         "content": [
@@ -120,14 +146,27 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.per-base.bed.gz:md5,2f773324021d6d1b18c87af240d1a18f",
+                    "NA24143.per-base.bed.gz.csi:md5,fe996e285822f6126adcdca8b7517058"
+                ]
+            ],
+            [
                 
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-14T16:06:42.311563291"
+        "timestamp": "2025-01-22T13:38:51.625657423"
     },
     "cram_prepare_samtools_bedtools - default - merge": {
         "content": [
@@ -170,13 +209,26 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 2
+                    },
+                    "NA24143.per-base.bed.gz:md5,85e799ea056ba8d127115e012adcbe7a",
+                    "NA24143.per-base.bed.gz.csi:md5,3f40731dbdbef353385d04f51feb43b3"
+                ]
+            ],
+            [
                 
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-14T16:08:20.712943795"
+        "timestamp": "2025-01-22T13:40:12.40700375"
     }
 }

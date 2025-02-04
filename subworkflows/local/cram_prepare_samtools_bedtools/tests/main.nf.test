@@ -48,6 +48,7 @@ nextflow_workflow {
                         [ it[0], "${file(it[1]).name},readsMD5:${bam(it[1]).getReadsMD5()}", file(it[2]).name ]
                     },
                     workflow.out.ready_beds,
+                    workflow.out.perbase_beds,
                     workflow.out.reports
                 ).match() }
             )
@@ -95,6 +96,7 @@ nextflow_workflow {
                         [ it[0], "${file(it[1]).name},readsMD5:${bam(it[1]).getReadsMD5()}", file(it[2]).name ]
                     },
                     workflow.out.ready_beds,
+                    workflow.out.perbase_beds,
                     workflow.out.reports
                 ).match() }
             )
@@ -142,6 +144,7 @@ nextflow_workflow {
                         [ it[0], "${file(it[1]).name},readsMD5:${bam(it[1]).getReadsMD5()}", file(it[2]).name ]
                     },
                     workflow.out.ready_beds,
+                    workflow.out.perbase_beds,
                     workflow.out.reports
                 ).match() }
             )
@@ -196,6 +199,7 @@ nextflow_workflow {
                         [ it[0], "${file(it[1]).name},readsMD5:${bam(it[1]).getReadsMD5()}", file(it[2]).name ]
                     },
                     workflow.out.ready_beds,
+                    workflow.out.perbase_beds,
                     workflow.out.reports
                 ).match() }
             )

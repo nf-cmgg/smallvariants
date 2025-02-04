@@ -151,6 +151,8 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_fasta
     )
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions.first())
+    def ch_perbase_beds = MOSDEPTH.out.per_base_bed
+        .join(MOSDEPTH.out.per_base_csi, failOnMismatch: true, failOnDuplicate:true)
 
     def ch_beds_to_filter = ch_ready_rois
         .join(MOSDEPTH.out.quantized_bed, failOnDuplicate:true, failOnMismatch:true)
@@ -181,9 +183,10 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         .mix(BEDTOOLS_INTERSECT.out.intersect)
 
     emit:
-    ready_crams = ch_ready_crams    // [ val(meta), path(cram), path(crai) ]
-    ready_bams  = ch_ready_bams     // [ val(meta), path(bam), path(bai) ]
-    ready_beds  = ch_ready_beds     // [ val(meta), path(bed) ]
-    versions    = ch_versions       // [ path(versions) ]
-    reports     = ch_reports        // [ path(reports) ]
+    ready_crams  = ch_ready_crams    // [ val(meta), path(cram), path(crai) ]
+    ready_bams   = ch_ready_bams     // [ val(meta), path(bam), path(bai) ]
+    ready_beds   = ch_ready_beds     // [ val(meta), path(bed) ]
+    perbase_beds = ch_perbase_beds   // [ val(meta), path(bed), path(csi) ]
+    versions     = ch_versions       // [ path(versions) ]
+    reports      = ch_reports        // [ path(reports) ]
 }
