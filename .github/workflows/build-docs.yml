@@ -50,7 +50,7 @@ jobs:
 
       - name: Build docs
         run: |
-          [[ ${{ steps.version.outputs.version }} == "dev" ]] && mike deploy --push ${{ steps.version.outputs.version }} || mike deploy --push --update-aliases ${{ env.pipeline_version }} latest
+          [[ ${{ steps.version.outputs.version }} == "dev" ]] && mike deploy --push ${{ steps.version.outputs.version }} || mike deploy --push --update-aliases ${{ steps.version.outputs.version }} latest
 
       - name: Set default docs
         run: mike set-default --push latest
