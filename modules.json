@@ -1,6 +1,6 @@
 {
-    "name": "nf-cmgg/germline",
-    "homePage": "https://github.com/nf-cmgg/germline",
+    "name": "nf-cmgg/smallvariants",
+    "homePage": "https://github.com/nf-cmgg/smallvariants",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {

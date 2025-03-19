@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-cmgg/germline
+    nf-cmgg/smallvariants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-cmgg/germline
+    Github : https://github.com/nf-cmgg/smallvariants
 ----------------------------------------------------------------------------------------
 */
 
@@ -15,7 +15,7 @@ nextflow.preview.output = true
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_germline_pipeline'
+include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 
 // Take another look at this later!
 params.fasta                = getGenomeAttribute('fasta', params.genomes, params.genome)
@@ -48,9 +48,9 @@ params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genome
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GERMLINE                } from './workflows/germline'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_cmgg_germline_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_cmgg_germline_pipeline'
+include { SMALLVARIANTS           } from './workflows/smallvariants'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 include { getWorkflowVersion      } from './subworkflows/nf-core/utils_nfcore_pipeline'
 
 /*
@@ -126,7 +126,7 @@ workflow {
     // WORKFLOW: Run main workflow
     //
 
-    GERMLINE (
+    SMALLVARIANTS (
         // Input channels
         PIPELINE_INITIALISATION.out.samplesheet,
 
@@ -205,29 +205,29 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        GERMLINE.out.multiqc_report
+        SMALLVARIANTS.out.multiqc_report
     )
 
     // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of
     // the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
-    def ch_gvcfs_out = GERMLINE.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) }
+    def ch_gvcfs_out = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) }
 
     publish:
     ch_gvcfs_out >> 'gvcfs'
-    GERMLINE.out.single_beds >> 'single_beds'
-    GERMLINE.out.perbase_beds >> 'perbase_beds'
-    GERMLINE.out.validation >> 'validation'
-    GERMLINE.out.gvcf_reports >> 'gvcf_reports'
-    GERMLINE.out.genomicsdb >> 'genomicsdb'
-    GERMLINE.out.vcfs >> 'vcfs'
-    GERMLINE.out.gemini >> 'gemini'
-    GERMLINE.out.peds >> 'peds'
-    GERMLINE.out.joint_beds >> 'joint_beds'
-    GERMLINE.out.final_reports >> 'final_reports'
-    GERMLINE.out.automap >> 'automap'
-    GERMLINE.out.updio >> 'updio'
-    GERMLINE.out.multiqc_report >> 'multiqc'
-    GERMLINE.out.multiqc_data >> 'multiqc_data'
+    SMALLVARIANTS.out.single_beds >> 'single_beds'
+    SMALLVARIANTS.out.perbase_beds >> 'perbase_beds'
+    SMALLVARIANTS.out.validation >> 'validation'
+    SMALLVARIANTS.out.gvcf_reports >> 'gvcf_reports'
+    SMALLVARIANTS.out.genomicsdb >> 'genomicsdb'
+    SMALLVARIANTS.out.vcfs >> 'vcfs'
+    SMALLVARIANTS.out.gemini >> 'gemini'
+    SMALLVARIANTS.out.peds >> 'peds'
+    SMALLVARIANTS.out.joint_beds >> 'joint_beds'
+    SMALLVARIANTS.out.final_reports >> 'final_reports'
+    SMALLVARIANTS.out.automap >> 'automap'
+    SMALLVARIANTS.out.updio >> 'updio'
+    SMALLVARIANTS.out.multiqc_report >> 'multiqc'
+    SMALLVARIANTS.out.multiqc_data >> 'multiqc_data'
 }
 
 output {

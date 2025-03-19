@@ -1,6 +1,6 @@
-# nf-cmgg/germline pipeline parameters
+# nf-cmgg/smallvariants pipeline parameters
 
-A nextflow pipeline for calling and annotating small germline variants from short DNA reads for WES and WGS data
+A nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data
 
 ## Input/output options
 
