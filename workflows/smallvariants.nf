@@ -58,7 +58,7 @@ include { MULTIQC                                                    } from '../
 */
 
 // The main workflow
-workflow GERMLINE {
+workflow SMALLVARIANTS {
 
     take:
     // Input channels
