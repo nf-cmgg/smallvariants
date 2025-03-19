@@ -1,7 +1,7 @@
-site_name: nf-cmgg/germline
-repo_name: nf-cmgg/germline
-repo_url: https://github.com/nf-cmgg/germline
-site_url: https://nf-cmgg.github.io/germline
+site_name: nf-cmgg/smallvariants
+repo_name: nf-cmgg/smallvariants
+repo_url: https://github.com/nf-cmgg/smallvariants
+site_url: https://nf-cmgg.github.io/smallvariants
 
 nav:
   - Home: index.md

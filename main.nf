@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-cmgg/germline
+    nf-cmgg/smallvariants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-cmgg/germline
+    Github : https://github.com/nf-cmgg/smallvariants
 ----------------------------------------------------------------------------------------
 */
 
@@ -15,7 +15,7 @@ nextflow.preview.output = true
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_germline_pipeline'
+include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 
 // Take another look at this later!
 params.fasta                = getGenomeAttribute('fasta', params.genomes, params.genome)
@@ -48,9 +48,9 @@ params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genome
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GERMLINE                } from './workflows/germline'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_cmgg_germline_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_cmgg_germline_pipeline'
+include { GERMLINE                } from './workflows/smallvariants'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 include { getWorkflowVersion      } from './subworkflows/nf-core/utils_nfcore_pipeline'
 
 /*

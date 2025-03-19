@@ -10,7 +10,7 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 1
                     },
-                    "/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/illumina/crams/NA24143.cram",
+                    "/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/illumina/crams/NA24143.cram",
                     "NA24143.cram.crai"
                 ]
             ],
@@ -53,7 +53,7 @@
                 ]
             ],
             [
-                
+
             ]
         ],
         "meta": {
@@ -73,12 +73,12 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 1
                     },
-                    "/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/illumina/crams/NA24143.cram",
+                    "/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/illumina/crams/NA24143.cram",
                     "NA24143.cram.crai"
                 ]
             ],
             [
-                
+
             ],
             [
                 [
@@ -106,7 +106,7 @@
                 ]
             ],
             [
-                
+
             ]
         ],
         "meta": {
@@ -126,12 +126,12 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 1
                     },
-                    "/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/illumina/crams/NA24143.cram",
+                    "/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/illumina/crams/NA24143.cram",
                     "NA24143.cram.crai"
                 ]
             ],
             [
-                
+
             ],
             [
                 [
@@ -159,7 +159,7 @@
                 ]
             ],
             [
-                
+
             ]
         ],
         "meta": {
@@ -222,7 +222,7 @@
                 ]
             ],
             [
-                
+
             ]
         ],
         "meta": {

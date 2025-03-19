@@ -1,4 +1,4 @@
-# nf-cmgg/germline: Changelog
+# nf-cmgg/smallvariants: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Added the `--squash-ploidy` argument to the RTG vcfeval process.
 2. Update to nf-core v3.0.1
-3. Completely reworked the output directory structure to a more sensible structure. The pipeline can now be run on the same output directory every time and will incrementally add files to the correct family folder. See the [output documentation](https://nf-cmgg.github.io/germline/latest/output/) for more info.
+3. Completely reworked the output directory structure to a more sensible structure. The pipeline can now be run on the same output directory every time and will incrementally add files to the correct family folder. See the [output documentation](https://nf-cmgg.github.io/smallvariants/latest/output/) for more info.
 4. Migrated to the new workflow output definitions.
 5. Bumped the minimal Nextflow version to 24.10.0.
 6. Added the somalier reports to the multiQC report.
@@ -105,8 +105,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### New features
 
 1. Added UPDio for Uniparental Disomy detection in family samples. This introduces the `--updio` parameter to turn on this detection and `--updio_common_cnvs` to supply a common CNVs file to UPDio. The family needs to contain at least one child with its mother and father.
-2. Added docs built with MkDocs. See the documentation [site](https://nf-cmgg.github.io/germline/latest) here.
-3. Added AutoMap to find regions of homozygosity from human samples. This introduces the `--automap` parameter to turn on this feature and the `--automap_repeats`, `--automap_panel` and `--automap_panel_name` parameters to configure AutoMap (see the [parameters](https://nf-cmgg.github.io/germline/latest/parameters) docs for more information)
+2. Added docs built with MkDocs. See the documentation [site](https://nf-cmgg.github.io/smallvariants/latest) here.
+3. Added AutoMap to find regions of homozygosity from human samples. This introduces the `--automap` parameter to turn on this feature and the `--automap_repeats`, `--automap_panel` and `--automap_panel_name` parameters to configure AutoMap (see the [parameters](https://nf-cmgg.github.io/smallvariants/latest/parameters) docs for more information)
 
 ### Changes
 

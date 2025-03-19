@@ -1,4 +1,4 @@
-# nf-cmgg/germline: Usage
+# nf-cmgg/smallvariants: Usage
 
 > _Documentation of pipeline parameters can be found in the [parameters documentation](./parameters.md)_
 
@@ -117,7 +117,7 @@ This is an example of a working samplesheet used to test this pipeline:
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-cmgg/germline --input ./samplesheet.csv --outdir ./results --genome GRCh38 -profile docker
+nextflow run nf-cmgg/smallvariants --input ./samplesheet.csv --outdir ./results --genome GRCh38 -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -150,7 +150,7 @@ Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run nf-cmgg/germline -profile docker -params-file params.yaml
+nextflow run nf-cmgg/smallvariants -profile docker -params-file params.yaml
 ```
 
 with:
@@ -167,14 +167,14 @@ genome: 'GRCh38'
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline. You can also add the `-latest` argument to your run command to automatically fetch the latest version on every run:
 
 ```bash
-nextflow pull nf-cmgg/germline -r <version>
+nextflow pull nf-cmgg/smallvariants -r <version>
 ```
 
 ### Reproducibility
 
 It is a good idea to specify a pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [nf-cmgg/germline releases page](https://github.com/nf-cmgg/germline/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [nf-cmgg/smallvariants releases page](https://github.com/nf-cmgg/smallvariants/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
 
@@ -242,7 +242,7 @@ Specify the path to a specific config file. See the [nf-core website documentati
 
 ### Resource requests
 
-Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/nf-cmgg/germline/blob/b637c64c2e1eeb1527d481a377f60950c9a114b8/conf/base.config#L17) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
+Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/nf-cmgg/smallvariants/blob/b637c64c2e1eeb1527d481a377f60950c9a114b8/conf/base.config#L17) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
 
 To change the resource requests, please see the [max resources](https://nf-co.re/docs/usage/configuration#max-resources) and [tuning workflow resources](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources) section of the nf-core website.
 

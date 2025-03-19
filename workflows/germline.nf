@@ -7,7 +7,7 @@
 include { paramsSummaryMap                  } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText            } from '../subworkflows/local/utils_cmgg_germline_pipeline'
+include { methodsDescriptionText            } from '../subworkflows/local/utils_cmgg_smallvariants_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
