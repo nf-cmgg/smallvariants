@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - VCF index creation modules on output VCFs have been merged into the processes that created these VCFs
    - The filter modules for `--filter` have been merged
    - BED filtering and intersecting with Regions Of Interest have been merged
+2. Small stability fixes for runnning on the nomad cluster
 
 ## v1.9.3 Nifty Nieuwkerke - [January 23 2025]
 
