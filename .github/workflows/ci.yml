@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         NXF_VER:
-          # - "25.03.0-edge"
+          - "25.03.0-edge"
           - "latest-everything"
         filter:
           - "process"
