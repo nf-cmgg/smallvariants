@@ -213,25 +213,25 @@ workflow {
     def ch_gvcfs_out = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) }
 
     publish:
-    ch_gvcfs_out >> 'gvcfs'
-    SMALLVARIANTS.out.single_beds >> 'single_beds'
-    SMALLVARIANTS.out.perbase_beds >> 'perbase_beds'
-    SMALLVARIANTS.out.validation >> 'validation'
-    SMALLVARIANTS.out.gvcf_reports >> 'gvcf_reports'
-    SMALLVARIANTS.out.genomicsdb >> 'genomicsdb'
-    SMALLVARIANTS.out.vcfs >> 'vcfs'
-    SMALLVARIANTS.out.gemini >> 'gemini'
-    SMALLVARIANTS.out.peds >> 'peds'
-    SMALLVARIANTS.out.joint_beds >> 'joint_beds'
-    SMALLVARIANTS.out.final_reports >> 'final_reports'
-    SMALLVARIANTS.out.automap >> 'automap'
-    SMALLVARIANTS.out.updio >> 'updio'
-    SMALLVARIANTS.out.multiqc_report >> 'multiqc'
-    SMALLVARIANTS.out.multiqc_data >> 'multiqc_data'
+    gvcfs           = ch_gvcfs_out
+    single_beds     = SMALLVARIANTS.out.single_beds
+    perbase_beds    = SMALLVARIANTS.out.perbase_beds
+    validation      = SMALLVARIANTS.out.validation
+    gvcf_reports    = SMALLVARIANTS.out.gvcf_reports
+    genomicsdb      = SMALLVARIANTS.out.genomicsdb
+    vcfs            = SMALLVARIANTS.out.vcfs
+    gemini          = SMALLVARIANTS.out.gemini
+    peds            = SMALLVARIANTS.out.peds
+    joint_beds      = SMALLVARIANTS.out.joint_beds
+    final_reports   = SMALLVARIANTS.out.final_reports
+    automap         = SMALLVARIANTS.out.automap
+    updio           = SMALLVARIANTS.out.updio
+    multiqc         = SMALLVARIANTS.out.multiqc_report
+    multiqc_data    = SMALLVARIANTS.out.multiqc_data
 }
 
 output {
-    'gvcfs' {
+    gvcfs {
         path { meta, gvcf, _tbi -> { file ->
             if(file == gvcf.name) {
                 return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
@@ -239,10 +239,10 @@ output {
             return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
         } }
     }
-    'single_beds' {
+    single_beds {
         path { meta, _bed -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed" } }
     }
-    'perbase_beds' {
+    perbase_beds {
         path { meta, bed, _csi -> { file ->
             if(file == bed.name) {
                 return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz"
@@ -250,19 +250,19 @@ output {
             return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
         } }
     }
-    'validation' {
+    validation {
         path { meta, _report -> { file -> "${meta.family}/${meta.id}_${params.unique_out}/validation/${meta.caller}/${file}" } }
     }
-    'gvcf_reports' {
+    gvcf_reports {
         path { meta, _report -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.bcftools_stats.txt" }}
     }
-    'genomicsdb' {
+    genomicsdb {
         enabled (params.output_genomicsdb || params.only_merge)
         path { meta, _genomicsdb ->
             { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}_${meta.caller}_genomicsdb"}
         }
     }
-    'vcfs' {
+    vcfs {
         path { meta, vcf, _tbi -> { file ->
             if(file == vcf.name) {
                 return "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz"
@@ -270,28 +270,28 @@ output {
             return "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz.tbi"
         } }
     }
-    'gemini' {
+    gemini {
         path { meta, _db -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.db"}}
     }
-    'peds' {
+    peds {
         path { meta, _ped -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.ped"}}
     }
-    'joint_beds' {
+    joint_beds {
         path { meta, _bed -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.bed"}}
     }
-    'final_reports' {
+    final_reports {
         path { meta, _report -> { file -> "${meta.family}/qc_${params.unique_out}/${file}"}}
     }
-    'automap' {
+    automap {
         path { meta, _automap -> { _file -> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"}}
     }
-    'updio' {
+    updio {
         path { meta, _updio -> { _file -> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"}}
     }
-    'multiqc' {
+    multiqc {
         path { _report -> { _file -> "${params.unique_out}/multiqc_report.html"}}
     }
-    'multiqc_data' {
+    multiqc_data {
         path { _folder -> { _file -> "${params.unique_out}/multiqc_data"}}
     }
 }
