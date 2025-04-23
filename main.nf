@@ -210,84 +210,74 @@ workflow {
 
     publish:
     gvcfs             = SMALLVARIANTS.out.gvcfs
-    // single_beds     = SMALLVARIANTS.out.single_beds
-    // perbase_beds    = SMALLVARIANTS.out.perbase_beds
-    // validation      = SMALLVARIANTS.out.validation
-    // gvcf_reports    = SMALLVARIANTS.out.gvcf_reports
-    // genomicsdb      = SMALLVARIANTS.out.genomicsdb
-    // vcfs            = SMALLVARIANTS.out.vcfs
-    // gemini          = SMALLVARIANTS.out.gemini
-    // peds            = SMALLVARIANTS.out.peds
-    // joint_beds      = SMALLVARIANTS.out.joint_beds
-    // final_reports   = SMALLVARIANTS.out.final_reports
-    // automap         = SMALLVARIANTS.out.automap
-    // updio           = SMALLVARIANTS.out.updio
-    // multiqc         = SMALLVARIANTS.out.multiqc_report
-    // multiqc_data    = SMALLVARIANTS.out.multiqc_data
+    single_beds     = SMALLVARIANTS.out.single_beds
+    perbase_beds    = SMALLVARIANTS.out.perbase_beds
+    validation      = SMALLVARIANTS.out.validation
+    gvcf_reports    = SMALLVARIANTS.out.gvcf_reports
+    genomicsdb      = SMALLVARIANTS.out.genomicsdb
+    vcfs            = SMALLVARIANTS.out.vcfs
+    gemini          = SMALLVARIANTS.out.gemini
+    peds            = SMALLVARIANTS.out.peds
+    joint_beds      = SMALLVARIANTS.out.joint_beds
+    final_reports   = SMALLVARIANTS.out.final_reports
+    automap         = SMALLVARIANTS.out.automap
+    updio           = SMALLVARIANTS.out.updio
+    multiqc         = SMALLVARIANTS.out.multiqc_report
+    multiqc_data    = SMALLVARIANTS.out.multiqc_data
 }
 
 output {
-    gvcfs {
-        path { meta, gvcf, tbi ->
-            gvcf >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
-            tbi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
+    gvcfs { path { meta, gvcf, tbi ->
+        gvcf >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
+        tbi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
+    } }
+    single_beds { path { meta, bed ->
+        bed >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed"
+    } }
+    perbase_beds { path { meta, bed, csi ->
+        bed >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz"
+        csi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
+    } }
+    validation { path { meta, report ->
+        report >> "${meta.family}/${meta.id}_${params.unique_out}/validation/${meta.caller}/${report.name}"
+    } }
+    gvcf_reports { path { meta, report ->
+        report >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.bcftools_stats.txt"
+    }}
+    genomicsdb {
+        enabled (params.output_genomicsdb || params.only_merge)
+        path { meta, genomicsdb ->
+            genomicsdb >> "${meta.family}/output_${params.unique_out}/${meta.id}_${meta.caller}_genomicsdb"
         }
     }
-    // single_beds {
-    //     path { meta, _bed -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed" } }
-    // }
-    // perbase_beds {
-    //     path { meta, bed, _csi -> { file ->
-    //         if(file == bed.name) {
-    //             return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz"
-    //         }
-    //         return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
-    //     } }
-    // }
-    // validation {
-    //     path { meta, _report -> { file -> "${meta.family}/${meta.id}_${params.unique_out}/validation/${meta.caller}/${file}" } }
-    // }
-    // gvcf_reports {
-    //     path { meta, _report -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.bcftools_stats.txt" }}
-    // }
-    // genomicsdb {
-    //     enabled (params.output_genomicsdb || params.only_merge)
-    //     path { meta, _genomicsdb ->
-    //         { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}_${meta.caller}_genomicsdb"}
-    //     }
-    // }
-    // vcfs {
-    //     path { meta, vcf, _tbi -> { file ->
-    //         if(file == vcf.name) {
-    //             return "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz"
-    //         }
-    //         return "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz.tbi"
-    //     } }
-    // }
-    // gemini {
-    //     path { meta, _db -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.db"}}
-    // }
-    // peds {
-    //     path { meta, _ped -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.ped"}}
-    // }
-    // joint_beds {
-    //     path { meta, _bed -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.bed"}}
-    // }
-    // final_reports {
-    //     path { meta, _report -> { file -> "${meta.family}/qc_${params.unique_out}/${file}"}}
-    // }
-    // automap {
-    //     path { meta, _automap -> { _file -> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"}}
-    // }
-    // updio {
-    //     path { meta, _updio -> { _file -> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"}}
-    // }
-    // multiqc {
-    //     path { _report -> { _file -> "${params.unique_out}/multiqc_report.html"}}
-    // }
-    // multiqc_data {
-    //     path { _folder -> { _file -> "${params.unique_out}/multiqc_data"}}
-    // }
+    vcfs { path { meta, vcf, tbi ->
+        vcf >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz"
+        tbi >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz.tbi"
+    } }
+    gemini { path { meta, db ->
+        db >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.db"
+    } }
+    peds { path { meta, ped ->
+        ped >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.ped"
+    } }
+    joint_beds { path { meta, bed ->
+        bed >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.bed"
+    } }
+    final_reports { path { meta, report ->
+        report >> "${meta.family}/qc_${params.unique_out}/${report.name}"
+    } }
+    automap { path { meta, automap ->
+        automap >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"
+    } }
+    updio { path { meta, updio ->
+        updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
+    } }
+    multiqc { path { report ->
+        report[0] >> "${params.unique_out}/multiqc_report.html"
+    } }
+    multiqc_data { path { folder ->
+        folder >> "${params.unique_out}/multiqc_data"
+    } }
 }
 
 /*
