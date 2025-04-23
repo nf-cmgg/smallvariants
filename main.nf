@@ -209,7 +209,7 @@ workflow {
     )
 
     publish:
-    gvcfs           = SMALLVARIANTS.out.gvcfs
+    gvcfs           = SMALLVARIANTS.out.gvcfs.filter { meta, gvcf, tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
     single_beds     = SMALLVARIANTS.out.single_beds
     perbase_beds    = SMALLVARIANTS.out.perbase_beds
     validation      = SMALLVARIANTS.out.validation
