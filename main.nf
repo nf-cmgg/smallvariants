@@ -209,7 +209,7 @@ workflow {
     )
 
     publish:
-    gvcfs             = SMALLVARIANTS.out.gvcfs
+    gvcfs           = SMALLVARIANTS.out.gvcfs
     single_beds     = SMALLVARIANTS.out.single_beds
     perbase_beds    = SMALLVARIANTS.out.perbase_beds
     validation      = SMALLVARIANTS.out.validation
