@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - The filter modules for `--filter` have been merged
    - BED filtering and intersecting with Regions Of Interest have been merged
 2. Added copgt_joint config profile
+3. Removed `--squash-ploidy` from the RTG vcfeval process
 
 ## v1.9.3 Nifty Nieuwkerke - [January 23 2025]
 
