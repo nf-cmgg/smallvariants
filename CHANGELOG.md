@@ -12,8 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - The filter modules for `--filter` have been merged
    - BED filtering and intersecting with Regions Of Interest have been merged
 2. Added copgt_joint config profile
-3. Removed `--squash-ploidy` from the RTG vcfeval process
-4. Small stability fixes for runnning on the nomad cluster
+3. Migrate to the third preview of the workflow output definitions
+4. Bumped minimal Nextflow version to 25.03.0-edge
+5. Removed `--squash-ploidy` from the RTG vcfeval process
+6. Small stability fixes for runnning on the nomad cluster
 
 ## v1.9.3 Nifty Nieuwkerke - [January 23 2025]
 

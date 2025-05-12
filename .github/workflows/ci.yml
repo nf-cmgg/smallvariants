@@ -24,8 +24,8 @@ jobs:
     strategy:
       matrix:
         NXF_VER:
-          - "24.10.0"
-          - "latest-stable"
+          - "25.04.0"
+          - "latest-everything"
         filter:
           - "process"
           - "workflow"
