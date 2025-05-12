@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/nf-cmgg/smallvariants/master/nextflow_schema.json",
     "title": "nf-cmgg/smallvariants pipeline parameters",
-    "description": "A nextflow pipeline for calling and annotating small smallvariants variants from short DNA reads for WES and WGS data",
+    "description": "A nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data",
     "type": "object",
     "$defs": {
         "input_output_options": {
@@ -335,6 +335,10 @@
                 "disable_hc_dict_validation": {
                     "type": "boolean",
                     "description": "Disable the sequence dictionary validation in HaplotypeCaller"
+                },
+                "skip_merged_cram_output": {
+                    "type": "boolean",
+                    "description": "Don't output the merged CRAM files."
                 }
             }
         },
