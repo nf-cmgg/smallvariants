@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - BED filtering and intersecting with Regions Of Interest have been merged
 2. Added copgt_joint config profile
 3. Migrate to the third preview of the workflow output definitions
-4. Bumped minimal Nextflow version to 25.03.0-edge
+4. Bumped minimal Nextflow version to 25.04.0
 5. Removed `--squash-ploidy` from the RTG vcfeval process
 6. Small stability fixes for runnning on the nomad cluster
 7. Added the merged CRAM files to the output of the pipeline. This can be skipped using the `--skip_merged_cram_output` parameter.
