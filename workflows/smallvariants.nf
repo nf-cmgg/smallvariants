@@ -415,6 +415,7 @@ workflow SMALLVARIANTS {
     ch_versions = ch_versions.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.versions)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
     def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
+    def ch_merged_crams = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.merged_crams
 
     //
     // Split the BED files
@@ -865,6 +866,7 @@ workflow SMALLVARIANTS {
     )
 
     emit:
+    merged_crams    = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
     gvcfs           = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
     genomicsdb      = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
     vcfs            = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]

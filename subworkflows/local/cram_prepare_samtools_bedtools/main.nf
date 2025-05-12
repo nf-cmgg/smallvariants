@@ -48,11 +48,14 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     )
     ch_versions = ch_versions.mix(SAMTOOLS_MERGE.out.versions.first())
 
+    def ch_merged_crams = SAMTOOLS_MERGE.out.cram
+        .join(SAMTOOLS_MERGE.out.crai, failOnDuplicate: true, failOnMismatch: true)
+
     //
     // Index the CRAM files which have no index
     //
 
-    def ch_merged_crams = SAMTOOLS_MERGE.out.cram
+    def ch_ready_crams_branch = ch_merged_crams
         .mix(ch_cram_branch.single)
         .branch { meta, cram, crai=[] ->
             not_indexed: crai == []
@@ -62,13 +65,13 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         }
 
     SAMTOOLS_INDEX(
-        ch_merged_crams.not_indexed
+        ch_ready_crams_branch.not_indexed
     )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
-    def ch_ready_crams = ch_merged_crams.not_indexed
+    def ch_ready_crams = ch_ready_crams_branch.not_indexed
         .join(SAMTOOLS_INDEX.out.crai, failOnDuplicate: true, failOnMismatch: true)
-        .mix(ch_merged_crams.indexed)
+        .mix(ch_ready_crams_branch.indexed)
 
     //
     // Optionally convert the CRAM files to BAM
@@ -164,6 +167,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     emit:
     ready_crams  = ch_ready_crams    // [ val(meta), path(cram), path(crai) ]
+    merged_crams = ch_merged_crams   // [ val(meta), path(cram), path(crai) ]
     ready_bams   = ch_ready_bams     // [ val(meta), path(bam), path(bai) ]
     ready_beds   = ch_ready_beds     // [ val(meta), path(bed) ]
     perbase_beds = ch_perbase_beds   // [ val(meta), path(bed), path(csi) ]

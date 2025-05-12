@@ -209,6 +209,7 @@ workflow {
     )
 
     publish:
+    merged_crams    = SMALLVARIANTS.out.merged_crams
     gvcfs           = SMALLVARIANTS.out.gvcfs.filter { meta, gvcf, tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
     single_beds     = SMALLVARIANTS.out.single_beds
     perbase_beds    = SMALLVARIANTS.out.perbase_beds
@@ -227,6 +228,13 @@ workflow {
 }
 
 output {
+    merged_crams {
+        path { meta, cram, crai ->
+            cram >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.cram"
+            crai >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.cram.crai"
+        }
+        enabled !params.skip_merged_cram_output
+    }
     gvcfs { path { meta, gvcf, tbi ->
         gvcf >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
         tbi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
