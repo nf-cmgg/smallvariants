@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.10.0dev
+## v1.10.0 - Melodic Mechelen - [May 20 2025]
 
 ## Changes
 
@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 6. Small stability fixes for runnning on the nomad cluster
 7. Added the merged CRAM files to the output of the pipeline. This can be skipped using the `--skip_merged_cram_output` parameter.
 
-## v1.9.3 Nifty Nieuwkerke - [January 23 2025]
+## v1.9.3 - Nifty Nieuwkerke - [January 23 2025]
 
 1. Fix db postprocess in vcf2db module
 
