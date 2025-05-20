@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Removed `--squash-ploidy` from the RTG vcfeval process
 6. Small stability fixes for runnning on the nomad cluster
 7. Added the merged CRAM files to the output of the pipeline. This can be skipped using the `--skip_merged_cram_output` parameter.
+8. Added the filter parameter to the copgt config profiles
 
 ## v1.9.3 - Nifty Nieuwkerke - [January 23 2025]
 
