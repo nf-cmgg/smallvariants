@@ -53,14 +53,16 @@
                 ]
             ],
             [
-
+                "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80",
+                "NA24143.mosdepth.region.dist.txt:md5,e581f21f2160971c8fa33e6e5955818e",
+                "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-23T16:50:04.778372478"
+        "timestamp": "2025-05-21T11:20:27.174254749"
     },
     "cram_prepare_samtools_bedtools - default - WES": {
         "content": [
@@ -78,7 +80,7 @@
                 ]
             ],
             [
-
+                
             ],
             [
                 [
@@ -106,14 +108,16 @@
                 ]
             ],
             [
-
+                "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80",
+                "NA24143.mosdepth.region.dist.txt:md5,e581f21f2160971c8fa33e6e5955818e",
+                "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-23T16:50:16.71563132"
+        "timestamp": "2025-05-21T11:20:47.937356787"
     },
     "cram_prepare_samtools_bedtools - default - WGS": {
         "content": [
@@ -131,7 +135,7 @@
                 ]
             ],
             [
-
+                
             ],
             [
                 [
@@ -159,14 +163,15 @@
                 ]
             ],
             [
-
+                "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80",
+                "NA24143.mosdepth.summary.txt:md5,19d2d22dca7ce7cf665711a59d1c437b"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-22T13:38:51.625657423"
+        "timestamp": "2025-05-21T11:20:08.121736858"
     },
     "cram_prepare_samtools_bedtools - default - merge": {
         "content": [
@@ -222,13 +227,15 @@
                 ]
             ],
             [
-
+                "NA24143.mosdepth.global.dist.txt:md5,f6d088ceafbfe6743bf430a21db94178",
+                "NA24143.mosdepth.region.dist.txt:md5,499c0bcae0f6d1db93d80df7318ffa4b",
+                "NA24143.mosdepth.summary.txt:md5,c02f8681bb0191868b3b31bb46e815b5"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-23T16:50:46.654809599"
+        "timestamp": "2025-05-21T11:21:23.684102504"
     }
 }

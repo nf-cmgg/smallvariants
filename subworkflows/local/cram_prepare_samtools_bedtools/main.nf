@@ -151,6 +151,11 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_fasta
     )
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions.first())
+    ch_reports  = ch_reports.mix(
+        MOSDEPTH.out.summary_txt.map { _meta, report -> report },
+        MOSDEPTH.out.global_txt.map { _meta, report -> report },
+        MOSDEPTH.out.regions_txt.map { _meta, report -> report }
+    )
     def ch_perbase_beds = MOSDEPTH.out.per_base_bed
         .join(MOSDEPTH.out.per_base_csi, failOnMismatch: true, failOnDuplicate:true)
 

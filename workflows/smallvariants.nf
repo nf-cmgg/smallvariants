@@ -413,6 +413,7 @@ workflow SMALLVARIANTS {
         create_bam_files
     )
     ch_versions = ch_versions.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.versions)
+    ch_reports  = ch_reports.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.reports)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
     def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
     def ch_merged_crams = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.merged_crams
