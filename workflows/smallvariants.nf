@@ -413,9 +413,11 @@ workflow SMALLVARIANTS {
         create_bam_files
     )
     ch_versions = ch_versions.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.versions)
+    ch_reports  = ch_reports.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.reports)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
     def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
     def ch_merged_crams = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.merged_crams
+    def ch_mosdepth_reports = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.mosdepth_reports
 
     //
     // Split the BED files
@@ -866,23 +868,24 @@ workflow SMALLVARIANTS {
     )
 
     emit:
-    merged_crams    = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
-    gvcfs           = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
-    genomicsdb      = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
-    vcfs            = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]
-    gemini          = ch_final_dbs                  // channel: [ val(meta), path(db) ]
-    peds            = ch_final_peds                 // channel: [ val(meta), path(ped) ]
-    single_beds     = ch_single_beds                // channel: [ val(meta), path(bed) ]
-    perbase_beds    = ch_perbase_beds               // channel: [ val(meta), path(bed), path(csi) ]
-    joint_beds      = ch_joint_beds                 // channel: [ val(meta), path(bed) ]
-    final_reports   = ch_final_reports              // channel: [ val(meta), path(report) ]
-    gvcf_reports    = ch_gvcf_reports               // channel: [ val(meta), path(report) ]
-    automap         = ch_final_automap              // channel: [ val(meta), path(automap) ]
-    updio           = ch_final_updio                // channel: [ val(meta), path(updio) ]
-    validation      = ch_final_validation           // channel: [ val(meta), path(file) ]
-    multiqc_report  = MULTIQC.out.report.toList()   // channel: /path/to/multiqc_report.html
-    multiqc_data    = MULTIQC.out.data              // channel: /path/to/multiqc_data
-    versions        = ch_versions                   // channel: [ path(versions.yml) ]
+    merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
+    mosdepth_reports    = ch_mosdepth_reports           // channel: [ val(meta), path(mosdepth_report) ]
+    gvcfs               = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
+    genomicsdb          = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
+    vcfs                = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]
+    gemini              = ch_final_dbs                  // channel: [ val(meta), path(db) ]
+    peds                = ch_final_peds                 // channel: [ val(meta), path(ped) ]
+    single_beds         = ch_single_beds                // channel: [ val(meta), path(bed) ]
+    perbase_beds        = ch_perbase_beds               // channel: [ val(meta), path(bed), path(csi) ]
+    joint_beds          = ch_joint_beds                 // channel: [ val(meta), path(bed) ]
+    final_reports       = ch_final_reports              // channel: [ val(meta), path(report) ]
+    gvcf_reports        = ch_gvcf_reports               // channel: [ val(meta), path(report) ]
+    automap             = ch_final_automap              // channel: [ val(meta), path(automap) ]
+    updio               = ch_final_updio                // channel: [ val(meta), path(updio) ]
+    validation          = ch_final_validation           // channel: [ val(meta), path(file) ]
+    multiqc_report      = MULTIQC.out.report.toList()   // channel: /path/to/multiqc_report.html
+    multiqc_data        = MULTIQC.out.data              // channel: /path/to/multiqc_data
+    versions            = ch_versions                   // channel: [ path(versions.yml) ]
 }
 
 /*
