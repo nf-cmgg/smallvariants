@@ -209,22 +209,23 @@ workflow {
     )
 
     publish:
-    merged_crams    = SMALLVARIANTS.out.merged_crams
-    gvcfs           = SMALLVARIANTS.out.gvcfs.filter { meta, gvcf, tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
-    single_beds     = SMALLVARIANTS.out.single_beds
-    perbase_beds    = SMALLVARIANTS.out.perbase_beds
-    validation      = SMALLVARIANTS.out.validation
-    gvcf_reports    = SMALLVARIANTS.out.gvcf_reports
-    genomicsdb      = SMALLVARIANTS.out.genomicsdb
-    vcfs            = SMALLVARIANTS.out.vcfs
-    gemini          = SMALLVARIANTS.out.gemini
-    peds            = SMALLVARIANTS.out.peds
-    joint_beds      = SMALLVARIANTS.out.joint_beds
-    final_reports   = SMALLVARIANTS.out.final_reports
-    automap         = SMALLVARIANTS.out.automap
-    updio           = SMALLVARIANTS.out.updio
-    multiqc         = SMALLVARIANTS.out.multiqc_report
-    multiqc_data    = SMALLVARIANTS.out.multiqc_data
+    merged_crams        = SMALLVARIANTS.out.merged_crams
+    mosdepth_reports    = SMALLVARIANTS.out.mosdepth_reports
+    gvcfs               = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
+    single_beds         = SMALLVARIANTS.out.single_beds
+    perbase_beds        = SMALLVARIANTS.out.perbase_beds
+    validation          = SMALLVARIANTS.out.validation
+    gvcf_reports        = SMALLVARIANTS.out.gvcf_reports
+    genomicsdb          = SMALLVARIANTS.out.genomicsdb
+    vcfs                = SMALLVARIANTS.out.vcfs
+    gemini              = SMALLVARIANTS.out.gemini
+    peds                = SMALLVARIANTS.out.peds
+    joint_beds          = SMALLVARIANTS.out.joint_beds
+    final_reports       = SMALLVARIANTS.out.final_reports
+    automap             = SMALLVARIANTS.out.automap
+    updio               = SMALLVARIANTS.out.updio
+    multiqc             = SMALLVARIANTS.out.multiqc_report
+    multiqc_data        = SMALLVARIANTS.out.multiqc_data
 }
 
 output {
@@ -235,6 +236,9 @@ output {
         }
         enabled !params.skip_merged_cram_output
     }
+    mosdepth_reports { path { meta, report ->
+        report >> "${meta.family}/${meta.id}_${params.unique_out}/mosdepth/${report.name}"
+    } }
     gvcfs { path { meta, gvcf, tbi ->
         gvcf >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
         tbi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"

@@ -53,6 +53,38 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.region.dist.txt:md5,e581f21f2160971c8fa33e6e5955818e"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
+                ]
+            ],
+            [
                 "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80",
                 "NA24143.mosdepth.region.dist.txt:md5,e581f21f2160971c8fa33e6e5955818e",
                 "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
@@ -62,7 +94,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:20:27.174254749"
+        "timestamp": "2025-05-21T11:29:37.849634048"
     },
     "cram_prepare_samtools_bedtools - default - WES": {
         "content": [
@@ -108,6 +140,38 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.region.dist.txt:md5,e581f21f2160971c8fa33e6e5955818e"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
+                ]
+            ],
+            [
                 "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80",
                 "NA24143.mosdepth.region.dist.txt:md5,e581f21f2160971c8fa33e6e5955818e",
                 "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
@@ -117,7 +181,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:20:47.937356787"
+        "timestamp": "2025-05-21T11:29:57.746469202"
     },
     "cram_prepare_samtools_bedtools - default - WGS": {
         "content": [
@@ -163,6 +227,28 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 1
+                    },
+                    "NA24143.mosdepth.summary.txt:md5,19d2d22dca7ce7cf665711a59d1c437b"
+                ]
+            ],
+            [
                 "NA24143.mosdepth.global.dist.txt:md5,c4ea93892ab8a719abfb4c2ab3ad7f80",
                 "NA24143.mosdepth.summary.txt:md5,19d2d22dca7ce7cf665711a59d1c437b"
             ]
@@ -171,7 +257,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:20:08.121736858"
+        "timestamp": "2025-05-21T11:29:15.532928422"
     },
     "cram_prepare_samtools_bedtools - default - merge": {
         "content": [
@@ -227,6 +313,38 @@
                 ]
             ],
             [
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 2
+                    },
+                    "NA24143.mosdepth.global.dist.txt:md5,f6d088ceafbfe6743bf430a21db94178"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 2
+                    },
+                    "NA24143.mosdepth.region.dist.txt:md5,499c0bcae0f6d1db93d80df7318ffa4b"
+                ],
+                [
+                    {
+                        "id": "NA24143",
+                        "sample": "NA24143",
+                        "family": "Ashkenazim",
+                        "family_samples": "NA24143",
+                        "duplicate_count": 2
+                    },
+                    "NA24143.mosdepth.summary.txt:md5,c02f8681bb0191868b3b31bb46e815b5"
+                ]
+            ],
+            [
                 "NA24143.mosdepth.global.dist.txt:md5,f6d088ceafbfe6743bf430a21db94178",
                 "NA24143.mosdepth.region.dist.txt:md5,499c0bcae0f6d1db93d80df7318ffa4b",
                 "NA24143.mosdepth.summary.txt:md5,c02f8681bb0191868b3b31bb46e815b5"
@@ -236,6 +354,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:21:23.684102504"
+        "timestamp": "2025-05-21T11:30:33.313182542"
     }
 }

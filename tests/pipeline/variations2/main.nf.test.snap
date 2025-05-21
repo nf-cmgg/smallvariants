@@ -8,18 +8,27 @@
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz.csi",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz.csi",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz.csi",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.global.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.bed",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz",
@@ -31,10 +40,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-22T13:58:59.743496229"
+        "timestamp": "2025-05-21T12:16:10.448532566"
     },
     "pipeline_variations - normalize": {
         "content": [
@@ -45,18 +54,27 @@
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz.csi",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz.csi",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz.csi",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.global.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.bed",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz",
@@ -68,10 +86,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-22T13:54:32.376500134"
+        "timestamp": "2025-05-21T12:04:42.687739168"
     },
     "pipeline_variations - updio": {
         "content": [
@@ -82,18 +100,27 @@
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz.csi",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz.csi",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz.csi",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.global.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.bed",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz",
@@ -105,10 +132,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-22T13:55:38.269618437"
+        "timestamp": "2025-05-21T12:07:26.757445048"
     },
     "pipeline_variations - gemini": {
         "content": [
@@ -119,18 +146,27 @@
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz.csi",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz.csi",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz.csi",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.global.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.bed",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.db",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
@@ -143,10 +179,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-22T13:56:43.936046521"
+        "timestamp": "2025-05-21T12:10:02.843587865"
     },
     "pipeline_variations - validate": {
         "content": [
@@ -157,6 +193,9 @@
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz",
                 "Ashkenazim/NA24143_<version>_<date>/NA24143.per-base.bed.gz.csi",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
+                "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
                 "Ashkenazim/NA24143_<version>_<date>/validation/haplotypecaller/NA24143.fn.vcf.gz",
                 "Ashkenazim/NA24143_<version>_<date>/validation/haplotypecaller/NA24143.fn.vcf.gz.tbi",
                 "Ashkenazim/NA24143_<version>_<date>/validation/haplotypecaller/NA24143.fp.vcf.gz",
@@ -182,6 +221,9 @@
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz.csi",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
+                "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
                 "Ashkenazim/NA24149_<version>_<date>/validation/haplotypecaller/NA24149.fn.vcf.gz",
                 "Ashkenazim/NA24149_<version>_<date>/validation/haplotypecaller/NA24149.fn.vcf.gz.tbi",
                 "Ashkenazim/NA24149_<version>_<date>/validation/haplotypecaller/NA24149.fp.vcf.gz",
@@ -207,6 +249,9 @@
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz.tbi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz.csi",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.global.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
+                "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/NA24385_<version>_<date>/validation/haplotypecaller/NA24385.fn.vcf.gz",
                 "Ashkenazim/NA24385_<version>_<date>/validation/haplotypecaller/NA24385.fn.vcf.gz.tbi",
                 "Ashkenazim/NA24385_<version>_<date>/validation/haplotypecaller/NA24385.fp.vcf.gz",
@@ -237,9 +282,9 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-01-22T13:57:55.547343728"
+        "timestamp": "2025-05-21T12:13:25.633719989"
     }
 }

@@ -151,10 +151,13 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_fasta
     )
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions.first())
+    def ch_mosdepth_reports = MOSDEPTH.out.summary_txt
+        .mix(
+            MOSDEPTH.out.global_txt,
+            MOSDEPTH.out.regions_txt
+        )
     ch_reports  = ch_reports.mix(
-        MOSDEPTH.out.summary_txt.map { _meta, report -> report },
-        MOSDEPTH.out.global_txt.map { _meta, report -> report },
-        MOSDEPTH.out.regions_txt.map { _meta, report -> report }
+        ch_mosdepth_reports.map { _meta, report -> report }
     )
     def ch_perbase_beds = MOSDEPTH.out.per_base_bed
         .join(MOSDEPTH.out.per_base_csi, failOnMismatch: true, failOnDuplicate:true)
@@ -171,11 +174,12 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     def ch_ready_beds = PROCESS_BEDS.out.bed
 
     emit:
-    ready_crams  = ch_ready_crams    // [ val(meta), path(cram), path(crai) ]
-    merged_crams = ch_merged_crams   // [ val(meta), path(cram), path(crai) ]
-    ready_bams   = ch_ready_bams     // [ val(meta), path(bam), path(bai) ]
-    ready_beds   = ch_ready_beds     // [ val(meta), path(bed) ]
-    perbase_beds = ch_perbase_beds   // [ val(meta), path(bed), path(csi) ]
-    versions     = ch_versions       // [ path(versions) ]
-    reports      = ch_reports        // [ path(reports) ]
+    ready_crams         = ch_ready_crams        // [ val(meta), path(cram), path(crai) ]
+    merged_crams        = ch_merged_crams       // [ val(meta), path(cram), path(crai) ]
+    ready_bams          = ch_ready_bams         // [ val(meta), path(bam), path(bai) ]
+    ready_beds          = ch_ready_beds         // [ val(meta), path(bed) ]
+    perbase_beds        = ch_perbase_beds       // [ val(meta), path(bed), path(csi) ]
+    mosdepth_reports    = ch_mosdepth_reports   // [ val(meta), path(report) ]
+    versions            = ch_versions           // [ path(versions) ]
+    reports             = ch_reports            // [ path(reports) ]
 }
