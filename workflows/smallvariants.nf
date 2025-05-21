@@ -7,7 +7,7 @@
 include { paramsSummaryMap                  } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText            } from '../subworkflows/local/utils_cmgg_germline_pipeline'
+include { methodsDescriptionText            } from '../subworkflows/local/utils_cmgg_smallvariants_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,12 +44,9 @@ include { UNTAR                                                      } from '../
 include { ENSEMBLVEP_DOWNLOAD                                        } from '../modules/nf-core/ensemblvep/download/main'
 include { BCFTOOLS_STATS                                             } from '../modules/nf-core/bcftools/stats/main'
 include { BCFTOOLS_NORM                                              } from '../modules/nf-core/bcftools/norm/main'
-include { TABIX_TABIX as TABIX_DECOMPOSE                             } from '../modules/nf-core/tabix/tabix/main'
-include { TABIX_TABIX as TABIX_NORMALIZE                             } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_DBSNP                                 } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_GVCF                                  } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_TRUTH                                 } from '../modules/nf-core/tabix/tabix/main'
-include { TABIX_TABIX as TABIX_FINAL                                 } from '../modules/nf-core/tabix/tabix/main'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
 include { MULTIQC                                                    } from '../modules/nf-core/multiqc/main'
@@ -61,7 +58,7 @@ include { MULTIQC                                                    } from '../
 */
 
 // The main workflow
-workflow GERMLINE {
+workflow SMALLVARIANTS {
 
     take:
     // Input channels
@@ -416,8 +413,11 @@ workflow GERMLINE {
         create_bam_files
     )
     ch_versions = ch_versions.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.versions)
+    ch_reports  = ch_reports.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.reports)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
     def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
+    def ch_merged_crams = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.merged_crams
+    def ch_mosdepth_reports = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.mosdepth_reports
 
     //
     // Split the BED files
@@ -558,8 +558,7 @@ workflow GERMLINE {
         def ch_filtered_variants = Channel.empty()
         if(filter) {
             VCF_FILTER_BCFTOOLS(
-                ch_called_variants,
-                true
+                ch_called_variants
             )
             ch_versions = ch_versions.mix(VCF_FILTER_BCFTOOLS.out.versions)
             ch_filtered_variants = VCF_FILTER_BCFTOOLS.out.vcfs
@@ -575,13 +574,8 @@ workflow GERMLINE {
             )
             ch_versions = ch_versions.mix(BCFTOOLS_NORM.out.versions.first())
 
-            TABIX_NORMALIZE(
-                BCFTOOLS_NORM.out.vcf
-            )
-            ch_versions = ch_versions.mix(TABIX_NORMALIZE.out.versions.first())
-
             ch_normalized_variants = BCFTOOLS_NORM.out.vcf
-                .join(TABIX_NORMALIZE.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+                .join(BCFTOOLS_NORM.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         } else {
             ch_normalized_variants = ch_filtered_variants
         }
@@ -628,16 +622,12 @@ workflow GERMLINE {
             ch_ped_vcfs = VCF_PED_RTGTOOLS.out.ped_vcfs
         } else {
             ch_ped_vcfs = ch_normalized_variants
-                .map { meta, vcf, _tbi=[] ->
-                    [ meta, vcf ]
-                }
         }
 
         //
         // Annotation of the variants and creation of Gemini-compatible database files
         //
 
-        def ch_annotation_output = Channel.empty()
         if (annotate) {
             VCF_ANNOTATION(
                 ch_ped_vcfs,
@@ -656,22 +646,10 @@ workflow GERMLINE {
             ch_versions = ch_versions.mix(VCF_ANNOTATION.out.versions)
             ch_reports  = ch_reports.mix(VCF_ANNOTATION.out.reports)
 
-            ch_annotation_output = VCF_ANNOTATION.out.annotated_vcfs
+            ch_final_vcfs = VCF_ANNOTATION.out.annotated_vcfs
         } else {
-            ch_annotation_output = ch_ped_vcfs
+            ch_final_vcfs = ch_ped_vcfs
         }
-
-        //
-        // Tabix the resulting VCF
-        //
-
-        TABIX_FINAL(
-            ch_annotation_output
-        )
-        ch_versions = ch_versions.mix(TABIX_FINAL.out.versions.first())
-
-        ch_final_vcfs = ch_annotation_output
-            .join(TABIX_FINAL.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
         //
         // Validate the found variants
@@ -890,22 +868,24 @@ workflow GERMLINE {
     )
 
     emit:
-    gvcfs           = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
-    genomicsdb      = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
-    vcfs            = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]
-    gemini          = ch_final_dbs                  // channel: [ val(meta), path(db) ]
-    peds            = ch_final_peds                 // channel: [ val(meta), path(ped) ]
-    single_beds     = ch_single_beds                // channel: [ val(meta), path(bed) ]
-    perbase_beds    = ch_perbase_beds               // channel: [ val(meta), path(bed), path(csi) ]
-    joint_beds      = ch_joint_beds                 // channel: [ val(meta), path(bed) ]
-    final_reports   = ch_final_reports              // channel: [ val(meta), path(report) ]
-    gvcf_reports    = ch_gvcf_reports               // channel: [ val(meta), path(report) ]
-    automap         = ch_final_automap              // channel: [ val(meta), path(automap) ]
-    updio           = ch_final_updio                // channel: [ val(meta), path(updio) ]
-    validation      = ch_final_validation           // channel: [ val(meta), path(file) ]
-    multiqc_report  = MULTIQC.out.report.toList()   // channel: /path/to/multiqc_report.html
-    multiqc_data    = MULTIQC.out.data              // channel: /path/to/multiqc_data
-    versions        = ch_versions                   // channel: [ path(versions.yml) ]
+    merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
+    mosdepth_reports    = ch_mosdepth_reports           // channel: [ val(meta), path(mosdepth_report) ]
+    gvcfs               = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
+    genomicsdb          = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
+    vcfs                = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]
+    gemini              = ch_final_dbs                  // channel: [ val(meta), path(db) ]
+    peds                = ch_final_peds                 // channel: [ val(meta), path(ped) ]
+    single_beds         = ch_single_beds                // channel: [ val(meta), path(bed) ]
+    perbase_beds        = ch_perbase_beds               // channel: [ val(meta), path(bed), path(csi) ]
+    joint_beds          = ch_joint_beds                 // channel: [ val(meta), path(bed) ]
+    final_reports       = ch_final_reports              // channel: [ val(meta), path(report) ]
+    gvcf_reports        = ch_gvcf_reports               // channel: [ val(meta), path(report) ]
+    automap             = ch_final_automap              // channel: [ val(meta), path(automap) ]
+    updio               = ch_final_updio                // channel: [ val(meta), path(updio) ]
+    validation          = ch_final_validation           // channel: [ val(meta), path(file) ]
+    multiqc_report      = MULTIQC.out.report.toList()   // channel: /path/to/multiqc_report.html
+    multiqc_data        = MULTIQC.out.data              // channel: /path/to/multiqc_data
+    versions            = ch_versions                   // channel: [ path(versions.yml) ]
 }
 
 /*

@@ -2,25 +2,27 @@
     "test_ensemblvep_vep_fasta_tab_gz": {
         "content": [
             [
-                "versions.yml:md5,c6d58a35e7be5e6ab46a3f9757f6e259"
+                "versions.yml:md5,4faee762040f2f0241cdb8b48a2ac759"
             ]
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-20T14:10:59.846254319"
+        "timestamp": "2025-01-24T14:46:45.902677788"
     },
-    "test_ensemblvep_vep_fasta_vcf": {
+    "test_ensemblvep_vep_fasta_vcf - stub (not really but linting complains otherwise)": {
         "content": [
             [
-                "versions.yml:md5,c6d58a35e7be5e6ab46a3f9757f6e259"
-            ]
+                "versions.yml:md5,4faee762040f2f0241cdb8b48a2ac759"
+            ],
+            "d41d8cd98f00b204e9800998ecf8427e",
+            "test.vcf.gz.tbi"
         ],
         "meta": {
             "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nextflow": "24.10.3"
         },
-        "timestamp": "2024-11-20T14:10:44.092773407"
+        "timestamp": "2025-01-24T14:46:27.812227223"
     }
 }

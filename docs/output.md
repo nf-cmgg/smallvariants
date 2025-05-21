@@ -1,4 +1,4 @@
-# nf-cmgg/germline: Output
+# nf-cmgg/smallvariants: Output
 
 ## Introduction
 

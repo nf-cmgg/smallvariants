@@ -1,6 +1,6 @@
 {
-    "name": "nf-cmgg/germline",
-    "homePage": "https://github.com/nf-cmgg/germline",
+    "name": "nf-cmgg/smallvariants",
+    "homePage": "https://github.com/nf-cmgg/smallvariants",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {
@@ -51,11 +51,6 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
-                    "bedtools/intersect": {
-                        "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
-                        "installed_by": ["modules"]
-                    },
                     "bedtools/merge": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
@@ -85,7 +80,7 @@
                     },
                     "ensemblvep/vep": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "ef36baef619ebe8a244fee313d44eba571ba73b4",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/ensemblvep/vep/ensemblvep-vep.diff"
                     },
@@ -191,16 +186,6 @@
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/somalier/relate/somalier-relate.diff"
                     },
-                    "tabix/bgzip": {
-                        "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
-                        "installed_by": ["modules"]
-                    },
-                    "tabix/bgziptabix": {
-                        "branch": "master",
-                        "git_sha": "f448e846bdadd80fc8be31fbbc78d9f5b5131a45",
-                        "installed_by": ["modules"]
-                    },
                     "tabix/tabix": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
@@ -225,7 +210,7 @@
                     },
                     "vcfanno": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "b1137e22798227331c9a9a12bd92bd6e865865c5",
                         "installed_by": ["modules"]
                     }
                 }

@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-cmgg/germline
+    nf-cmgg/smallvariants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-cmgg/germline
+    Github : https://github.com/nf-cmgg/smallvariants
 ----------------------------------------------------------------------------------------
 */
 
@@ -15,7 +15,7 @@ nextflow.preview.output = true
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_germline_pipeline'
+include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 
 // Take another look at this later!
 params.fasta                = getGenomeAttribute('fasta', params.genomes, params.genome)
@@ -48,9 +48,9 @@ params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genome
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GERMLINE                } from './workflows/germline'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_cmgg_germline_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_cmgg_germline_pipeline'
+include { SMALLVARIANTS           } from './workflows/smallvariants'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 include { getWorkflowVersion      } from './subworkflows/nf-core/utils_nfcore_pipeline'
 
 /*
@@ -126,7 +126,7 @@ workflow {
     // WORKFLOW: Run main workflow
     //
 
-    GERMLINE (
+    SMALLVARIANTS (
         // Input channels
         PIPELINE_INITIALISATION.out.samplesheet,
 
@@ -205,95 +205,91 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        GERMLINE.out.multiqc_report
+        SMALLVARIANTS.out.multiqc_report
     )
 
-    // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of
-    // the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
-    def ch_gvcfs_out = GERMLINE.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) }
-
     publish:
-    ch_gvcfs_out >> 'gvcfs'
-    GERMLINE.out.single_beds >> 'single_beds'
-    GERMLINE.out.perbase_beds >> 'perbase_beds'
-    GERMLINE.out.validation >> 'validation'
-    GERMLINE.out.gvcf_reports >> 'gvcf_reports'
-    GERMLINE.out.genomicsdb >> 'genomicsdb'
-    GERMLINE.out.vcfs >> 'vcfs'
-    GERMLINE.out.gemini >> 'gemini'
-    GERMLINE.out.peds >> 'peds'
-    GERMLINE.out.joint_beds >> 'joint_beds'
-    GERMLINE.out.final_reports >> 'final_reports'
-    GERMLINE.out.automap >> 'automap'
-    GERMLINE.out.updio >> 'updio'
-    GERMLINE.out.multiqc_report >> 'multiqc'
-    GERMLINE.out.multiqc_data >> 'multiqc_data'
+    merged_crams        = SMALLVARIANTS.out.merged_crams
+    mosdepth_reports    = SMALLVARIANTS.out.mosdepth_reports
+    gvcfs               = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
+    single_beds         = SMALLVARIANTS.out.single_beds
+    perbase_beds        = SMALLVARIANTS.out.perbase_beds
+    validation          = SMALLVARIANTS.out.validation
+    gvcf_reports        = SMALLVARIANTS.out.gvcf_reports
+    genomicsdb          = SMALLVARIANTS.out.genomicsdb
+    vcfs                = SMALLVARIANTS.out.vcfs
+    gemini              = SMALLVARIANTS.out.gemini
+    peds                = SMALLVARIANTS.out.peds
+    joint_beds          = SMALLVARIANTS.out.joint_beds
+    final_reports       = SMALLVARIANTS.out.final_reports
+    automap             = SMALLVARIANTS.out.automap
+    updio               = SMALLVARIANTS.out.updio
+    multiqc             = SMALLVARIANTS.out.multiqc_report
+    multiqc_data        = SMALLVARIANTS.out.multiqc_data
 }
 
 output {
-    'gvcfs' {
-        path { meta, gvcf, _tbi -> { file ->
-            if(file == gvcf.name) {
-                return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
-            }
-            return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
-        } }
+    merged_crams {
+        path { meta, cram, crai ->
+            cram >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.cram"
+            crai >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.cram.crai"
+        }
+        enabled !params.skip_merged_cram_output
     }
-    'single_beds' {
-        path { meta, _bed -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed" } }
-    }
-    'perbase_beds' {
-        path { meta, bed, _csi -> { file ->
-            if(file == bed.name) {
-                return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz"
-            }
-            return "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
-        } }
-    }
-    'validation' {
-        path { meta, _report -> { file -> "${meta.family}/${meta.id}_${params.unique_out}/validation/${meta.caller}/${file}" } }
-    }
-    'gvcf_reports' {
-        path { meta, _report -> { _file -> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.bcftools_stats.txt" }}
-    }
-    'genomicsdb' {
+    mosdepth_reports { path { meta, report ->
+        report >> "${meta.family}/${meta.id}_${params.unique_out}/mosdepth/${report.name}"
+    } }
+    gvcfs { path { meta, gvcf, tbi ->
+        gvcf >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
+        tbi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
+    } }
+    single_beds { path { meta, bed ->
+        bed >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed"
+    } }
+    perbase_beds { path { meta, bed, csi ->
+        bed >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz"
+        csi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.per-base.bed.gz.csi"
+    } }
+    validation { path { meta, report ->
+        report >> "${meta.family}/${meta.id}_${params.unique_out}/validation/${meta.caller}/${report.name}"
+    } }
+    gvcf_reports { path { meta, report ->
+        report >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.bcftools_stats.txt"
+    }}
+    genomicsdb {
         enabled (params.output_genomicsdb || params.only_merge)
-        path { meta, _genomicsdb ->
-            { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}_${meta.caller}_genomicsdb"}
+        path { meta, genomicsdb ->
+            genomicsdb >> "${meta.family}/output_${params.unique_out}/${meta.id}_${meta.caller}_genomicsdb"
         }
     }
-    'vcfs' {
-        path { meta, vcf, _tbi -> { file ->
-            if(file == vcf.name) {
-                return "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz"
-            }
-            return "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz.tbi"
-        } }
-    }
-    'gemini' {
-        path { meta, _db -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.db"}}
-    }
-    'peds' {
-        path { meta, _ped -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.ped"}}
-    }
-    'joint_beds' {
-        path { meta, _bed -> { _file -> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.bed"}}
-    }
-    'final_reports' {
-        path { meta, _report -> { file -> "${meta.family}/qc_${params.unique_out}/${file}"}}
-    }
-    'automap' {
-        path { meta, _automap -> { _file -> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"}}
-    }
-    'updio' {
-        path { meta, _updio -> { _file -> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"}}
-    }
-    'multiqc' {
-        path { _report -> { _file -> "${params.unique_out}/multiqc_report.html"}}
-    }
-    'multiqc_data' {
-        path { _folder -> { _file -> "${params.unique_out}/multiqc_data"}}
-    }
+    vcfs { path { meta, vcf, tbi ->
+        vcf >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz"
+        tbi >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.vcf.gz.tbi"
+    } }
+    gemini { path { meta, db ->
+        db >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.db"
+    } }
+    peds { path { meta, ped ->
+        ped >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.ped"
+    } }
+    joint_beds { path { meta, bed ->
+        bed >> "${meta.family}/output_${params.unique_out}/${meta.id}.${meta.caller}.bed"
+    } }
+    final_reports { path { meta, report ->
+        report >> "${meta.family}/qc_${params.unique_out}/${report.name}"
+    } }
+    automap { path { meta, automap ->
+        automap >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"
+    } }
+    updio { path { meta, updio ->
+        updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
+    } }
+    multiqc { path { report ->
+        report[0] >> "${params.unique_out}/multiqc_report.html"
+    } }
+    multiqc_data { path { folder ->
+        folder >> "${params.unique_out}/multiqc_data"
+    } }
 }
 
 /*

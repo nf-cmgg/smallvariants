@@ -3,9 +3,9 @@ lint:
   actions_ci: false
   files_exist:
     - CODE_OF_CONDUCT.md
-    - assets/nf-core-germline_logo_light.png
-    - docs/images/nf-core-germline_logo_light.png
-    - docs/images/nf-core-germline_logo_dark.png
+    - assets/nf-core-smallvariants_logo_light.png
+    - docs/images/nf-core-smallvariants_logo_light.png
+    - docs/images/nf-core-smallvariants_logo_dark.png
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/workflows/awstest.yml
     - .github/workflows/awsfulltest.yml
@@ -20,6 +20,7 @@ lint:
     - CODE_OF_CONDUCT.md
     - .github/ISSUE_TEMPLATE/bug_report.yml
     - .prettierignore
+    - LICENSE
   multiqc_config:
     - report_comment
   nextflow_config:
@@ -29,18 +30,18 @@ lint:
     - validation.help.afterText
     - validation.summary.afterText
   subworkflow_changes: false
-nf_core_version: 3.0.2
+nf_core_version: 3.2.0
 repository_type: pipeline
 template:
   author: nvnieuwk
-  description: A nextflow pipeline for calling and annotating small germline variants
-    from short DNA reads for WES and WGS data
+  description: A nextflow pipeline for calling and annotating small smallvariants
+    variants from short DNA reads for WES and WGS data
   force: false
   is_nfcore: false
-  name: germline
+  name: smallvariants
   org: nf-cmgg
   outdir: .
   skip_features:
     - fastqc
     - is_nfcore
-  version: 1.9.3
+  version: 1.10.0

@@ -4,14 +4,11 @@
 
 include { MERGE_BEDS as MERGE_ROI_PARAMS    } from '../../../modules/local/merge_beds'
 include { MERGE_BEDS as MERGE_ROI_SAMPLE    } from '../../../modules/local/merge_beds'
-include { FILTER_BEDS                       } from '../../../modules/local/filter_beds/main'
+include { PROCESS_BEDS                      } from '../../../modules/local/process_beds'
 
 include { SAMTOOLS_MERGE                    } from '../../../modules/nf-core/samtools/merge/main'
 include { SAMTOOLS_INDEX                    } from '../../../modules/nf-core/samtools/index/main'
 include { SAMTOOLS_CONVERT                  } from '../../../modules/nf-core/samtools/convert/main'
-include { TABIX_TABIX                       } from '../../../modules/nf-core/tabix/tabix/main'
-include { TABIX_BGZIP as UNZIP_ROI          } from '../../../modules/nf-core/tabix/bgzip/main'
-include { BEDTOOLS_INTERSECT                } from '../../../modules/nf-core/bedtools/intersect/main'
 include { MOSDEPTH                          } from '../../../modules/nf-core/mosdepth/main'
 
 workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
@@ -51,11 +48,14 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     )
     ch_versions = ch_versions.mix(SAMTOOLS_MERGE.out.versions.first())
 
+    def ch_merged_crams = SAMTOOLS_MERGE.out.cram
+        .join(SAMTOOLS_MERGE.out.crai, failOnDuplicate: true, failOnMismatch: true)
+
     //
     // Index the CRAM files which have no index
     //
 
-    def ch_merged_crams = SAMTOOLS_MERGE.out.cram
+    def ch_ready_crams_branch = ch_merged_crams
         .mix(ch_cram_branch.single)
         .branch { meta, cram, crai=[] ->
             not_indexed: crai == []
@@ -65,13 +65,13 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         }
 
     SAMTOOLS_INDEX(
-        ch_merged_crams.not_indexed
+        ch_ready_crams_branch.not_indexed
     )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
-    def ch_ready_crams = ch_merged_crams.not_indexed
+    def ch_ready_crams = ch_ready_crams_branch.not_indexed
         .join(SAMTOOLS_INDEX.out.crai, failOnDuplicate: true, failOnMismatch: true)
-        .mix(ch_merged_crams.indexed)
+        .mix(ch_ready_crams_branch.indexed)
 
     //
     // Optionally convert the CRAM files to BAM
@@ -151,42 +151,35 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_fasta
     )
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions.first())
+    def ch_mosdepth_reports = MOSDEPTH.out.summary_txt
+        .mix(
+            MOSDEPTH.out.global_txt,
+            MOSDEPTH.out.regions_txt
+        )
+    ch_reports  = ch_reports.mix(
+        ch_mosdepth_reports.map { _meta, report -> report }
+    )
     def ch_perbase_beds = MOSDEPTH.out.per_base_bed
         .join(MOSDEPTH.out.per_base_csi, failOnMismatch: true, failOnDuplicate:true)
 
-    def ch_beds_to_filter = ch_ready_rois
-        .join(MOSDEPTH.out.quantized_bed, failOnDuplicate:true, failOnMismatch:true)
+    def ch_beds_to_process = MOSDEPTH.out.quantized_bed
+        .join(ch_ready_rois, failOnDuplicate:true, failOnMismatch:true)
 
     // Filter out the regions with no coverage
-    FILTER_BEDS(
-        ch_beds_to_filter.map { meta, _roi, callable -> [ meta, callable ]}
+    PROCESS_BEDS(
+        ch_beds_to_process
     )
-    ch_versions = ch_versions.mix(FILTER_BEDS.out.versions)
+    ch_versions = ch_versions.mix(PROCESS_BEDS.out.versions)
 
-    def ch_beds_to_intersect = FILTER_BEDS.out.bed
-        .join(ch_beds_to_filter, failOnDuplicate:true, failOnMismatch:true)
-        .branch { meta, filtered_callable, roi, _callable ->
-            roi:    roi
-                return [ meta, roi, filtered_callable ]
-            no_roi: !roi
-                return [ meta, filtered_callable ]
-        }
-
-    // Intersect the ROI with the callable regions
-    BEDTOOLS_INTERSECT(
-        ch_beds_to_intersect.roi,
-        ch_fai
-    )
-    ch_versions = ch_versions.mix(BEDTOOLS_INTERSECT.out.versions)
-
-    def ch_ready_beds = ch_beds_to_intersect.no_roi
-        .mix(BEDTOOLS_INTERSECT.out.intersect)
+    def ch_ready_beds = PROCESS_BEDS.out.bed
 
     emit:
-    ready_crams  = ch_ready_crams    // [ val(meta), path(cram), path(crai) ]
-    ready_bams   = ch_ready_bams     // [ val(meta), path(bam), path(bai) ]
-    ready_beds   = ch_ready_beds     // [ val(meta), path(bed) ]
-    perbase_beds = ch_perbase_beds   // [ val(meta), path(bed), path(csi) ]
-    versions     = ch_versions       // [ path(versions) ]
-    reports      = ch_reports        // [ path(reports) ]
+    ready_crams         = ch_ready_crams        // [ val(meta), path(cram), path(crai) ]
+    merged_crams        = ch_merged_crams       // [ val(meta), path(cram), path(crai) ]
+    ready_bams          = ch_ready_bams         // [ val(meta), path(bam), path(bai) ]
+    ready_beds          = ch_ready_beds         // [ val(meta), path(bed) ]
+    perbase_beds        = ch_perbase_beds       // [ val(meta), path(bed), path(csi) ]
+    mosdepth_reports    = ch_mosdepth_reports   // [ val(meta), path(report) ]
+    versions            = ch_versions           // [ path(versions) ]
+    reports             = ch_reports            // [ path(reports) ]
 }

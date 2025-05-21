@@ -37,7 +37,7 @@ nextflow_workflow {
         }
 
         then {
-            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
+            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
@@ -49,6 +49,7 @@ nextflow_workflow {
                     },
                     workflow.out.ready_beds,
                     workflow.out.perbase_beds,
+                    workflow.out.mosdepth_reports,
                     workflow.out.reports
                 ).match() }
             )
@@ -85,7 +86,7 @@ nextflow_workflow {
         }
 
         then {
-            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
+            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
@@ -97,6 +98,7 @@ nextflow_workflow {
                     },
                     workflow.out.ready_beds,
                     workflow.out.perbase_beds,
+                    workflow.out.mosdepth_reports,
                     workflow.out.reports
                 ).match() }
             )
@@ -133,7 +135,7 @@ nextflow_workflow {
         }
 
         then {
-            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
+            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
@@ -145,6 +147,7 @@ nextflow_workflow {
                     },
                     workflow.out.ready_beds,
                     workflow.out.perbase_beds,
+                    workflow.out.mosdepth_reports,
                     workflow.out.reports
                 ).match() }
             )
@@ -188,7 +191,7 @@ nextflow_workflow {
         }
 
         then {
-            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/germline/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
+            def fasta = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/genome/hg38_chr21_22000000_23000000.fasta"
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
@@ -200,6 +203,7 @@ nextflow_workflow {
                     },
                     workflow.out.ready_beds,
                     workflow.out.perbase_beds,
+                    workflow.out.mosdepth_reports,
                     workflow.out.reports
                 ).match() }
             )

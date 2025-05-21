@@ -1,4 +1,4 @@
-# nf-cmgg/germline: Citations
+# nf-cmgg/smallvariants: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 

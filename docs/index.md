@@ -1,14 +1,14 @@
-# nf-cmgg/germline
+# nf-cmgg/smallvariants
 
 ## Introduction
 
-**nf-cmgg/germline** is a nextflow pipeline for calling and annotating small germline variants from short DNA reads for WES and WGS data.
+**nf-cmgg/smallvariants** is a nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
 ## Pipeline summary
 
-![metro graph](images/germline_metro.png)
+![metro graph](images/smallvariants_metro.png)
 
 <!-- prettier-ignore -->
 !!!note
@@ -31,7 +31,7 @@ Each row represents a single sample to be analysed. More information can be foun
 Now, you can run the pipeline using:
 
 ```bash
-nextflow run nf-cmgg/germline --input samplesheet.csv --outdir <OUTDIR> --genome GRCh38 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
+nextflow run nf-cmgg/smallvariants --input samplesheet.csv --outdir <OUTDIR> --genome GRCh38 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
 ```
 
 This pipeline contains a lot of parameters to customize your pipeline run. Please take a look at the [parameters](parameters.md) documentation for an overview.
@@ -43,13 +43,13 @@ This pipeline contains a lot of parameters to customize your pipeline run. Pleas
 
 ## Credits
 
-nf-cmgg/germline was originally written and is maintained by [@nvnieuwk](https://github.com/nvnieuwk).
+nf-cmgg/smallvariants was originally written and is maintained by [@nvnieuwk](https://github.com/nvnieuwk).
 
 Special thanks to [@matthdsm](https://github.com/matthdsm) for the many tips and feedback and to [@mvheetve](https://github.com/mvheetve) and [@ToonRossel](https://github.com/ToonRosseel) for testing the pipeline.
 
 ## Contributions and Support
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](https://github.com/nf-cmgg/germline/blob/dev/.github/CONTRIBUTING.md).
+If you would like to contribute to this pipeline, please see the [contributing guidelines](https://github.com/nf-cmgg/smallvariants/blob/dev/.github/CONTRIBUTING.md).
 
 ## Citations
 

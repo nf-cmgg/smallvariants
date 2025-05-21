@@ -1,11 +1,26 @@
-# nf-cmgg/germline: Changelog
+# nf-cmgg/smallvariants: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.10.0dev
+## v1.10.0 - Melodic Mechelen - [May 20 2025]
 
-## v1.9.3 Nifty Nieuwkerke - [January 23 2025]
+## Changes
+
+1. Merged the following processes to improve efficiency of the pipeline:
+   - VCF index creation modules on output VCFs have been merged into the processes that created these VCFs
+   - The filter modules for `--filter` have been merged
+   - BED filtering and intersecting with Regions Of Interest have been merged
+2. Added copgt_joint config profile
+3. Migrate to the third preview of the workflow output definitions
+4. Bumped minimal Nextflow version to 25.04.0
+5. Removed `--squash-ploidy` from the RTG vcfeval process
+6. Small stability fixes for runnning on the nomad cluster
+7. Added the merged CRAM files to the output of the pipeline. This can be skipped using the `--skip_merged_cram_output` parameter.
+8. Added the filter parameter to the copgt config profiles
+9. Added mosdepth QC to the multiQC report
+
+## v1.9.3 - Nifty Nieuwkerke - [January 23 2025]
 
 1. Fix db postprocess in vcf2db module
 
@@ -34,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Added the `--squash-ploidy` argument to the RTG vcfeval process.
 2. Update to nf-core v3.0.1
-3. Completely reworked the output directory structure to a more sensible structure. The pipeline can now be run on the same output directory every time and will incrementally add files to the correct family folder. See the [output documentation](https://nf-cmgg.github.io/germline/latest/output/) for more info.
+3. Completely reworked the output directory structure to a more sensible structure. The pipeline can now be run on the same output directory every time and will incrementally add files to the correct family folder. See the [output documentation](https://nf-cmgg.github.io/smallvariants/latest/output/) for more info.
 4. Migrated to the new workflow output definitions.
 5. Bumped the minimal Nextflow version to 24.10.0.
 6. Added the somalier reports to the multiQC report.
@@ -98,8 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### New features
 
 1. Added UPDio for Uniparental Disomy detection in family samples. This introduces the `--updio` parameter to turn on this detection and `--updio_common_cnvs` to supply a common CNVs file to UPDio. The family needs to contain at least one child with its mother and father.
-2. Added docs built with MkDocs. See the documentation [site](https://nf-cmgg.github.io/germline/latest) here.
-3. Added AutoMap to find regions of homozygosity from human samples. This introduces the `--automap` parameter to turn on this feature and the `--automap_repeats`, `--automap_panel` and `--automap_panel_name` parameters to configure AutoMap (see the [parameters](https://nf-cmgg.github.io/germline/latest/parameters) docs for more information)
+2. Added docs built with MkDocs. See the documentation [site](https://nf-cmgg.github.io/smallvariants/latest) here.
+3. Added AutoMap to find regions of homozygosity from human samples. This introduces the `--automap` parameter to turn on this feature and the `--automap_repeats`, `--automap_panel` and `--automap_panel_name` parameters to configure AutoMap (see the [parameters](https://nf-cmgg.github.io/smallvariants/latest/parameters) docs for more information)
 
 ### Changes
 
