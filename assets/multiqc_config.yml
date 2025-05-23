@@ -17,3 +17,5 @@ extra_fn_clean_exts:
   - type: regex_keep
     pattern: "^[^\\.]*"
     module: bcftools
+
+template: "cmgg"
