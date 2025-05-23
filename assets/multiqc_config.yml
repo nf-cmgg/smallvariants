@@ -19,3 +19,23 @@ extra_fn_clean_exts:
     module: bcftools
 
 template: "cmgg"
+
+mosdepth_config:
+  general_stats_coverage:
+    - 1
+    - 5
+    - 10
+    - 20
+    - 30
+    - 40
+    - 50
+  include_contigs:
+    - "chr*"
+  exclude_contigs:
+    - "*_alt"
+    - "*_decoy"
+    - "*_random"
+    - "chrUn*"
+    - "HLA*"
+    - "chrM"
+    - "chrEBV"
