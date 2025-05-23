@@ -18,6 +18,8 @@ extra_fn_clean_exts:
     pattern: "^[^\\.]*"
     module: bcftools
 
+template: "cmgg"
+
 mosdepth_config:
   general_stats_coverage:
     - 1
