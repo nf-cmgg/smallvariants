@@ -166,6 +166,7 @@ workflow {
         params.outdir,
         GlobalVariables.pedFiles,
         params.elsites,
+        params.msi_baseline,
 
         // Boolean inputs
         params.dragstr,
