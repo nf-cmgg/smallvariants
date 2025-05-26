@@ -167,7 +167,8 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     // Filter out the regions with no coverage
     PROCESS_BEDS(
-        ch_beds_to_process
+        ch_beds_to_process,
+        ch_fai
     )
     ch_versions = ch_versions.mix(PROCESS_BEDS.out.versions)
 

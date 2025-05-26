@@ -20,6 +20,10 @@ nextflow_process {
                     file(params.bed, checkIfExists:true),
                     file(params.split1, checkIfExists:true)
                 ]
+                input[1] =  [
+                    [ id:'fai' ],
+                    file(params.fai, checkIfExists:true)
+                ]
                 """
             }
         }
@@ -45,6 +49,10 @@ nextflow_process {
                     [ id:'test', single_end:false ], // meta map
                     file(params.bed, checkIfExists:true),
                     file(params.split1, checkIfExists:true)
+                ]
+                input[1] =  [
+                    [ id:'fai' ],
+                    file(params.fai, checkIfExists:true)
                 ]
                 """
             }

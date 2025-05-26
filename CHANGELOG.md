@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.10.1 - Mighty Mechelen
+
+## Fixes
+
+1. Fix a bug where the BED processing failed because of unknown chromosomes.
+
 ## v1.10.0 - Melodic Mechelen - [May 20 2025]
 
 ## Changes
