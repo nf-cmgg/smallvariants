@@ -40,6 +40,6 @@ mosdepth_config:
 
 custom_data:
   msisensorpro_summary:
-    pattern: "*_unstable" 
+    pattern: "*_unstable"
     section_name: "MSIsensorPro Summary"
     description: "Summary of MSI sites per sample"
