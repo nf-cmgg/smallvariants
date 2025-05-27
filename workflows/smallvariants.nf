@@ -167,6 +167,7 @@ workflow SMALLVARIANTS {
 
     def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
+    def ch_msi_baseline       = Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
     //
@@ -447,24 +448,18 @@ workflow SMALLVARIANTS {
             bam: [meta, bam, bai, bed]
         }
     
-        //
-        // Check for MSI 
-        //
-    def ch_fasta_ready_broadcast = ch_caller_inputs.cram
-        .map { meta, _cram, _crai, _bed -> tuple(meta, file(params.fasta)) }
+    //
+    // Check for MSI 
+    //
 
-    def ch_fai_ready_broadcast = ch_caller_inputs.cram
-        .map { meta, _cram, _crai, _bed -> tuple(meta, file(params.fai)) }
-    def ch_msi_baseline = ch_caller_inputs.cram.map { meta, _cram, _crai, _bed -> tuple(meta, file(msi_baseline)) }
     MSISENSORPRO_PRO(
-        ch_caller_inputs.cram.map { meta, cram, crai, _bed ->
-            tuple(meta, cram, crai) },
+        CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams,
         ch_msi_baseline,
-        ch_fasta_ready_broadcast,
-        ch_fai_ready_broadcast
+        ch_fasta_ready,
+        ch_fai_ready
     )
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.all_msi.map { _meta, file -> file})
-    ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions)
+    ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
     
 
     def ch_calls = Channel.empty()
