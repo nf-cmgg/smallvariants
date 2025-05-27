@@ -50,7 +50,7 @@ include { TABIX_TABIX as TABIX_TRUTH                                 } from '../
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
 include { MULTIQC                                                    } from '../modules/nf-core/multiqc/main'
-include { MSISENSORPRO_PRO                                           } from '../modules/nf-core/msisensorpro/pro/main'  
+include { MSISENSORPRO_PRO                                           } from '../modules/nf-core/msisensorpro/pro/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -447,9 +447,9 @@ workflow SMALLVARIANTS {
             cram: [meta, cram, crai, bed]
             bam: [meta, bam, bai, bed]
         }
-    
+
     //
-    // Check for MSI 
+    // Check for MSI
     //
 
     MSISENSORPRO_PRO(
@@ -460,7 +460,6 @@ workflow SMALLVARIANTS {
     )
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.all_msi.map { _meta, file -> file})
     ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
-    
 
     def ch_calls = Channel.empty()
     def ch_gvcf_reports = Channel.empty()

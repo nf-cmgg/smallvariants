@@ -37,9 +37,9 @@ mosdepth_config:
     - "HLA*"
     - "chrM"
     - "chrEBV"
-    
+
 custom_data:
   msisensorpro_summary:
-    pattern: "*_unstable"  # or your actual filename pattern
+    pattern: "*_unstable" 
     section_name: "MSIsensorPro Summary"
     description: "Summary of MSI sites per sample"
