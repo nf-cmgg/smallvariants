@@ -209,7 +209,7 @@ workflow {
     )
 
     publish:
-    merged_crams        = SMALLVARIANTS.out.merged_crams
+    crams               = SMALLVARIANTS.out.crams
     mosdepth_reports    = SMALLVARIANTS.out.mosdepth_reports
     gvcfs               = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
     single_beds         = SMALLVARIANTS.out.single_beds

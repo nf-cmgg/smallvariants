@@ -176,7 +176,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     emit:
     ready_crams         = ch_ready_crams        // [ val(meta), path(cram), path(crai) ]
-    merged_crams        = ch_merged_crams       // [ val(meta), path(cram), path(crai) ]
     ready_bams          = ch_ready_bams         // [ val(meta), path(bam), path(bai) ]
     ready_beds          = ch_ready_beds         // [ val(meta), path(bed) ]
     perbase_beds        = ch_perbase_beds       // [ val(meta), path(bed), path(csi) ]

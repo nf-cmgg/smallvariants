@@ -416,7 +416,7 @@ workflow SMALLVARIANTS {
     ch_reports  = ch_reports.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.reports)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
     def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
-    def ch_merged_crams = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.merged_crams
+    def ch_ready_crams = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams
     def ch_mosdepth_reports = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.mosdepth_reports
 
     //
@@ -868,7 +868,7 @@ workflow SMALLVARIANTS {
     )
 
     emit:
-    merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
+    crams               = ch_ready_crams                // channel: [ val(meta), path(cram), path(crai) ]
     mosdepth_reports    = ch_mosdepth_reports           // channel: [ val(meta), path(mosdepth_report) ]
     gvcfs               = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
     genomicsdb          = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
