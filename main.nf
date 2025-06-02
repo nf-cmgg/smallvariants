@@ -229,7 +229,7 @@ workflow {
 }
 
 output {
-    merged_crams {
+    crams {
         path { meta, cram, crai ->
             cram >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.cram"
             crai >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.cram.crai"
