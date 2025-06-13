@@ -700,7 +700,7 @@
     "properties": {
         "msi_baseline": {
             "type": "string",
-            "default": "/home/guest/Documents/MSI/hg38.msisensorpro.baseline.list"
+            "default": "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/msi_subset.baseline.list"
         }
     }
 }

@@ -132,7 +132,8 @@
                     "msisensorpro/pro": {
                         "branch": "master",
                         "git_sha": "fafa7b3a577412b6bde309170408da4cb911f04b",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/msisensorpro/pro/msisensorpro-pro.diff"
                     },
                     "multiqc": {
                         "branch": "master",
