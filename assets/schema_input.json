@@ -115,7 +115,8 @@
             },
             "msi": {
                 "type": "boolean",
-                "default": false
+                "default": false,
+                "meta": "msi"
             }
         },
         "required": ["sample"]

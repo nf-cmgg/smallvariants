@@ -339,7 +339,7 @@ workflow SMALLVARIANTS {
     def usedGvcfCallers = callers.intersect(GlobalVariables.gvcfCallers)
 
     def ch_input = ch_samplesheet
-        .multiMap { meta, cram, crai, gvcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed, msi ->
+        .multiMap { meta, cram, crai, gvcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed ->
             // Error checks that were not possible using nf-schema
             if (gvcf && usedGvcfCallers.size() >= 2) {
                 error("GVCF input is not supported for runs that use more than one caller that produces a GVCF output")
@@ -350,7 +350,7 @@ workflow SMALLVARIANTS {
 
             // Divide the input files into their corresponding channel
             def new_meta = meta + [
-                type: gvcf && cram ? "gvcf_cram" : gvcf ? "gvcf" : "cram", msi: msi // Define the type of input data
+                type: gvcf && cram ? "gvcf_cram" : gvcf ? "gvcf" : "cram" // Define the type of input data
             ]
 
             def new_meta_validation = meta.subMap(["id", "sample", "family", "duplicate_count"])
