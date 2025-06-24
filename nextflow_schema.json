@@ -160,6 +160,13 @@
                     "fa_icon": "fas fa-ban",
                     "hidden": true,
                     "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
+                },
+                "msi_baseline": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.list$",
+                    "description": "Path to the MSI baseline VCF file."
                 }
             },
             "required": ["fasta"]
@@ -696,11 +703,5 @@
         {
             "$ref": "#/$defs/annotation_parameters"
         }
-    ],
-    "properties": {
-        "msi_baseline": {
-            "type": "string",
-            "default": "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/msi_subset.baseline.list"
-        }
-    }
+    ]
 }

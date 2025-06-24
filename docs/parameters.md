@@ -34,6 +34,7 @@ Reference genome related files and options required for the workflow.
 | `genomes_ignore`   | Do not load the local references from the path specified with `--genomes_base`                                                                                                                                                                                                    | `boolean` |              |          | True   |
 | `igenomes_base`    | Directory / URL base for iGenomes references.                                                                                                                                                                                                                                     | `string`  |              |          | True   |
 | `igenomes_ignore`  | Do not load the iGenomes reference config. <details><summary>Help</summary><small>Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`.</small></details> | `boolean` |              |          | True   |
+| `msi_baseline`     | Path to the MSI baseline VCF file.                                                                                                                                                                                                                                                | `string`  |              |          |        |
 
 ## Pipeline specific parameters
 
@@ -142,9 +143,3 @@ Parameters to configure Ensembl VEP and VCFanno
 | `vcfanno_config`     | The path to the VCFanno config TOML.                                                                                                                                                                                                                    | `string`  |              |          |        |
 | `vcfanno_lua`        | The path to a Lua script to be used in VCFanno.                                                                                                                                                                                                         | `string`  |              |          |        |
 | `vcfanno_resources`  | A semicolon-seperated list of resource files for VCFanno, please also supply their indices using this parameter.                                                                                                                                        | `string`  |              |          |        |
-
-## Other parameters
-
-| Parameter      | Description | Type     | Default                                                                                                                          | Required | Hidden |
-| -------------- | ----------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ |
-| `msi_baseline` |             | `string` | https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/msi_subset.baseline.list |          |        |
