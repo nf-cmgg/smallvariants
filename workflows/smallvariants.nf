@@ -50,6 +50,7 @@ include { TABIX_TABIX as TABIX_TRUTH                                 } from '../
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
 include { MULTIQC                                                    } from '../modules/nf-core/multiqc/main'
+include { MSISENSORPRO_PRO                                           } from '../modules/nf-core/msisensorpro/pro/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,6 +101,7 @@ workflow SMALLVARIANTS {
     outdir                      // string: path to the output directory
     pedFiles                    // map:    a map that has the family ID as key and a PED file as value
     elsites                     // string: path to the elsites file for elprep
+    msi_baseline                // string: path to the msi_baseline file
 
     // Boolean inputs
     dragstr                     // boolean: create a dragstr model and use it for haplotypecaller
@@ -165,6 +167,7 @@ workflow SMALLVARIANTS {
 
     def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
+    def ch_msi_baseline       = Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
     //
@@ -444,6 +447,21 @@ workflow SMALLVARIANTS {
             cram: [meta, cram, crai, bed]
             bam: [meta, bam, bai, bed]
         }
+
+    //
+    // Check for MSI
+    //
+
+    def ch_msi_samples = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams.filter { meta, _cram, _crai -> meta.msi == true}
+    MSISENSORPRO_PRO(
+        ch_msi_samples,
+        ch_msi_baseline,
+        ch_fasta_ready,
+        ch_fai_ready
+    )
+    ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.all_msi.map { _meta, file -> file})
+    ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.summary_msi.map { _meta, file -> file})
+    ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
 
     def ch_calls = Channel.empty()
     def ch_gvcf_reports = Channel.empty()

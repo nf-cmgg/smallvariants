@@ -112,6 +112,11 @@
             "vardict_min_af": {
                 "type": "number",
                 "meta": ["vardict_min_af"]
+            },
+            "msi": {
+                "type": "boolean",
+                "default": false,
+                "meta": "msi"
             }
         },
         "required": ["sample"]

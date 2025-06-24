@@ -37,3 +37,36 @@ mosdepth_config:
     - "HLA*"
     - "chrM"
     - "chrEBV"
+
+table_cond_formatting_rules:
+  msiSensorPro_all_table:
+    pass:
+      - s_contains: "Stable"
+    fail:
+      - s_contains: "Unstable"
+    warn:
+      - s_contains: "Low-coverage"
+  perc:
+    pass:
+      - lt: 30.0
+    fail:
+      - gt: 30.0
+        eq: 30.0
+
+table_cond_formatting_colours:
+  - pass: "#2ecc71"
+  - fail: "#e74c3c"
+  - warn: "#f39c12"
+  - red: "#e74c3c"
+  - green: "#2ecc71"
+  - gray: "#3498db"
+
+msi_sensor_pro_coverage_threshold: 300
+msi_sensor_pro_min_sites: 10
+msi_high_threshold: 30
+
+custom_plot_config:
+  msi_summary:
+    defaultsort:
+      - column: "perc"
+        direction: desc
