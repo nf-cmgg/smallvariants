@@ -167,7 +167,8 @@ workflow SMALLVARIANTS {
 
     def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
-    def ch_msi_baseline       = Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }
+    def ch_msi_baseline       = msi_baseline        ? Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
+
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
     //
@@ -452,7 +453,19 @@ workflow SMALLVARIANTS {
     // Check for MSI
     //
 
-    def ch_msi_samples = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams.filter { meta, _cram, _crai -> meta.msi == true}
+    def msi_warned = false
+    def ch_msi_samples = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams
+        .filter { meta, _cram, _crai ->
+            if(!msi_baseline) {
+                if(!msi_warned) {
+                    log.warn("MSI samples were found, but no MSI baseline file was provided. Please provide a baseline file using the '--msi_baseline' parameter. Skipping MSI analysis...")
+                }
+                msi_warned = true
+                return false
+            }
+            return meta.msi
+        }
+
     MSISENSORPRO_PRO(
         ch_msi_samples,
         ch_msi_baseline,

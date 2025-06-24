@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.11.0dev
+
+## New features
+
+1. Added a new option to the samplesheet (`msi`). This option takes a boolean to indicate whether or not the MSI status of the sample should be checked. A baseline should be provided using the `--msi_baseline` parameter to run MSI calling.
+
 ## v1.10.1 - Mighty Mechelen - [May 26 2025]
 
 ## Fixes
