@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## New features
 
 1. Added a new option to the samplesheet (`msi`). This option takes a boolean to indicate whether or not the MSI status of the sample should be checked. A baseline should be provided using the `--msi_baseline` parameter to run MSI calling.
+2. The Multiqc module now generates branded reports.
 
 ## v1.10.1 - Mighty Mechelen - [May 26 2025]
 

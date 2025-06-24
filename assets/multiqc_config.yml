@@ -22,6 +22,8 @@ extra_fn_clean_exts:
   - type: regex
     pattern: "_all_msi$"
 
+template: "cmgg"
+
 mosdepth_config:
   general_stats_coverage:
     - 1
