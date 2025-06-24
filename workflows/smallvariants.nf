@@ -459,6 +459,11 @@ workflow SMALLVARIANTS {
         ch_fasta_ready,
         ch_fai_ready
     )
+    ch_msisensor_output = MSISENSORPRO_PRO.out.all_msi.mix(
+        MSISENSORPRO_PRO.out.summary_msi,
+        MSISENSORPRO_PRO.out.dis_msi,
+        MSISENSORPRO_PRO.out.unstable_msi
+    )
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.all_msi.map { _meta, file -> file})
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.summary_msi.map { _meta, file -> file})
     ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
@@ -889,6 +894,7 @@ workflow SMALLVARIANTS {
     merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
     mosdepth_reports    = ch_mosdepth_reports           // channel: [ val(meta), path(mosdepth_report) ]
     gvcfs               = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
+    msi                 = ch_msisensor_output           // channel: [ val(meta), path(file) ]
     genomicsdb          = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
     vcfs                = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]
     gemini              = ch_final_dbs                  // channel: [ val(meta), path(db) ]
