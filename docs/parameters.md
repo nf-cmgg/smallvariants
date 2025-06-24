@@ -142,3 +142,9 @@ Parameters to configure Ensembl VEP and VCFanno
 | `vcfanno_config`     | The path to the VCFanno config TOML.                                                                                                                                                                                                                    | `string`  |              |          |        |
 | `vcfanno_lua`        | The path to a Lua script to be used in VCFanno.                                                                                                                                                                                                         | `string`  |              |          |        |
 | `vcfanno_resources`  | A semicolon-seperated list of resource files for VCFanno, please also supply their indices using this parameter.                                                                                                                                        | `string`  |              |          |        |
+
+## Other parameters
+
+| Parameter      | Description | Type     | Default                                                                                                                          | Required | Hidden |
+| -------------- | ----------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ |
+| `msi_baseline` |             | `string` | https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/msi_subset.baseline.list |          |        |
