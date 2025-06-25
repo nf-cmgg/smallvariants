@@ -34,6 +34,7 @@ Reference genome related files and options required for the workflow.
 | `genomes_ignore`   | Do not load the local references from the path specified with `--genomes_base`                                                                                                                                                                                                    | `boolean` |              |          | True   |
 | `igenomes_base`    | Directory / URL base for iGenomes references.                                                                                                                                                                                                                                     | `string`  |              |          | True   |
 | `igenomes_ignore`  | Do not load the iGenomes reference config. <details><summary>Help</summary><small>Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`.</small></details> | `boolean` |              |          | True   |
+| `msi_baseline`     | Path to the MSI baseline VCF file.                                                                                                                                                                                                                                                | `string`  |              |          |        |
 
 ## Pipeline specific parameters
 

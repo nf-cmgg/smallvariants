@@ -17,6 +17,12 @@ extra_fn_clean_exts:
   - type: regex_keep
     pattern: "^[^\\.]*"
     module: bcftools
+  - type: regex
+    pattern: "_summary_msi$"
+  - type: regex
+    pattern: "_all_msi$"
+
+template: "cmgg"
 
 mosdepth_config:
   general_stats_coverage:
