@@ -1026,6 +1026,10 @@
 <td><code>vardict_min_af</code></td>
 <td>OPTIONAL - The minimum AF value to use for the vardict variant caller (<code>--callers vardict</code>). This can be set in the samplesheet when it differs for all samples. A default can be set using the <code>--vardict_min_af</code> parameter (whichs defaults to 0.1)</td>
 </tr>
+<tr>
+<td><code>msi</code></td>
+<td>OPTIONAL - Set this to <code>true</code> when MSI calling should be performed on this sample. MSI calling is only done when a CRAM file is supplied and a baseline file has been provided via the <code>--msi_baseline</code> parameter. (By default this option is <code>false</code>)</td>
+</tr>
 </tbody>
 </table>
 <!-- prettier-ignore -->
