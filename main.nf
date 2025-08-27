@@ -206,7 +206,7 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        SMALLVARIANTS.out.multiqc_report
+        SMALLVARIANTS.out.multiqc_report.toList()
     )
 
     publish:
@@ -290,10 +290,10 @@ output {
         updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
     } }
     multiqc { path { report ->
-        report[0] >> "${params.unique_out}/multiqc_report.html"
+        report >> "${params.unique_out}/multiqc_report.html"
     } }
-    multiqc_data { path { folder ->
-        folder >> "${params.unique_out}/multiqc_data"
+    multiqc_data { path { _folder ->
+        "${params.unique_out}/"
     } }
 }
 
