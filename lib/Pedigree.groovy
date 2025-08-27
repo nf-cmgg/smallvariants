@@ -52,9 +52,10 @@ class Pedigree {
 
     public Map<String,Path> writePeds(WorkflowMetadata workflow) {
         def Map<String,Path> returnMap = [:]
-        Nextflow.file("${workflow.workDir}/peds_${workflow.runName}").mkdir()
+        def String workdir = workflow.workDir.toUri()
+        Nextflow.file("${workdir}/peds_${workflow.runName}").mkdir()
         pedigrees.each { String family, List<PedigreeEntry> entries ->
-            def Path pedFile = Nextflow.file("${workflow.workDir}/peds_${workflow.runName}/${family}.ped")
+            def Path pedFile = Nextflow.file("${workdir}/peds_${workflow.runName}/${family}.ped")
             pedFile.text = entries.collect { it.toLine() }.join("")
             returnMap[family] = pedFile
         }
