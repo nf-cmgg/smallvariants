@@ -210,24 +210,24 @@ workflow {
     )
 
     publish:
-    merged_crams        = SMALLVARIANTS.out.merged_crams
-    mosdepth_reports    = SMALLVARIANTS.out.mosdepth_reports
-    gvcfs               = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
-    msi                 = SMALLVARIANTS.out.msi
-    single_beds         = SMALLVARIANTS.out.single_beds
-    perbase_beds        = SMALLVARIANTS.out.perbase_beds
-    validation          = SMALLVARIANTS.out.validation
-    gvcf_reports        = SMALLVARIANTS.out.gvcf_reports
-    genomicsdb          = SMALLVARIANTS.out.genomicsdb
-    vcfs                = SMALLVARIANTS.out.vcfs
-    gemini              = SMALLVARIANTS.out.gemini
-    peds                = SMALLVARIANTS.out.peds
-    joint_beds          = SMALLVARIANTS.out.joint_beds
-    final_reports       = SMALLVARIANTS.out.final_reports
-    automap             = SMALLVARIANTS.out.automap
-    updio               = SMALLVARIANTS.out.updio
-    multiqc             = SMALLVARIANTS.out.multiqc_report
-    multiqc_data        = SMALLVARIANTS.out.multiqc_data
+    merged_crams        = SMALLVARIANTS.out.merged_crams.view { "merged_crams: ${it}"}
+    mosdepth_reports    = SMALLVARIANTS.out.mosdepth_reports.view { "mosdepth_reports: ${it}"}
+    gvcfs               = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) }.view { "gvcfs: ${it}" } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
+    msi                 = SMALLVARIANTS.out.msi.view { "msi: ${it}"}
+    single_beds         = SMALLVARIANTS.out.single_beds.view { "single_beds: ${it}"}
+    perbase_beds        = SMALLVARIANTS.out.perbase_beds.view { "perbase_beds: ${it}"}
+    validation          = SMALLVARIANTS.out.validation.view { "validation: ${it}"}
+    gvcf_reports        = SMALLVARIANTS.out.gvcf_reports.view { "gvcf_reports: ${it}"}
+    genomicsdb          = SMALLVARIANTS.out.genomicsdb.view { "genomicsdb: ${it}"}
+    vcfs                = SMALLVARIANTS.out.vcfs.view { "vcfs: ${it}"}
+    gemini              = SMALLVARIANTS.out.gemini.view { "gemini: ${it}"}
+    peds                = SMALLVARIANTS.out.peds.view { "peds: ${it}"}
+    joint_beds          = SMALLVARIANTS.out.joint_beds.view { "joint_beds: ${it}"}
+    final_reports       = SMALLVARIANTS.out.final_reports.view { "final_reports: ${it}"}
+    automap             = SMALLVARIANTS.out.automap.view { "automap: ${it}"}
+    updio               = SMALLVARIANTS.out.updio.view { "updio: ${it}"}
+    multiqc             = SMALLVARIANTS.out.multiqc_report.view { "multiqc: ${it}" }
+    multiqc_data        = SMALLVARIANTS.out.multiqc_data.view { "multiqc_data: ${it}" }
 }
 
 output {
