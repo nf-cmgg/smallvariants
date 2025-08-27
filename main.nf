@@ -226,7 +226,7 @@ workflow {
     final_reports       = SMALLVARIANTS.out.final_reports
     automap             = SMALLVARIANTS.out.automap
     updio               = SMALLVARIANTS.out.updio
-    // multiqc             = SMALLVARIANTS.out.multiqc_report
+    multiqc             = SMALLVARIANTS.out.multiqc_report
     // multiqc_data        = SMALLVARIANTS.out.multiqc_data
 }
 
