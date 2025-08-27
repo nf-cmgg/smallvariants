@@ -290,14 +290,10 @@ output {
         updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
     } }
     multiqc { path { report ->
-        log.info("MultiQC report generated at: ${report}")
         report >> "${params.unique_out}/multiqc_report.html"
-        log.info("MultiQC report files published: ${report}")
     } }
     multiqc_data { path { folder ->
-        log.info("MultiQC data generated at: ${folder}")
         folder >> "${params.unique_out}/multiqc_data"
-        log.info("MultiQC data files published: ${folder}")
     } }
 }
 
