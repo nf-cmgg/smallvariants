@@ -289,9 +289,9 @@ output {
     updio { path { meta, updio ->
         updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
     } }
-    // multiqc { path { report ->
-    //     report >> "${params.unique_out}/multiqc_report.html"
-    // } }
+    multiqc { path { report ->
+        report >> "${params.unique_out}/multiqc_report.html"
+    } }
     // multiqc_data { path { folder ->
     //     folder >> "${params.unique_out}/multiqc_data"
     // } }
