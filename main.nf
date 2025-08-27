@@ -227,7 +227,7 @@ workflow {
     automap             = SMALLVARIANTS.out.automap
     updio               = SMALLVARIANTS.out.updio
     multiqc             = SMALLVARIANTS.out.multiqc_report
-    // multiqc_data        = SMALLVARIANTS.out.multiqc_data
+    multiqc_data        = SMALLVARIANTS.out.multiqc_data
 }
 
 output {
@@ -292,9 +292,9 @@ output {
     multiqc { path { report ->
         report >> "${params.unique_out}/multiqc_report.html"
     } }
-    // multiqc_data { path { folder ->
-    //     folder >> "${params.unique_out}/multiqc_data"
-    // } }
+    multiqc_data { path { _folder ->
+        "${params.unique_out}/"
+    } }
 }
 
 /*

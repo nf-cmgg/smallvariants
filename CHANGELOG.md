@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Fixes
 
-1. Fixed PED file writing on cloud platforms
+1. Fixed PED file writing on cloud platforms.
+2. Fixed publishing of the MultiQC data directory throwing a `NullPointerException`.
 
 ## v1.10.1 - Mighty Mechelen - [May 26 2025]
 
