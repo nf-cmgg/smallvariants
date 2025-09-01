@@ -11,6 +11,10 @@
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_all_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_dis_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_summary_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_unstable_msi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz",
@@ -20,6 +24,10 @@
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_all_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_dis_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_summary_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_unstable_msi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz",
@@ -43,7 +51,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:40:04.509699536"
+        "timestamp": "2025-06-24T16:19:39.591022899"
     },
     "pipeline_callers - vardict + haplotypecaller": {
         "content": [
@@ -57,6 +65,10 @@
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_all_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_dis_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_summary_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_unstable_msi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.haplotypecaller.g.vcf.gz",
@@ -66,6 +78,10 @@
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_all_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_dis_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_summary_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_unstable_msi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.haplotypecaller.g.vcf.gz",
@@ -104,7 +120,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:43:29.234774728"
+        "timestamp": "2025-06-24T16:20:57.091816318"
     },
     "pipeline_callers - vardict": {
         "content": [
@@ -115,12 +131,20 @@
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.global.dist.txt",
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.region.dist.txt",
                 "Ashkenazim/NA24143_<version>_<date>/mosdepth/NA24143.summary.txt",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_all_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_dis_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_summary_msi",
+                "Ashkenazim/NA24143_<version>_<date>/msi/NA24143_unstable_msi",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.bed",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz",
                 "Ashkenazim/NA24149_<version>_<date>/NA24149.per-base.bed.gz.csi",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.global.dist.txt",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.region.dist.txt",
                 "Ashkenazim/NA24149_<version>_<date>/mosdepth/NA24149.summary.txt",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_all_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_dis_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_summary_msi",
+                "Ashkenazim/NA24149_<version>_<date>/msi/NA24149_unstable_msi",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.bed",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz",
                 "Ashkenazim/NA24385_<version>_<date>/NA24385.per-base.bed.gz.csi",
@@ -150,6 +174,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-21T11:37:36.502218888"
+        "timestamp": "2025-06-24T16:18:39.878841589"
     }
 }

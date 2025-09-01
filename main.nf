@@ -166,6 +166,7 @@ workflow {
         params.outdir,
         GlobalVariables.pedFiles,
         params.elsites,
+        params.msi_baseline,
 
         // Boolean inputs
         params.dragstr,
@@ -205,13 +206,14 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        SMALLVARIANTS.out.multiqc_report
+        SMALLVARIANTS.out.multiqc_report.toList()
     )
 
     publish:
     merged_crams        = SMALLVARIANTS.out.merged_crams
     mosdepth_reports    = SMALLVARIANTS.out.mosdepth_reports
     gvcfs               = SMALLVARIANTS.out.gvcfs.filter { _meta, gvcf, _tbi -> gvcf.startsWith(workflow.workDir) } // Filtering out input GVCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
+    msi                 = SMALLVARIANTS.out.msi
     single_beds         = SMALLVARIANTS.out.single_beds
     perbase_beds        = SMALLVARIANTS.out.perbase_beds
     validation          = SMALLVARIANTS.out.validation
@@ -242,6 +244,9 @@ output {
     gvcfs { path { meta, gvcf, tbi ->
         gvcf >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz"
         tbi >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.g.vcf.gz.tbi"
+    } }
+    msi { path { meta, msi ->
+        msi >> "${meta.family}/${meta.id}_${params.unique_out}/msi/${msi.name}"
     } }
     single_beds { path { meta, bed ->
         bed >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.bed"
@@ -285,10 +290,10 @@ output {
         updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
     } }
     multiqc { path { report ->
-        report[0] >> "${params.unique_out}/multiqc_report.html"
+        report >> "${params.unique_out}/multiqc_report.html"
     } }
-    multiqc_data { path { folder ->
-        folder >> "${params.unique_out}/multiqc_data"
+    multiqc_data { path { _folder ->
+        "${params.unique_out}/"
     } }
 }
 

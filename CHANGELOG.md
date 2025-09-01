@@ -3,7 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.10.1 - Mighty Mechelen
+## v1.11.0 - Generous Ghent - [Sept 1 2025]
+
+## New features
+
+1. Added a new option to the samplesheet (`msi`). This option takes a boolean to indicate whether or not the MSI status of the sample should be checked. A baseline should be provided using the `--msi_baseline` parameter to run MSI calling.
+2. The Multiqc module now generates branded reports.
+
+## Fixes
+
+1. Fixed PED file writing on cloud platforms.
+2. Fixed publishing of the MultiQC data directory throwing a `NullPointerException`.
+3. QUAL scores of 256 are no longer converted to `.` (due to a VCFanno bug).
+
+## v1.10.1 - Mighty Mechelen - [May 26 2025]
 
 ## Fixes
 

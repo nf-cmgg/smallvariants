@@ -129,6 +129,12 @@
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/mosdepth/mosdepth.diff"
                     },
+                    "msisensorpro/pro": {
+                        "branch": "master",
+                        "git_sha": "fafa7b3a577412b6bde309170408da4cb911f04b",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/msisensorpro/pro/msisensorpro-pro.diff"
+                    },
                     "multiqc": {
                         "branch": "master",
                         "git_sha": "b8d36829fa84b6e404364abff787e8b07f6d058c",
@@ -210,7 +216,7 @@
                     },
                     "vcfanno": {
                         "branch": "master",
-                        "git_sha": "b1137e22798227331c9a9a12bd92bd6e865865c5",
+                        "git_sha": "15e7f217661be7e332950289735bd790079873fe",
                         "installed_by": ["modules"]
                     }
                 }

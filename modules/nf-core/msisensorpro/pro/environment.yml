@@ -3,7 +3,5 @@
 channels:
   - conda-forge
   - bioconda
-
 dependencies:
-  - bioconda::htslib=1.22.1
-  - bioconda::vcfanno=0.3.7
+  - bioconda::msisensor-pro=1.3.0

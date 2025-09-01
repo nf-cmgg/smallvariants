@@ -50,6 +50,7 @@ include { TABIX_TABIX as TABIX_TRUTH                                 } from '../
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
 include { MULTIQC                                                    } from '../modules/nf-core/multiqc/main'
+include { MSISENSORPRO_PRO                                           } from '../modules/nf-core/msisensorpro/pro/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,6 +101,7 @@ workflow SMALLVARIANTS {
     outdir                      // string: path to the output directory
     pedFiles                    // map:    a map that has the family ID as key and a PED file as value
     elsites                     // string: path to the elsites file for elprep
+    msi_baseline                // string: path to the msi_baseline file
 
     // Boolean inputs
     dragstr                     // boolean: create a dragstr model and use it for haplotypecaller
@@ -164,6 +166,8 @@ workflow SMALLVARIANTS {
     def ch_automap_panel      = automap_panel       ? Channel.fromPath(automap_panel).map{ panel -> [[id:"automap_panel"], panel] }.collect() : [[],[]]
 
     def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
+
+    def ch_msi_baseline       = msi_baseline        ? Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
 
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
@@ -444,6 +448,38 @@ workflow SMALLVARIANTS {
             cram: [meta, cram, crai, bed]
             bam: [meta, bam, bai, bed]
         }
+
+    //
+    // Check for MSI
+    //
+
+    def msi_warned = false
+    def ch_msi_samples = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams
+        .filter { meta, _cram, _crai ->
+            if(!msi_baseline) {
+                if(!msi_warned) {
+                    log.warn("MSI samples were found, but no MSI baseline file was provided. Please provide a baseline file using the '--msi_baseline' parameter. Skipping MSI analysis...")
+                }
+                msi_warned = true
+                return false
+            }
+            return meta.msi
+        }
+
+    MSISENSORPRO_PRO(
+        ch_msi_samples,
+        ch_msi_baseline,
+        ch_fasta_ready,
+        ch_fai_ready
+    )
+    ch_msisensor_output = MSISENSORPRO_PRO.out.all_msi.mix(
+        MSISENSORPRO_PRO.out.summary_msi,
+        MSISENSORPRO_PRO.out.dis_msi,
+        MSISENSORPRO_PRO.out.unstable_msi
+    )
+    ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.all_msi.map { _meta, file -> file})
+    ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.summary_msi.map { _meta, file -> file})
+    ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
 
     def ch_calls = Channel.empty()
     def ch_gvcf_reports = Channel.empty()
@@ -871,6 +907,7 @@ workflow SMALLVARIANTS {
     merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
     mosdepth_reports    = ch_mosdepth_reports           // channel: [ val(meta), path(mosdepth_report) ]
     gvcfs               = ch_gvcfs_ready                // channel: [ val(meta), path(gvcf), path(tbi) ]
+    msi                 = ch_msisensor_output           // channel: [ val(meta), path(file) ]
     genomicsdb          = ch_final_genomicsdb           // channel: [ val(meta), path(genomicsdb) ]
     vcfs                = ch_final_vcfs                 // channel: [ val(meta), path(vcf), path(tbi) ]
     gemini              = ch_final_dbs                  // channel: [ val(meta), path(db) ]
@@ -883,7 +920,7 @@ workflow SMALLVARIANTS {
     automap             = ch_final_automap              // channel: [ val(meta), path(automap) ]
     updio               = ch_final_updio                // channel: [ val(meta), path(updio) ]
     validation          = ch_final_validation           // channel: [ val(meta), path(file) ]
-    multiqc_report      = MULTIQC.out.report.toList()   // channel: /path/to/multiqc_report.html
+    multiqc_report      = MULTIQC.out.report            // channel: /path/to/multiqc_report.html
     multiqc_data        = MULTIQC.out.data              // channel: /path/to/multiqc_data
     versions            = ch_versions                   // channel: [ path(versions.yml) ]
 }
