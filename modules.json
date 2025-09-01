@@ -216,7 +216,7 @@
                     },
                     "vcfanno": {
                         "branch": "master",
-                        "git_sha": "b1137e22798227331c9a9a12bd92bd6e865865c5",
+                        "git_sha": "15e7f217661be7e332950289735bd790079873fe",
                         "installed_by": ["modules"]
                     }
                 }
