@@ -11,9 +11,12 @@ lint:
   - .github/workflows/awsfulltest.yml
   - .github/workflows/template_version_comment.yml
   - docs/README.md
-  - .github/workflows/nf-test.yml                                                                                                         │
-  - .github/actions/get-shards/action.yml                                                                                                 │
-  - .github/actions/nf-test/action.yml                                                                                                    │
+  - .github/workflows/nf-test.yml                                                                                                         
+    │
+  - .github/actions/get-shards/action.yml                                                                                                 
+    │
+  - .github/actions/nf-test/action.yml                                                                                                    
+    │
   - tests/default.nf.test
   files_unchanged:
   - .github/CONTRIBUTING.md
@@ -38,7 +41,7 @@ nf_core_version: 3.2.0
 repository_type: pipeline
 template:
   author: nvnieuwk
-  description: A nextflow pipeline for calling and annotating small
+  description: A nextflow pipeline for calling and annotating small 
     smallvariants variants from short DNA reads for WES and WGS data
   force: false
   is_nfcore: false
@@ -48,4 +51,4 @@ template:
   skip_features:
   - fastqc
   - is_nfcore
-  version: 1.11.0
+  version: 1.12.0dev
