@@ -41,6 +41,7 @@ params.alphamissense        = getGenomeAttribute('alphamissense', params.genomes
 params.alphamissense_tbi    = getGenomeAttribute('alphamissense_tbi', params.genomes, params.genome)
 params.vcfanno_resources    = getGenomeAttribute('vcfanno_resources', params.genomes, params.genome)
 params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
+params.maxentscan           = getGenomeAttribute('maxentscan', params.genomes, params.genome)
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,6 +153,7 @@ workflow {
         params.eog_tbi,
         params.alphamissense,
         params.alphamissense_tbi,
+        params.maxentscan,
         params.vcfanno_resources,
         params.vcfanno_config,
         params.multiqc_config,
@@ -186,6 +188,7 @@ workflow {
         params.vep_mastermind,
         params.vep_eog,
         params.vep_alphamissense,
+        params.vep_maxentscan,
 
         // Value inputs
         params.genome,
