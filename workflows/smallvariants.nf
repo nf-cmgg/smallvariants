@@ -87,6 +87,7 @@ workflow SMALLVARIANTS {
     eog_tbi                     // string: path to the index of the EOG file
     alphamissense               // string: path to the Alphamissense file
     alphamissense_tbi           // string: path to the index of the Alphamissense file
+    maxentscan                  // string: path to the MaxEntScan directory
     vcfanno_resources           // string: semicolon-separated paths/globs to the VCFanno resources
     vcfanno_config              // string: path to VCFanno config TOML
     multiqc_config              // string: path to the multiqc config file
@@ -121,6 +122,7 @@ workflow SMALLVARIANTS {
     vep_mastermind              // boolean: use the Mastermind VEP plugin
     vep_eog                     // boolean: use the EOG VEP plugin
     vep_alphamissense           // boolean: use the AlphaMissense VEP plugin
+    vep_maxentscan              // boolean: use the MaxEntScan VEP plugin
 
     // Value inputs
     genome                      // string:  the genome used by the pipeline run
@@ -221,6 +223,14 @@ workflow SMALLVARIANTS {
         }
         else if (vep_alphamissense) {
             error("Please specify '--vep_alphamissense true', '--alphamissense PATH/TO/ALPHAMISSENSE/FILE' and '--alphamissense_tbi PATH/TO/ALPHAMISSENSE/INDEX/FILE' to use the AlphaMissense VEP plugin.")
+        }
+
+        // Check if all maxentscan files are given
+        if (maxentscan && vep_maxentscan) {
+            ch_vep_extra_files.add(file(maxentscan, checkIfExists: true))
+        }
+        else if (vep_maxentscan) {
+            error("Please specify '--vep_maxentscan true' and '--maxentscan PATH/TO/MAXENTSCAN/DIRECTORY' to use the MaxEntScan VEP plugin.")
         }
     }
 

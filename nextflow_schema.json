@@ -658,6 +658,13 @@
                     "pattern": "^\\S+\\.(csi|tbi)$",
                     "exists": true
                 },
+                "maxentscan": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Path to the directory containing the MaxEntScan reference annotations.",
+                    "pattern": "^\\S+$",
+                    "exists": true
+                },
                 "vcfanno": {
                     "type": "boolean",
                     "description": "Run annotations with vcfanno."
