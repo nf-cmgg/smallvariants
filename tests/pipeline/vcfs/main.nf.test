@@ -6,8 +6,6 @@ nextflow_pipeline {
     tag "pipeline"
     tag "pipeline_gvcfs"
 
-    options "-stub"
-
     test("pipeline_postprocessing - vcfs") {
 
         when {
@@ -19,6 +17,40 @@ nextflow_pipeline {
                 normalize = true
                 updio     = true
                 automap   = true
+                ped = "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert !workflow.stdout },
+                { assert snapshot(
+                    path("${outputDir}")
+                        .list()
+                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .flatten()
+                        .findAll {
+                            !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
+                        }
+                        .collect {
+                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                        }
+                ).match() }
+            )
+        }
+
+    }
+
+    test("pipeline_postprocessing - vcfs - updio regions") {
+
+        when {
+            params {
+                outdir = "${outputDir}"
+                input = "${baseDir}/tests/inputs/samplesheet_vcf.csv"
+                updio     = true
+                updio_regions = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/illumina/regions/roi.bed"
+                ped = "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped"
             }
         }
 
