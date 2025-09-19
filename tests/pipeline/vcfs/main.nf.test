@@ -1,0 +1,59 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+    tag "pipeline"
+    tag "pipeline_gvcfs"
+
+    options "-stub"
+
+    test("pipeline_postprocessing - vcfs") {
+
+        when {
+            params {
+                outdir = "${outputDir}"
+                input = "${baseDir}/tests/inputs/samplesheet_vcf.csv"
+                gemini    = true
+                add_ped   = true
+                normalize = true
+                updio     = true
+                automap   = true
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert !workflow.stdout },
+                { assert snapshot(
+                    path("${outputDir}")
+                        .list()
+                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .flatten()
+                        .findAll {
+                            !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
+                        }
+                        .collect {
+                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                        }
+                ).match() }
+            )
+        }
+
+    }
+
+}
+
+def getRecursiveFileNames(fileOrDir, outputDir) {
+    if(file(fileOrDir.toString()).isDirectory()) {
+        return fileOrDir.list().collect { getRecursiveFileNames(it, outputDir) }
+    }
+    return fileOrDir.toString().replace("${outputDir}/", "")
+}
+
+def getDynamicOutputName() {
+    def Map nfcoreYaml = new groovy.yaml.YamlSlurper().parseText(file(".nf-core.yml").text)
+    def date = new java.text.SimpleDateFormat("yyyy_MM_dd").format(new Date())
+    return "v${nfcoreYaml.template.version.replace('.', '_')}_${date}" as String
+}

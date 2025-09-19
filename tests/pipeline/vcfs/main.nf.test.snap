@@ -1,0 +1,25 @@
+{
+    "pipeline_postprocessing - vcfs": {
+        "content": [
+            [
+                "Ashkenazim/output_<version>_<date>/Ashkenazim.input.db",
+                "Ashkenazim/output_<version>_<date>/Ashkenazim.input.ped",
+                "Ashkenazim/output_<version>_<date>/Ashkenazim.input.vcf.gz",
+                "Ashkenazim/output_<version>_<date>/Ashkenazim.input.vcf.gz.tbi",
+                "Ashkenazim/output_<version>_<date>/automap/input/Ashkenazim.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/input/Ashkenazim.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/input/Ashkenazim.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/input/Ashkenazim.HomRegions.tsv",
+                "Ashkenazim/qc_<version>_<date>/Ashkenazim.input.bcftools_stats.txt",
+                "Ashkenazim/qc_<version>_<date>/Ashkenazim.input.html",
+                "<version>_<date>/multiqc_report.html",
+                "<version>_<date>/samplesheet.csv"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-09-19T16:26:52.745923461"
+    }
+}
