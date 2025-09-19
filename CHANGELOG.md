@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Added the `--maxentscan` parameter to specify the path to the MaxEntScan directory. This is required when using the MaxEntScan VEP plugin.
 2. Added the `vcf` and `tbi` fields to the samplesheet to allow for joint genotyping of VCF files as input of the pipeline. Only postprocessing analysis will be run on these VCFs.
+3. Added the `--updio_regions` parameter to specify a BED file with regions to be used by UPDio.
 
 ## Changes
 

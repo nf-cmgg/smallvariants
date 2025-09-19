@@ -319,6 +319,12 @@
                     "pattern": "^\\S+\\.txt$",
                     "exists": true
                 },
+                "updio_regions": {
+                    "type": "string",
+                    "description": "BED file with regions to be used by UPDio.",
+                    "pattern": "^\\S+\\.bed$",
+                    "exists": true
+                },
                 "automap_panel_name": {
                     "type": "string",
                     "default": "cmgg_bio",

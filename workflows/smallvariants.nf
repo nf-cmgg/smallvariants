@@ -105,6 +105,7 @@ workflow SMALLVARIANTS {
     pedFiles                    // map:    a map that has the family ID as key and a PED file as value
     elsites                     // string: path to the elsites file for elprep
     msi_baseline                // string: path to the msi_baseline file
+    updio_regions               // string: path to the BED file with regions to be used by UPDio
 
     // Boolean inputs
     dragstr                     // boolean: create a dragstr model and use it for haplotypecaller
@@ -172,6 +173,8 @@ workflow SMALLVARIANTS {
     def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
     def ch_msi_baseline       = msi_baseline        ? Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
+
+    def ch_updio_regions      = updio_regions       ? Channel.value(file(updio_regions)) : []
 
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
@@ -890,7 +893,8 @@ workflow SMALLVARIANTS {
             VCF_UPD_UPDIO(
                 ch_final_vcfs,
                 ch_final_peds,
-                ch_updio_common_cnvs
+                ch_updio_common_cnvs,
+                ch_updio_regions
             )
             ch_versions = ch_versions.mix(VCF_UPD_UPDIO.out.versions)
             ch_final_updio = VCF_UPD_UPDIO.out.updio

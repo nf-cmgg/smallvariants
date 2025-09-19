@@ -169,6 +169,7 @@ workflow {
         GlobalVariables.pedFiles,
         params.elsites,
         params.msi_baseline,
+        params.updio_regions,
 
         // Boolean inputs
         params.dragstr,
