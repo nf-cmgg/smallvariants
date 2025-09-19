@@ -61,7 +61,7 @@ workflow WATCHPATH_HANDLING {
             }
 
             // Pipeline logic
-            def ped = row[6]
+            def ped = row[8]
             if (ped) {
                 pedigree.addPedContent(ped)
             }

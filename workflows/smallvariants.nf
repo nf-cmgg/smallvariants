@@ -44,8 +44,10 @@ include { UNTAR                                                      } from '../
 include { ENSEMBLVEP_DOWNLOAD                                        } from '../modules/nf-core/ensemblvep/download/main'
 include { BCFTOOLS_STATS                                             } from '../modules/nf-core/bcftools/stats/main'
 include { BCFTOOLS_NORM                                              } from '../modules/nf-core/bcftools/norm/main'
+include { BCFTOOLS_GETSAMPLES                                        } from '../modules/local/bcftools/getsamples/main'
 include { TABIX_TABIX as TABIX_DBSNP                                 } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_GVCF                                  } from '../modules/nf-core/tabix/tabix/main'
+include { TABIX_TABIX as TABIX_VCF                                   } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_TRUTH                                 } from '../modules/nf-core/tabix/tabix/main'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
@@ -350,7 +352,7 @@ workflow SMALLVARIANTS {
     def usedGvcfCallers = callers.intersect(GlobalVariables.gvcfCallers)
 
     def ch_input = ch_samplesheet
-        .multiMap { meta, cram, crai, gvcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed ->
+        .multiMap { meta, cram, crai, gvcf, gtbi, vcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed ->
             // Error checks that were not possible using nf-schema
             if (gvcf && usedGvcfCallers.size() >= 2) {
                 error("GVCF input is not supported for runs that use more than one caller that produces a GVCF output")
@@ -358,13 +360,26 @@ workflow SMALLVARIANTS {
             if (gvcf && validate) {
                 error("Validation is not supported for GVCF inputs, use CRAM files instead when using `--validate`.")
             }
+            if (vcf && validate) {
+                error("Validation is not supported for VCF inputs, use CRAM files instead when using `--validate`.")
+            }
+
+            // Don't analyse CRAM and GVCF when VCF is given
+            if (vcf && (cram || crai || gvcf || gtbi)) {
+                log.warn("Found a VCF file for family ${meta.family}, skipping all analysis on CRAM and GVCF files")
+                cram = []
+                crai = []
+                gvcf = []
+                gtbi = []
+            }
 
             // Divide the input files into their corresponding channel
             def new_meta = meta + [
-                type: gvcf && cram ? "gvcf_cram" : gvcf ? "gvcf" : "cram" // Define the type of input data
+                type: vcf ? "vcf" : gvcf && cram ? "gvcf_cram" : gvcf ? "gvcf" : "cram" // Define the type of input data
             ]
 
             def new_meta_validation = meta.subMap(["id", "sample", "family", "duplicate_count"])
+            def new_meta_vcf = meta + [id:meta.family, caller:"input"] - meta.subMap(["sample", "vardict_min_af"])
 
             def new_meta_gvcf = meta
             if (usedGvcfCallers.size() == 1) {
@@ -372,9 +387,44 @@ workflow SMALLVARIANTS {
             }
 
             truth_variants: [new_meta_validation, truth_vcf, truth_tbi, truth_bed] // Optional channel containing the truth VCF, its index and the optional BED file
-            gvcf:           [new_meta, gvcf, tbi] // Optional channel containing the GVCFs and their optional indices
+            gvcf:           [new_meta, gvcf, gtbi] // Optional channel containing the GVCFs and their optional indices
             cram:           [new_meta, cram, crai]  // Mandatory channel containing the CRAM files and their optional indices
             roi:            [new_meta, roi_file] // Optional channel containing the ROI BED files for WES samples
+            vcf:            [new_meta_vcf, vcf, tbi] // Optional channel containing the VCFs and their optional indices
+        }
+
+    //
+    // Handle the vcf branch
+    //
+
+    def ch_vcf_branch = ch_input.vcf
+        .filter { _meta, vcf, _tbi -> vcf } // Filter out samples that have no VCF
+        .branch { meta, vcf, tbi ->
+            no_tbi: !tbi
+                return [ meta, vcf ]
+            tbi:    tbi
+                return [ meta, vcf, tbi ]
+        }
+
+    TABIX_VCF(
+        ch_vcf_branch.no_tbi
+    )
+    ch_versions = ch_versions.mix(TABIX_VCF.out.versions.first())
+
+    def ch_indexed_vcfs = ch_vcf_branch.no_tbi
+        .join(TABIX_VCF.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .mix(ch_vcf_branch.tbi)
+
+    BCFTOOLS_GETSAMPLES(
+        ch_indexed_vcfs
+    )
+    ch_versions = ch_versions.mix(BCFTOOLS_GETSAMPLES.out.versions.first())
+
+    def ch_vcfs_ready = BCFTOOLS_GETSAMPLES.out.samples
+        .join(ch_indexed_vcfs, failOnDuplicate:true, failOnMismatch:true)
+        .map { meta, samples, vcf, tbi ->
+            def new_meta = meta + [family_samples: samples.text.readLines().join(",")]
+            [ new_meta, vcf, tbi ]
         }
 
     //
@@ -491,7 +541,7 @@ workflow SMALLVARIANTS {
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.summary_msi.map { _meta, file -> file})
     ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
 
-    def ch_calls = Channel.empty()
+    def ch_calls = ch_vcfs_ready
     def ch_gvcf_reports = Channel.empty()
     if("haplotypecaller" in callers) {
         //
