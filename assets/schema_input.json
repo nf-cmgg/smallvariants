@@ -64,7 +64,7 @@
                     }
                 ]
             },
-            "tbi": {
+            "gtbi": {
                 "oneOf": [
                     {
                         "type": "string",
@@ -78,6 +78,18 @@
                         "format": "file-path"
                     }
                 ]
+            },
+            "vcf": {
+                "type": "string",
+                "pattern": "^\\S+\\.vcf(\\.gz)?$",
+                "format": "file-path",
+                "exists": true
+            },
+            "tbi": {
+                "type": "string",
+                "pattern": "^\\S+\\.vcf\\.gz\\.tbi$",
+                "format": "file-path",
+                "exists": true
             },
             "roi": {
                 "type": "string",
@@ -119,12 +131,23 @@
                 "meta": "msi"
             }
         },
-        "required": ["sample"]
+        "oneOf": [
+            {
+                "required": ["sample", "cram"]
+            },
+            {
+                "required": ["sample", "gvcf"]
+            },
+            {
+                "required": ["family", "vcf"]
+            }
+        ]
     },
     "dependentRequired": {
         "truth_tbi": ["truth_vcf"],
         "truth_bed": ["truth_vcf"],
-        "tbi": ["gvcf"],
+        "gtbi": ["gvcf"],
+        "tbi": ["vcf"],
         "crai": ["cram"]
     }
 }
