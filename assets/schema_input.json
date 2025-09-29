@@ -11,7 +11,8 @@
                 "type": "string",
                 "pattern": "^[a-zA-Z0-9_\\.]+$",
                 "meta": ["id", "sample"],
-                "errorMessage": "Sample name should be a string that may contain underscores (_) and dots (.)"
+                "errorMessage": "Sample name should be a string that may contain underscores (_) and dots (.)",
+                "default": ""
             },
             "family": {
                 "type": "string",
@@ -64,7 +65,7 @@
                     }
                 ]
             },
-            "tbi": {
+            "gtbi": {
                 "oneOf": [
                     {
                         "type": "string",
@@ -78,6 +79,18 @@
                         "format": "file-path"
                     }
                 ]
+            },
+            "vcf": {
+                "type": "string",
+                "pattern": "^\\S+\\.vcf(\\.gz)?$",
+                "format": "file-path",
+                "exists": true
+            },
+            "tbi": {
+                "type": "string",
+                "pattern": "^\\S+\\.vcf\\.gz\\.tbi$",
+                "format": "file-path",
+                "exists": true
             },
             "roi": {
                 "type": "string",
@@ -119,12 +132,23 @@
                 "meta": "msi"
             }
         },
-        "required": ["sample"]
+        "anyOf": [
+            {
+                "required": ["sample", "cram"]
+            },
+            {
+                "required": ["sample", "gvcf"]
+            },
+            {
+                "required": ["family", "vcf"]
+            }
+        ]
     },
     "dependentRequired": {
         "truth_tbi": ["truth_vcf"],
         "truth_bed": ["truth_vcf"],
-        "tbi": ["gvcf"],
+        "gtbi": ["gvcf"],
+        "tbi": ["vcf"],
         "crai": ["cram"]
     }
 }

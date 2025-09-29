@@ -3,13 +3,14 @@
 //
 
 include { UPDIO             } from '../../../modules/local/updio/main'
-include { BCFTOOLS_FILTER   } from '../../../modules/nf-core/bcftools/filter'
+include { BCFTOOLS_VIEW     } from '../../../modules/nf-core/bcftools/view'
 
 workflow VCF_UPD_UPDIO {
     take:
-        ch_vcfs // channel: [mandatory] [ val(meta), path(vcf), path(tbi) ] => The post-processed VCFs
-        ch_peds // channel: [mandatory] [ val(meta), path(peds) ] => The PED files retrieved from SOMALIER_RELATE
-        ch_cnv  // value channel: [optional] [ val(meta), path(cnv) ] => A file with common CNVs to be used by updio
+        ch_vcfs     // channel: [mandatory] [ val(meta), path(vcf), path(tbi) ] => The post-processed VCFs
+        ch_peds     // channel: [mandatory] [ val(meta), path(peds) ] => The PED files retrieved from SOMALIER_RELATE
+        ch_cnv      // value channel: [optional] [ val(meta), path(cnv) ] => A file with common CNVs to be used by updio
+        ch_regions  // value channel: [optional] [ path(bed) ] => A BED file with regions to be used by updio
 
     main:
 
@@ -21,13 +22,16 @@ workflow VCF_UPD_UPDIO {
             meta.family_samples.tokenize(",").size() >= 3
         }
 
-    BCFTOOLS_FILTER(
-        ch_trio_vcfs
+    BCFTOOLS_VIEW(
+        ch_trio_vcfs,
+        ch_regions,
+        [],
+        []
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_FILTER.out.versions.first())
+    ch_versions = ch_versions.mix(BCFTOOLS_VIEW.out.versions.first())
 
-    def ch_filter_output = BCFTOOLS_FILTER.out.vcf
-        .join(BCFTOOLS_FILTER.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+    def ch_filter_output = BCFTOOLS_VIEW.out.vcf
+        .join(BCFTOOLS_VIEW.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
     def ch_trio_peds = ch_peds
         .filter { meta, _ped ->

@@ -169,6 +169,7 @@ workflow {
         GlobalVariables.pedFiles,
         params.elsites,
         params.msi_baseline,
+        params.updio_regions,
 
         // Boolean inputs
         params.dragstr,
@@ -222,7 +223,7 @@ workflow {
     validation          = SMALLVARIANTS.out.validation
     gvcf_reports        = SMALLVARIANTS.out.gvcf_reports
     genomicsdb          = SMALLVARIANTS.out.genomicsdb
-    vcfs                = SMALLVARIANTS.out.vcfs
+    vcfs                = SMALLVARIANTS.out.vcfs.filter { _meta, vcf, _tbi -> vcf.startsWith(workflow.workDir) } // Filtering out input VCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
     gemini              = SMALLVARIANTS.out.gemini
     peds                = SMALLVARIANTS.out.peds
     joint_beds          = SMALLVARIANTS.out.joint_beds

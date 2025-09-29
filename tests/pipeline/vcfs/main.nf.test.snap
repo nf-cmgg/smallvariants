@@ -1,0 +1,90 @@
+{
+    "pipeline_postprocessing - vcfs": {
+        "content": [
+            [
+                "Proband_12345/output_<version>_<date>/Proband_12345.input.db",
+                "Proband_12345/output_<version>_<date>/Proband_12345.input.ped",
+                "Proband_12345/output_<version>_<date>/Proband_12345.input.vcf.gz",
+                "Proband_12345/output_<version>_<date>/Proband_12345.input.vcf.gz.tbi",
+                "Proband_12345/output_<version>_<date>/automap/input/NA24143/NA24143.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/input/NA24149/NA24149.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/input/NA24385/NA24385.individual.vcf",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.events_list",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.log",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.table",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.upd",
+                "Proband_12345/qc_<version>_<date>/Proband_12345.input.bcftools_stats.txt",
+                "Proband_12345/qc_<version>_<date>/Proband_12345.input.html",
+                "<version>_<date>/multiqc_data/BETA-multiqc.parquet",
+                "<version>_<date>/multiqc_data/bcftools-stats-subtypes.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_indel-lengths.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_variant_depths.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_Indels.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_SNP.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_Transitions.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_Transversions.txt",
+                "<version>_<date>/multiqc_data/multiqc.log",
+                "<version>_<date>/multiqc_data/multiqc_bcftools_stats.txt",
+                "<version>_<date>/multiqc_data/multiqc_citations.txt",
+                "<version>_<date>/multiqc_data/multiqc_data.json",
+                "<version>_<date>/multiqc_data/multiqc_general_stats.txt",
+                "<version>_<date>/multiqc_data/multiqc_software_versions.txt",
+                "<version>_<date>/multiqc_data/multiqc_somalier.txt",
+                "<version>_<date>/multiqc_data/multiqc_sources.txt",
+                "<version>_<date>/multiqc_data/somalier_het_check_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_relatedness_heatmap_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_relatedness_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_sex_check_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_stats.txt",
+                "<version>_<date>/multiqc_report.html",
+                "<version>_<date>/samplesheet.csv"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-09-19T17:34:17.3010869"
+    },
+    "pipeline_postprocessing - vcfs - updio regions": {
+        "content": [
+            [
+                "Proband_12345/output_<version>_<date>/Proband_12345.input.ped",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.events_list",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.log",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.table",
+                "Proband_12345/output_<version>_<date>/updio/input/NA24385.upd",
+                "Proband_12345/qc_<version>_<date>/Proband_12345.input.bcftools_stats.txt",
+                "Proband_12345/qc_<version>_<date>/Proband_12345.input.html",
+                "<version>_<date>/multiqc_data/BETA-multiqc.parquet",
+                "<version>_<date>/multiqc_data/bcftools-stats-subtypes.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_indel-lengths.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_variant_depths.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_Indels.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_SNP.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_Transitions.txt",
+                "<version>_<date>/multiqc_data/bcftools_stats_vqc_Count_Transversions.txt",
+                "<version>_<date>/multiqc_data/multiqc.log",
+                "<version>_<date>/multiqc_data/multiqc_bcftools_stats.txt",
+                "<version>_<date>/multiqc_data/multiqc_citations.txt",
+                "<version>_<date>/multiqc_data/multiqc_data.json",
+                "<version>_<date>/multiqc_data/multiqc_general_stats.txt",
+                "<version>_<date>/multiqc_data/multiqc_software_versions.txt",
+                "<version>_<date>/multiqc_data/multiqc_somalier.txt",
+                "<version>_<date>/multiqc_data/multiqc_sources.txt",
+                "<version>_<date>/multiqc_data/somalier_het_check_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_relatedness_heatmap_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_relatedness_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_sex_check_plot.txt",
+                "<version>_<date>/multiqc_data/somalier_stats.txt",
+                "<version>_<date>/multiqc_report.html",
+                "<version>_<date>/samplesheet.csv"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-09-19T17:36:33.892911028"
+    }
+}
