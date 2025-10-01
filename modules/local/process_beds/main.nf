@@ -27,8 +27,8 @@ process PROCESS_BEDS {
     """
     ${unzip} ${bed} \\
         | grep ${args} \\
-        | bedtools merge ${args2} \\
         | bedtools sort -faidx ${fai} \\
+        | bedtools merge ${args2} \\
         ${intersect} \\
         > ${prefix}.bed
 
