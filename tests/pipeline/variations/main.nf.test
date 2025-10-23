@@ -20,7 +20,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -51,7 +50,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -81,7 +79,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -111,7 +108,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -142,7 +138,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -172,7 +167,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()

@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the nf-core/pipeline pipeline
+// Subworkflow with functionality specific to the nf-cmgg/smallvariants pipeline
 //
 
 /*
@@ -10,12 +10,12 @@
 
 include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap          } from 'plugin/nf-schema'
-include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { WATCHPATH_HANDLING        } from '../watchpath_handling'
+include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +35,10 @@ workflow PIPELINE_INITIALISATION {
     genomesMap        //     map: A map structure containing the references for each genome
     genome            //  string: The genome to use
     watchdir          //  string: The path to watch for input files
+    help              // boolean: Display help message and exit
+    help_full         // boolean: Show the full help message
+    show_hidden       // boolean: Show hidden parameters in the help message
+    unique_out        //  string: A unique name for the output folder to avoid overwriting previous runs
 
     main:
 
@@ -54,10 +58,19 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
+
+    def command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
+
     UTILS_NFSCHEMA_PLUGIN (
         workflow,
         validate_params,
-        null
+        null,
+        help,
+        help_full,
+        show_hidden,
+        "",
+        "",
+        command
     )
 
 
@@ -67,10 +80,11 @@ workflow PIPELINE_INITIALISATION {
     UTILS_NFCORE_PIPELINE (
         nextflow_cli_args
     )
+
     //
     // Custom validation for pipeline parameters
     //
-    validateInputParameters(genomesMap, genome)
+    validateInputParameters()
 
     //
     // Create channel from input file provided through params.input
@@ -84,7 +98,7 @@ workflow PIPELINE_INITIALISATION {
     )
 
     // Output the samplesheet
-    file(input).copyTo("${outdir}/${params.unique_out}/samplesheet.${file(input).extension}")
+    file(input).copyTo("${outdir}/${unique_out}/samplesheet.${file(input).extension}")
 
     emit:
     samplesheet = WATCHPATH_HANDLING.out.samplesheet
@@ -111,6 +125,7 @@ workflow PIPELINE_COMPLETION {
 
     main:
     def summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
+    def multiqc_reports = multiqc_report.toList()
 
     //
     // Completion email and summary
@@ -124,7 +139,7 @@ workflow PIPELINE_COMPLETION {
                 plaintext_email,
                 outdir,
                 monochrome_logs,
-                multiqc_report.toList()
+                multiqc_reports.getVal(),
             )
         }
 
@@ -147,8 +162,8 @@ workflow PIPELINE_COMPLETION {
 //
 // Check and validate pipeline parameters
 //
-def validateInputParameters(genomesMap, genome) {
-    genomeExistsError(genomesMap, genome)
+def validateInputParameters() {
+    genomeExistsError()
 }
 
 //
@@ -166,12 +181,12 @@ def getGenomeAttribute(attribute, genomesMap, genome) {
 //
 // Exit pipeline if incorrect --genome key provided
 //
-def genomeExistsError(genomesMap, genome) {
-    if (genomesMap && genome && !genomesMap.containsKey(genome)) {
+def genomeExistsError() {
+    if (params.genomes && params.genome && !params.genomes.containsKey(params.genome)) {
         def error_string = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-            "  Genome '${genome}' not found in any config files provided to the pipeline.\n" +
+            "  Genome '${params.genome}' not found in any config files provided to the pipeline.\n" +
             "  Currently, the available genome keys are:\n" +
-            "  ${genomesMap.keySet().join(", ")}\n" +
+            "  ${params.genomes.keySet().join(", ")}\n" +
             "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         error(error_string)
     }
@@ -198,7 +213,7 @@ def toolBibliographyText() {
 }
 
 def methodsDescriptionText(mqc_methods_yaml) {
-    // Convert  to a named map so can be used as with familar NXF ${workflow} variable syntax in the MultiQC YML file
+    // Convert  to a named map so can be used as with familiar NXF ${workflow} variable syntax in the MultiQC YML file
     def meta = [:]
     meta.workflow = workflow.toMap()
     meta["manifest_map"] = workflow.manifest.toMap()
@@ -210,12 +225,13 @@ def methodsDescriptionText(mqc_methods_yaml) {
         // Removing ` ` since the manifest.doi is a string and not a proper list
         def temp_doi_ref = ""
         def manifest_doi = meta.manifest_map.doi.tokenize(",")
-        temp_doi_ref = manifest_doi.collect { doi_ref ->
-            return "(doi: <a href=\'https://doi.org/${doi_ref.replace("https://doi.org/", "").replace(" ", "")}\'>${doi_ref.replace("https://doi.org/", "").replace(" ", "")}</a>), "
+        manifest_doi.each { doi_ref ->
+            temp_doi_ref += "(doi: <a href=\'https://doi.org/${doi_ref.replace("https://doi.org/", "").replace(" ", "")}\'>${doi_ref.replace("https://doi.org/", "").replace(" ", "")}</a>), "
         }
         meta["doi_text"] = temp_doi_ref.substring(0, temp_doi_ref.length() - 2)
     } else meta["doi_text"] = ""
     meta["nodoi_text"] = meta.manifest_map.doi ? "" : "<li>If available, make sure to update the text to include the Zenodo DOI of version of the pipeline used. </li>"
+
     // Tool references
     meta["tool_citations"] = ""
     meta["tool_bibliography"] = ""
@@ -232,4 +248,3 @@ def methodsDescriptionText(mqc_methods_yaml) {
 
     return description_html.toString()
 }
-

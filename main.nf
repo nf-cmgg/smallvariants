@@ -7,8 +7,6 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.preview.output = true
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
@@ -42,6 +40,9 @@ params.alphamissense_tbi    = getGenomeAttribute('alphamissense_tbi', params.gen
 params.vcfanno_resources    = getGenomeAttribute('vcfanno_resources', params.genomes, params.genome)
 params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
 params.maxentscan           = getGenomeAttribute('maxentscan', params.genomes, params.genome)
+
+
+params.unique_out = "v${workflow.manifest.version.replace('.', '_')}_${new java.util.Date().format( 'yyyy_MM_dd')}"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,7 +121,11 @@ workflow {
         params.ped,
         params.genomes,
         params.genome,
-        params.watchdir
+        params.watchdir,
+        params.help,
+        params.help_full,
+        params.show_hidden,
+        params.unique_out,
     )
 
     //
@@ -199,7 +204,6 @@ workflow {
         params.scatter_count,
         params.callers.tokenize(",")
     )
-
     //
     // SUBWORKFLOW: Run completion tasks
     //

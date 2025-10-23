@@ -101,4 +101,3 @@ workflow VCF_VALIDATE_SMALL_VARIANTS {
 
     versions = ch_versions                  // channel: [ versions.yml ]
 }
-
