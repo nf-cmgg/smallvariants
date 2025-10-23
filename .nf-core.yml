@@ -32,10 +32,10 @@ lint:
     - validation.summary.afterText
 nf_core_version: 3.4.1
 repository_type: pipeline
+org_path: nf-cmgg
 template:
   author: nvnieuwk
-  description: A nextflow pipeline for calling and annotating small smallvariants
-    variants from short DNA reads for WES and WGS data
+  description: A nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data
   force: false
   is_nfcore: false
   name: smallvariants
