@@ -1,5 +1,4 @@
 # nf-cmgg/smallvariants: Usage
-# nf-cmgg/smallvariants: Usage
 
 > _Documentation of pipeline parameters can be found in the [parameters documentation](./parameters.md)_
 
@@ -157,9 +156,7 @@ nextflow run nf-cmgg/smallvariants -profile docker -params-file params.yaml
 ```
 
 with:
-with:
 
-```yaml title="params.yaml"
 ```yaml title="params.yaml"
 input: './samplesheet.csv'
 outdir: './results/'
@@ -179,7 +176,6 @@ nextflow pull nf-cmgg/smallvariants -r <version>
 
 It is a good idea to specify the pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [nf-cmgg/smallvariants releases page](https://github.com/nf-cmgg/smallvariants/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 First, go to the [nf-cmgg/smallvariants releases page](https://github.com/nf-cmgg/smallvariants/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
