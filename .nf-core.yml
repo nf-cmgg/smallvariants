@@ -1,26 +1,48 @@
 lint:
   files_exist:
     - CODE_OF_CONDUCT.md
-    - assets/nf-core-germline_logo_light.png
-    - docs/images/nf-core-germline_logo_light.png
-    - docs/images/nf-core-germline_logo_dark.png
+    - assets/nf-core-smallvariants_logo_light.png
+    - docs/images/nf-core-smallvariants_logo_light.png
+    - docs/images/nf-core-smallvariants_logo_dark.png
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/workflows/awstest.yml
     - .github/workflows/awsfulltest.yml
+    - .github/workflows/template_version_comment.yml
+    - docs/README.md
+    - ".github/workflows/nf-test.yml \u2502"
+    - ".github/actions/get-shards/action.yml \u2502"
+    - ".github/actions/nf-test/action.yml \u2502"
+    - tests/default.nf.test
   files_unchanged:
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
     - CODE_OF_CONDUCT.md
-    - assets/nf-core-germline_logo_light.png
-    - docs/images/nf-core-germline_logo_light.png
-    - docs/images/nf-core-germline_logo_dark.png
     - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .prettierignore
+    - LICENSE
   multiqc_config:
     - report_comment
   nextflow_config:
+    - custom_config
     - manifest.name
     - manifest.homePage
+    - validation.help.afterText
+    - validation.summary.afterText
+nf_core_version: 3.4.1
 repository_type: pipeline
 template:
   author: nvnieuwk
-  description: A nextflow pipeline for calling and annotating variants
-  name: germline
-  prefix: nf-cmgg
+  description: A nextflow pipeline for calling and annotating small smallvariants
+    variants from short DNA reads for WES and WGS data
+  force: false
+  is_nfcore: false
+  name: smallvariants
+  org: nf-cmgg
+  outdir: .
+  skip_features:
+    - fastqc
+    - is_nfcore
+  version: 1.11.1dev

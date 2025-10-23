@@ -1,13 +1,11 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-cmgg/germline
+    nf-cmgg/smallvariants
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-cmgg/germline
+    Github : https://github.com/nf-cmgg/smallvariants
 ----------------------------------------------------------------------------------------
 */
-
-nextflow.enable.dsl = 2
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,11 +13,10 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GERMLINE  } from './workflows/germline'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_germline_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_germline_pipeline'
-
-include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_germline_pipeline'
+include { SMALLVARIANTS  } from './workflows/smallvariants'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_smallvariants_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_smallvariants_pipeline'
+include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_smallvariants_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,7 +38,7 @@ params.fasta = getGenomeAttribute('fasta')
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow NFCMGG_GERMLINE {
+workflow NFCMGG_SMALLVARIANTS {
 
     take:
     samplesheet // channel: samplesheet read in from --input
@@ -51,13 +48,11 @@ workflow NFCMGG_GERMLINE {
     //
     // WORKFLOW: Run pipeline
     //
-    GERMLINE (
+    SMALLVARIANTS (
         samplesheet
     )
-
     emit:
-    multiqc_report = GERMLINE.out.multiqc_report // channel: /path/to/multiqc_report.html
-
+    multiqc_report = SMALLVARIANTS.out.multiqc_report // channel: /path/to/multiqc_report.html
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,27 +63,27 @@ workflow NFCMGG_GERMLINE {
 workflow {
 
     main:
-
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
     PIPELINE_INITIALISATION (
         params.version,
-        params.help,
         params.validate_params,
         params.monochrome_logs,
         args,
         params.outdir,
-        params.input
+        params.input,
+        params.help,
+        params.help_full,
+        params.show_hidden
     )
 
     //
     // WORKFLOW: Run main workflow
     //
-    NFCMGG_GERMLINE (
+    NFCMGG_SMALLVARIANTS (
         PIPELINE_INITIALISATION.out.samplesheet
     )
-
     //
     // SUBWORKFLOW: Run completion tasks
     //
@@ -99,7 +94,7 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        NFCMGG_GERMLINE.out.multiqc_report
+        NFCMGG_SMALLVARIANTS.out.multiqc_report
     )
 }
 
