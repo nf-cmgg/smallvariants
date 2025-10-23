@@ -38,6 +38,7 @@ workflow PIPELINE_INITIALISATION {
     help              // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
+    unique_out        //  string: A unique name for the output folder to avoid overwriting previous runs
 
     main:
 
@@ -97,7 +98,7 @@ workflow PIPELINE_INITIALISATION {
     )
 
     // Output the samplesheet
-    file(input).copyTo("${outdir}/${params.unique_out}/samplesheet.${file(input).extension}")
+    file(input).copyTo("${outdir}/${unique_out}/samplesheet.${file(input).extension}")
 
     emit:
     samplesheet = WATCHPATH_HANDLING.out.samplesheet

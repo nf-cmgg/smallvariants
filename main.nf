@@ -41,6 +41,9 @@ params.vcfanno_resources    = getGenomeAttribute('vcfanno_resources', params.gen
 params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
 params.maxentscan           = getGenomeAttribute('maxentscan', params.genomes, params.genome)
 
+
+params.unique_out = "v${workflow.manifest.version.replace('.', '_')}_${params.trace_report_suffix}"
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
@@ -122,6 +125,7 @@ workflow {
         params.help,
         params.help_full,
         params.show_hidden,
+        params.unique_out,
     )
 
     //
