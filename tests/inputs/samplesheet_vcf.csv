@@ -1,0 +1,2 @@
+family,vcf,tbi,ped
+Proband_12345,https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/illumina/vcfs/Ashkenazim.vcf.gz,https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/illumina/vcfs/Ashkenazim.vcf.gz.tbi,https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped
