@@ -77,7 +77,7 @@ def dumpParametersToJSON(outdir) {
     def jsonStr   = groovy.json.JsonOutput.toJson(params)
     temp_pf.text  = groovy.json.JsonOutput.prettyPrint(jsonStr)
 
-    nextflow.extension.FilesEx.copyTo(temp_pf.toPath(), "${outdir}/${params.unique_out}/params_${timestamp}.json")
+    nextflow.extension.FilesEx.copyTo(temp_pf.toPath(), "${outdir}/pipeline_info/params_${timestamp}.json")
     temp_pf.delete()
 }
 
@@ -92,10 +92,12 @@ def checkCondaChannels() {
         channels = config.channels
     }
     catch (NullPointerException e) {
+        log.debug(e)
         log.warn("Could not verify conda channel configuration.")
         return null
     }
     catch (IOException e) {
+        log.debug(e)
         log.warn("Could not verify conda channel configuration.")
         return null
     }

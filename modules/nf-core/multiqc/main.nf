@@ -36,7 +36,6 @@ process MULTIQC {
         --force \\
         $args \\
         $config \\
-        $prefix \\
         $extra_config \\
         $logo \\
         $replace \\
@@ -52,7 +51,7 @@ process MULTIQC {
     stub:
     """
     mkdir multiqc_data
-    touch multiqc_plots
+    mkdir multiqc_plots
     touch multiqc_report.html
 
     cat <<-END_VERSIONS > versions.yml

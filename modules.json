@@ -1,6 +1,8 @@
 {
     "name": "nf-cmgg/smallvariants",
     "homePage": "https://github.com/nf-cmgg/smallvariants",
+    "name": "nf-cmgg/smallvariants",
+    "homePage": "https://github.com/nf-cmgg/smallvariants",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {
@@ -233,6 +235,7 @@
                         "git_sha": "1b6b9a3338d011367137808b49b923515080e3ba",
                         "installed_by": ["subworkflows"]
                     },
+                    "utils_nfschema_plugin": {
                     "utils_nfschema_plugin": {
                         "branch": "master",
                         "git_sha": "2fd2cd6d0e7b273747f32e465fdc6bcc3ae0814e",

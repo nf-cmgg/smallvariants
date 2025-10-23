@@ -196,7 +196,6 @@ workflow {
         params.scatter_count,
         params.callers.tokenize(",")
     )
-
     //
     // SUBWORKFLOW: Run completion tasks
     //
