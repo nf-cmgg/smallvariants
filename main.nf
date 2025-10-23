@@ -42,7 +42,7 @@ params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genome
 params.maxentscan           = getGenomeAttribute('maxentscan', params.genomes, params.genome)
 
 
-params.unique_out = "v${workflow.manifest.version.replace('.', '_')}_${params.trace_report_suffix}"
+params.unique_out = "v${workflow.manifest.version.replace('.', '_')}_${new java.util.Date().format( 'yyyy_MM_dd')}"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
