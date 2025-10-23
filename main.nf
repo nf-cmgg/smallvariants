@@ -118,7 +118,10 @@ workflow {
         params.ped,
         params.genomes,
         params.genome,
-        params.watchdir
+        params.watchdir,
+        params.help,
+        params.help_full,
+        params.show_hidden,
     )
 
     //
