@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Renamed the `tbi` samplesheet field to `gtbi` to make it more clear that this is the index of the GVCF file.
 2. Process_bed module: add sorting step + git HyperCap profile more memory.
+3. Removed support for watch files due to the maintenance burden and low usage.
 
 ## v1.11.0 - Generous Ghent - [Sept 1 2025]
 

@@ -21,64 +21,28 @@
                 "errorMessage": "Family name should be a string that may contain underscores (_) and dots (.)"
             },
             "cram": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.cram$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.cram$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.cram$",
+                "format": "file-path",
+                "exists": true
             },
             "crai": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.cram\\.crai$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.cram\\.crai$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.cram\\.crai$",
+                "format": "file-path",
+                "exists": true
             },
             "gvcf": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.g\\.vcf(\\.gz)?$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.g\\.vcf(\\.gz)?$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.g\\.vcf(\\.gz)?$",
+                "format": "file-path",
+                "exists": true
             },
             "gtbi": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.g\\.vcf\\.gz\\.tbi$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.g\\.vcf\\.gz\\.tbi?$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.g\\.vcf\\.gz\\.tbi$",
+                "format": "file-path",
+                "exists": true
             },
             "vcf": {
                 "type": "string",

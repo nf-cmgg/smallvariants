@@ -14,7 +14,7 @@ include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
-include { WATCHPATH_HANDLING        } from '../watchpath_handling'
+include { samplesheetToList         } from 'plugin/nf-schema'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
 /*
@@ -32,17 +32,12 @@ workflow PIPELINE_INITIALISATION {
     outdir            //  string: The output directory where the results will be saved
     input             //  string: Path to input samplesheet
     pedFile           //  string: Path to the common PED file
-    genomesMap        //     map: A map structure containing the references for each genome
-    genome            //  string: The genome to use
-    watchdir          //  string: The path to watch for input files
     help              // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
     unique_out        //  string: A unique name for the output folder to avoid overwriting previous runs
 
     main:
-
-    def ch_versions = Channel.empty()
 
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
@@ -90,19 +85,82 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    WATCHPATH_HANDLING(
-        input,
-        watchdir,
-        "assets/schema_input.json",
-        pedFile
-    )
+    // Pedigree handling
+    def Pedigree pedigree = new Pedigree(pedFile)
+    GlobalVariables.pedFiles = pedigree.writePeds(workflow)
+
+    def List<String> errors = []
+
+    def Map<String, List<String>> families = [:]
+    def Map<String, Integer> sample_counts = [:]
+    def Map<String, Map<String, Object>> sample_metas = [:]
+
+    // Determine which files to watch for
+    def List samplesheet_list = samplesheetToList(input, "assets/schema_input.json")
+        // Do some calculations and manipulations here
+        .collect { row ->
+            // Replace dots with underscores in sample and family names to prevent breaking the multiqc report
+            row[0].id = row[0].id.replace(".", "_")
+            row[0].sample = row[0].sample.replace(".", "_")
+            row[0].family = row[0].family ? row[0].family.replace(".", "_") : row[0].family
+
+            // Pipeline logic
+            def ped = row[8]
+            if (ped) {
+                pedigree.addPedContent(ped)
+            }
+            def String family = row[0].family ?: pedigree.getFamily(row[0].sample)
+            def String sample_id = row[0].id
+
+            if (!families.containsKey(family)) {
+                families[family] = [sample_id]
+            } else if(!families[family].contains(sample_id)) {
+                families[family].add(sample_id)
+            }
+
+
+            if (!sample_counts.containsKey(sample_id)) {
+                sample_counts[sample_id] = 1
+                sample_metas[sample_id] = row[0]
+            } else {
+                sample_counts[sample_id] += 1
+                if(sample_metas[sample_id] != row[0]) {
+                    def Map<String, Object> other_meta = sample_metas[sample_id]
+                    def List<String> diff_keys = []
+                    other_meta.each { k,v ->
+                        if (v != row[0][k]) {
+                            diff_keys.add(k)
+                        }
+                    }
+                    errors.add("Found multiple entries for sample '${sample_id}' in the samplesheet with differing meta values (`${diff_keys.join(' ')}`).")
+                }
+            }
+
+            def Map<String, Object> new_meta = row[0] + [family:family]
+            row[0] = new_meta
+            row.remove(6)
+            return row
+        }
+
+    // Stop the pipeline if extra validation errors have been detected
+    if (errors.size() > 0) {
+        error(errors.join("\n"))
+    }
+
+    def ch_samplesheet = channel.fromList(samplesheet_list)
+        .map { row ->
+            row[0] = row[0] + [
+                    family_samples:families[row[0].family].sort(false).join(","),
+                    duplicate_count:sample_counts[row[0].id]
+                ]
+            return row
+        }
 
     // Output the samplesheet
     file(input).copyTo("${outdir}/${unique_out}/samplesheet.${file(input).extension}")
 
     emit:
-    samplesheet = WATCHPATH_HANDLING.out.samplesheet
-    versions    = ch_versions
+    samplesheet = ch_samplesheet
 }
 
 /*
