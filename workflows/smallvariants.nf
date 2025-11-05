@@ -65,7 +65,8 @@ workflow SMALLVARIANTS {
 
     take:
     // Input channels
-    ch_samplesheet              // queue channel: The input channel
+    ch_samplesheet              // dataflow queue: The input channel
+    ped_files                   // dataflow value: A channel with a map of family keys and PED files as values
 
     // File inputs
     fasta                       // string: path to the reference fasta
@@ -102,7 +103,6 @@ workflow SMALLVARIANTS {
     automap_repeats             // string: path to the Automap repeats file
     automap_panel               // string: path to the Automap panel file
     outdir                      // string: path to the output directory
-    pedFiles                    // map:    a map that has the family ID as key and a PED file as value
     elsites                     // string: path to the elsites file for elprep
     msi_baseline                // string: path to the msi_baseline file
     updio_regions               // string: path to the BED file with regions to be used by UPDio
@@ -140,6 +140,10 @@ workflow SMALLVARIANTS {
     def ch_versions      = channel.empty()
     def ch_reports       = channel.empty()
     def ch_multiqc_files = channel.empty()
+
+    def List<String> gvcf_callers = ["haplotypecaller", "elprep"]
+    def List<String> bam_callers = ["elprep", "vardict"]
+
 
     //
     // Importing and convert the input files passed through the parameters to channels
@@ -352,7 +356,7 @@ workflow SMALLVARIANTS {
     // Split the input channel into the right channels
     //
 
-    def usedGvcfCallers = callers.intersect(GlobalVariables.gvcfCallers)
+    def usedGvcfCallers = callers.intersect(gvcf_callers)
 
     def ch_input = ch_samplesheet
         .multiMap { meta, cram, crai, gvcf, gtbi, vcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed ->
@@ -454,7 +458,7 @@ workflow SMALLVARIANTS {
     def ch_gvcfs_ready = ch_gvcf_branch.no_tbi
         .join(TABIX_GVCF.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         .mix(ch_gvcf_branch.tbi)
-        .combine(callers.intersect(GlobalVariables.gvcfCallers))
+        .combine(callers.intersect(gvcf_callers))
         .map { meta, gvcf, tbi, caller ->
             def new_meta = meta + [caller:caller]
             [ new_meta, gvcf, tbi ]
@@ -464,15 +468,15 @@ workflow SMALLVARIANTS {
     // Run sample preparation
     //
 
-    def create_bam_files = callers.intersect(GlobalVariables.bamCallers).size() > 0 // Only create BAM files when needed
+    def create_bam_files = callers.intersect(bam_callers).size() > 0 // Only create BAM files when needed
     CRAM_PREPARE_SAMTOOLS_BEDTOOLS(
         ch_input.cram.filter { meta, _cram, _crai ->
             // Filter out files that already have a called GVCF when only GVCF callers are used
-            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - GlobalVariables.gvcfCallers)
+            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - gvcf_callers)
         },
         ch_input.roi.filter { meta, _roi_file ->
             // Filter out files that already have a called GVCF when only GVCF callers are used
-            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - GlobalVariables.gvcfCallers)
+            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - gvcf_callers)
         },
         ch_fasta_ready,
         ch_fai_ready,
@@ -684,8 +688,9 @@ workflow SMALLVARIANTS {
         //
 
         def ch_somalier_input = ch_normalized_variants
-            .map { meta, _vcf, _tbi ->
-                [ meta, pedFiles.containsKey(meta.family) ? pedFiles[meta.family] : [] ]
+            .combine(ped_files)
+            .map { meta, _vcf, _tbi, ped_map ->
+                [ meta, ped_map.get(meta.family, []) ]
             }
 
         //

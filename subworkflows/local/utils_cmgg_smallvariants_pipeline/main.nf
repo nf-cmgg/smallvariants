@@ -87,7 +87,7 @@ workflow PIPELINE_INITIALISATION {
 
     // Pedigree handling
     def Pedigree pedigree = new Pedigree(pedFile)
-    GlobalVariables.pedFiles = pedigree.writePeds(workflow)
+    def pedFiles = channel.value(pedigree.writePeds(workflow))
 
     def List<String> errors = []
 
@@ -161,6 +161,7 @@ workflow PIPELINE_INITIALISATION {
 
     emit:
     samplesheet = ch_samplesheet
+    ped_files = pedFiles
 }
 
 /*
