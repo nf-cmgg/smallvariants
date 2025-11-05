@@ -13,7 +13,7 @@ workflow VCF_ROH_AUTOMAP {
         val_genome  // value: [mandatory] => The genome to be used by automap
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     def hg_genome = val_genome == "GRCh38" ? "hg38" : val_genome == "GRCh37" ? "hg19" : val_genome
 
@@ -22,10 +22,10 @@ workflow VCF_ROH_AUTOMAP {
     }
 
     // Merge the repeat BED files from the container if no container has been given
-    def ch_valid_repeats = Channel.empty()
+    def ch_valid_repeats = channel.empty()
     if (!ch_repeats) {
         AUTOMAP_REPEATS(
-            Channel.value([[id:"${val_genome}_repeats"], val_genome])
+            channel.value([[id:"${val_genome}_repeats"], val_genome])
         )
         ch_versions = ch_versions.mix(AUTOMAP_REPEATS.out.versions)
         ch_valid_repeats = AUTOMAP_REPEATS.out.repeats.collect()

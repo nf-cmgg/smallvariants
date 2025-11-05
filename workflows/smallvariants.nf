@@ -137,44 +137,44 @@ workflow SMALLVARIANTS {
 
 
     main:
-    def ch_versions      = Channel.empty()
-    def ch_reports       = Channel.empty()
-    def ch_multiqc_files = Channel.empty()
+    def ch_versions      = channel.empty()
+    def ch_reports       = channel.empty()
+    def ch_multiqc_files = channel.empty()
 
     //
     // Importing and convert the input files passed through the parameters to channels
     //
 
-    def ch_fasta_ready        = Channel.fromPath(fasta).map{ fasta_file -> [[id:"reference"], fasta_file] }.collect()
-    def ch_fai                = fai                 ? Channel.fromPath(fai).map{ fai_file -> [[id:"reference"], fai_file] }.collect() : null
-    def ch_dict               = dict                ? Channel.fromPath(dict).map{ dict_file -> [[id:"reference"], dict_file] }.collect() : null
-    def ch_elfasta            = elfasta             ? Channel.fromPath(elfasta).map { elfasta_file -> [[id:"reference"], elfasta_file]}.collect() : null
-    def ch_strtablefile       = strtablefile        ? Channel.fromPath(strtablefile).map{ str_file -> [[id:"reference"], str_file] }.collect() : null
-    def ch_sdf                = sdf                 ? Channel.fromPath(sdf).map { sdf_file -> [[id:'reference'], sdf_file] }.collect() : null
+    def ch_fasta_ready        = channel.fromPath(fasta).map{ fasta_file -> [[id:"reference"], fasta_file] }.collect()
+    def ch_fai                = fai                 ? channel.fromPath(fai).map{ fai_file -> [[id:"reference"], fai_file] }.collect() : null
+    def ch_dict               = dict                ? channel.fromPath(dict).map{ dict_file -> [[id:"reference"], dict_file] }.collect() : null
+    def ch_elfasta            = elfasta             ? channel.fromPath(elfasta).map { elfasta_file -> [[id:"reference"], elfasta_file]}.collect() : null
+    def ch_strtablefile       = strtablefile        ? channel.fromPath(strtablefile).map{ str_file -> [[id:"reference"], str_file] }.collect() : null
+    def ch_sdf                = sdf                 ? channel.fromPath(sdf).map { sdf_file -> [[id:'reference'], sdf_file] }.collect() : null
 
-    def ch_default_roi        = roi                 ? Channel.fromPath(roi).collect()                : []
+    def ch_default_roi        = roi                 ? channel.fromPath(roi).collect()                : []
 
-    def ch_dbsnp_ready        = dbsnp               ? Channel.fromPath(dbsnp).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
-    def ch_dbsnp_tbi          = dbsnp_tbi           ? Channel.fromPath(dbsnp_tbi).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
+    def ch_dbsnp_ready        = dbsnp               ? channel.fromPath(dbsnp).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
+    def ch_dbsnp_tbi          = dbsnp_tbi           ? channel.fromPath(dbsnp_tbi).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
 
-    def ch_somalier_sites     = somalier_sites      ? Channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
+    def ch_somalier_sites     = somalier_sites      ? channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
 
-    def ch_vep_cache          = vep_cache           ? Channel.fromPath(vep_cache).collect()          : []
+    def ch_vep_cache          = vep_cache           ? channel.fromPath(vep_cache).collect()          : []
 
-    def ch_vcfanno_config     = vcfanno_config      ? Channel.fromPath(vcfanno_config).collect()     : []
-    def ch_vcfanno_lua        = vcfanno_lua         ? Channel.fromPath(vcfanno_lua).collect()        : []
-    def ch_vcfanno_resources  = vcfanno_resources   ? Channel.of(vcfanno_resources.split(";")).collect{ res -> file(res, checkIfExists:true) } : []
+    def ch_vcfanno_config     = vcfanno_config      ? channel.fromPath(vcfanno_config).collect()     : []
+    def ch_vcfanno_lua        = vcfanno_lua         ? channel.fromPath(vcfanno_lua).collect()        : []
+    def ch_vcfanno_resources  = vcfanno_resources   ? channel.of(vcfanno_resources.split(";")).collect{ res -> file(res, checkIfExists:true) } : []
 
-    def ch_updio_common_cnvs  = updio_common_cnvs   ? Channel.fromPath(updio_common_cnvs).map{ common_cnvs -> [[id:'updio_cnv'], common_cnvs] } : [[],[]]
+    def ch_updio_common_cnvs  = updio_common_cnvs   ? channel.fromPath(updio_common_cnvs).map{ common_cnvs -> [[id:'updio_cnv'], common_cnvs] } : [[],[]]
 
-    def ch_automap_repeats    = automap_repeats     ? Channel.fromPath(automap_repeats).map{ repeats ->  [[id:"repeats"], repeats] }.collect() : []
-    def ch_automap_panel      = automap_panel       ? Channel.fromPath(automap_panel).map{ panel -> [[id:"automap_panel"], panel] }.collect() : [[],[]]
+    def ch_automap_repeats    = automap_repeats     ? channel.fromPath(automap_repeats).map{ repeats ->  [[id:"repeats"], repeats] }.collect() : []
+    def ch_automap_panel      = automap_panel       ? channel.fromPath(automap_panel).map{ panel -> [[id:"automap_panel"], panel] }.collect() : [[],[]]
 
-    def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
+    def ch_elsites            = elsites             ? channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
-    def ch_msi_baseline       = msi_baseline        ? Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
+    def ch_msi_baseline       = msi_baseline        ? channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
 
-    def ch_updio_regions      = updio_regions       ? Channel.value(file(updio_regions)) : []
+    def ch_updio_regions      = updio_regions       ? channel.value(file(updio_regions)) : []
 
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
@@ -244,7 +244,7 @@ workflow SMALLVARIANTS {
     //
 
     // DBSNP index
-    def ch_dbsnp_tbi_ready = Channel.empty()
+    def ch_dbsnp_tbi_ready = channel.empty()
     if (ch_dbsnp_ready != [[],[]] && ch_dbsnp_tbi == [[],[]]) {
         TABIX_DBSNP(
             ch_dbsnp_ready
@@ -257,7 +257,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference fasta index
-    def ch_fai_ready = Channel.empty()
+    def ch_fai_ready = channel.empty()
     if (!ch_fai) {
         FAIDX(
             ch_fasta_ready,
@@ -272,7 +272,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference sequence dictionary
-    def ch_dict_ready = Channel.empty()
+    def ch_dict_ready = channel.empty()
     if (!ch_dict) {
         CREATESEQUENCEDICTIONARY(
             ch_fasta_ready
@@ -285,7 +285,7 @@ workflow SMALLVARIANTS {
         ch_dict_ready = ch_dict
     }
 
-    def ch_elfasta_ready = Channel.empty()
+    def ch_elfasta_ready = channel.empty()
     def elprep_used = callers.contains("elprep")
     if (!ch_elfasta && elprep_used) {
         ELPREP_FASTATOELFASTA(
@@ -298,7 +298,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference STR table file
-    def ch_strtablefile_ready = Channel.empty()
+    def ch_strtablefile_ready = channel.empty()
     if (dragstr && !ch_strtablefile) {
         COMPOSESTRTABLEFILE(
             ch_fasta_ready,
@@ -314,7 +314,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference validation SDF
-    def ch_sdf_ready = Channel.empty()
+    def ch_sdf_ready = channel.empty()
     if (validate && !ch_sdf) {
         RTGTOOLS_FORMAT(
             ch_fasta_ready.map { meta, fasta_file -> [meta, fasta_file, [], []] }
@@ -336,10 +336,10 @@ workflow SMALLVARIANTS {
     }
 
     // VEP annotation cache
-    def ch_vep_cache_ready = Channel.empty()
+    def ch_vep_cache_ready = channel.empty()
     if (!ch_vep_cache && annotate) {
         ENSEMBLVEP_DOWNLOAD(
-            Channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
+            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
         )
         ch_versions = ch_versions.mix(ENSEMBLVEP_DOWNLOAD.out.versions)
 
@@ -490,7 +490,7 @@ workflow SMALLVARIANTS {
     // Split the BED files
     //
 
-    def ch_split_cram_bam = Channel.empty()
+    def ch_split_cram_bam = channel.empty()
     if(create_bam_files) {
         ch_split_cram_bam = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams
             .join(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_bams, failOnDuplicate:true, failOnMismatch:true)
@@ -545,7 +545,7 @@ workflow SMALLVARIANTS {
     ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
 
     def ch_calls = ch_vcfs_ready
-    def ch_gvcf_reports = Channel.empty()
+    def ch_gvcf_reports = channel.empty()
     if("haplotypecaller" in callers) {
         //
         // Call variants with GATK4 HaplotypeCaller
@@ -627,13 +627,13 @@ workflow SMALLVARIANTS {
     def ch_joint_beds = GVCF_JOINT_GENOTYPE_GATK4.out.beds
     def ch_final_genomicsdb = GVCF_JOINT_GENOTYPE_GATK4.out.genomicsdb
 
-    def ch_final_vcfs       = Channel.empty()
-    def ch_final_dbs        = Channel.empty()
-    def ch_final_peds       = Channel.empty()
-    def ch_final_reports    = Channel.empty()
-    def ch_final_automap    = Channel.empty()
-    def ch_final_updio      = Channel.empty()
-    def ch_final_validation = Channel.empty()
+    def ch_final_vcfs       = channel.empty()
+    def ch_final_dbs        = channel.empty()
+    def ch_final_peds       = channel.empty()
+    def ch_final_reports    = channel.empty()
+    def ch_final_automap    = channel.empty()
+    def ch_final_updio      = channel.empty()
+    def ch_final_validation = channel.empty()
 
     if (!only_call && !only_merge) {
         def ch_called_variants = ch_calls
@@ -654,7 +654,7 @@ workflow SMALLVARIANTS {
         ch_final_reports = BCFTOOLS_STATS.out.stats
         ch_reports = ch_reports.mix(ch_final_reports.collect { _meta, report -> report })
 
-        def ch_filtered_variants = Channel.empty()
+        def ch_filtered_variants = channel.empty()
         if(filter) {
             VCF_FILTER_BCFTOOLS(
                 ch_called_variants
@@ -665,7 +665,7 @@ workflow SMALLVARIANTS {
             ch_filtered_variants = ch_called_variants
         }
 
-        def ch_normalized_variants = Channel.empty()
+        def ch_normalized_variants = channel.empty()
         if(normalize) {
             BCFTOOLS_NORM(
                 ch_filtered_variants,
@@ -709,7 +709,7 @@ workflow SMALLVARIANTS {
         // Add PED headers to the VCFs
         //
 
-        def ch_ped_vcfs = Channel.empty()
+        def ch_ped_vcfs = channel.empty()
         if(add_ped){
 
             VCF_PED_RTGTOOLS(
@@ -931,21 +931,21 @@ workflow SMALLVARIANTS {
     // Perform multiQC on all QC data
     //
 
-    def ch_multiqc_config                     = Channel.fromPath(
+    def ch_multiqc_config                     = channel.fromPath(
                                                 "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
     def ch_multiqc_custom_config              = multiqc_config ?
-                                                Channel.fromPath(multiqc_config, checkIfExists: true) :
-                                                Channel.empty()
+                                                channel.fromPath(multiqc_config, checkIfExists: true) :
+                                                channel.empty()
     def ch_multiqc_logo                       = multiqc_logo ?
-                                                Channel.fromPath(multiqc_logo, checkIfExists: true) :
-                                                Channel.empty()
+                                                channel.fromPath(multiqc_logo, checkIfExists: true) :
+                                                channel.empty()
 
     def summary_params                        = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
-    def ch_workflow_summary                   = Channel.value(paramsSummaryMultiqc(summary_params))
+    def ch_workflow_summary                   = channel.value(paramsSummaryMultiqc(summary_params))
     def ch_multiqc_custom_methods_description = multiqc_methods_description ?
                                                 file(multiqc_methods_description, checkIfExists: true) :
                                                 file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-    def ch_methods_description                = Channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
+    def ch_methods_description                = channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
 
     ch_multiqc_files                          = ch_multiqc_files.mix(
                                                     ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),

@@ -7,7 +7,7 @@ workflow VCF_DBSNP_VCFANNO {
         ch_dbsnp_tbi         // channel: [optional]  [ val(meta), path(tbi) ] => the dbsnp vcf index file
 
     main:
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     def ch_vcfanno_toml = ch_dbsnp.map { _meta, dbsnp -> [ get_vcfanno_config(dbsnp) ] }
         .collect()

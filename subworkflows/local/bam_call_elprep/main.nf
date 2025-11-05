@@ -18,7 +18,7 @@ workflow BAM_CALL_ELPREP {
 
     main:
 
-    def ch_versions  = Channel.empty()
+    def ch_versions  = channel.empty()
 
     ELPREP_FILTER(
         ch_input.map { meta, bam, bai, bed ->
@@ -41,7 +41,7 @@ workflow BAM_CALL_ELPREP {
     )
     ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 
-    def ch_annotated = Channel.empty()
+    def ch_annotated = channel.empty()
     if(!(ch_dbsnp instanceof List)) {
         VCF_DBSNP_VCFANNO(
             VCF_CONCAT_BCFTOOLS.out.vcfs,

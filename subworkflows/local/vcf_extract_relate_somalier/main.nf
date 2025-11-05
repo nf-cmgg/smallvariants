@@ -11,7 +11,7 @@ workflow VCF_EXTRACT_RELATE_SOMALIER {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     SOMALIER_EXTRACT(
         ch_vcfs,

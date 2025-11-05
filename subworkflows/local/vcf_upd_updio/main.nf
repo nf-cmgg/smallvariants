@@ -14,7 +14,7 @@ workflow VCF_UPD_UPDIO {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     // Filter out all families that have less than 3 samples
     def ch_trio_vcfs = ch_vcfs

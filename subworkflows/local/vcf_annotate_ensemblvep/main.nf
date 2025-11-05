@@ -20,9 +20,9 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
     val_sites_per_chunk         //   value: the amount of variants per scattered VCF
 
     main:
-    def ch_versions  = Channel.empty()
-    def ch_vep_input = Channel.empty()
-    def ch_scatter   = Channel.empty()
+    def ch_versions  = channel.empty()
+    def ch_vep_input = channel.empty()
+    def ch_scatter   = channel.empty()
 
     // Check if val_sites_per_chunk is set and scatter if it is
     if(val_sites_per_chunk) {
@@ -100,7 +100,7 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
     def ch_vep_reports = ENSEMBLVEP_VEP.out.report
 
     // Gather the files back together if they were scattered
-    def ch_ready_vcfs = Channel.empty()
+    def ch_ready_vcfs = channel.empty()
     if(val_sites_per_chunk) {
         //
         // Concatenate the VCFs back together with bcftools concat

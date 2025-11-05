@@ -11,7 +11,7 @@ workflow INPUT_SPLIT_BEDTOOLS {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     BEDTOOLS_SPLIT(
         ch_beds

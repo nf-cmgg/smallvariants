@@ -10,7 +10,7 @@ workflow VCF_CONCAT_BCFTOOLS {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     ch_vcfs
         .map { meta, vcf, tbi=[] ->
