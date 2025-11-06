@@ -16,6 +16,7 @@ include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { samplesheetToList         } from 'plugin/nf-schema'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
+include { initializePed             } from 'plugin/nf-ped'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,8 +87,10 @@ workflow PIPELINE_INITIALISATION {
     //
 
     // Pedigree handling
-    def Pedigree pedigree = new Pedigree(pedFile)
-    def pedFiles = channel.value(pedigree.writePeds(workflow))
+    def ped = initializePed()
+    if(pedFile) {
+        ped.importPed(file(pedFile))
+    }
 
     def List<String> errors = []
 
@@ -105,11 +108,20 @@ workflow PIPELINE_INITIALISATION {
             row[0].family = row[0].family ? row[0].family.replace(".", "_") : row[0].family
 
             // Pipeline logic
-            def ped = row[8]
-            if (ped) {
-                pedigree.addPedContent(ped)
+            def samplesheetPed = row[8]
+            if (samplesheetPed) {
+                ped.importPed(samplesheetPed)
             }
-            def String family = row[0].family ?: pedigree.getFamily(row[0].sample)
+            if(!row[0].family) {
+                def Set<String> individualFamilies = ped.getFamiliesFromIndividual(row[0].sample)
+                if (individualFamilies.size() > 1) {
+                    errors.add("Sample '${row[0].sample}' is associated with multiple families (${individualFamilies.join(", ")}) in the PED files. Each sample can only belong to a single family.")
+                } else {
+                    row[0].family = individualFamilies.size() == 1 ? individualFamilies.first() : row[0].sample
+                }
+            }
+
+            def String family = row[0].family
             def String sample_id = row[0].id
 
             if (!families.containsKey(family)) {
@@ -158,6 +170,12 @@ workflow PIPELINE_INITIALISATION {
 
     // Output the samplesheet
     file(input).copyTo("${outdir}/${unique_out}/samplesheet.${file(input).extension}")
+
+    // Write PED files per family
+    def pedFiles = channel.value(ped.getFamilies().collectEntries { family ->
+        [ family, ped.writePed(families: [family]) ]
+
+    })
 
     emit:
     samplesheet = ch_samplesheet
