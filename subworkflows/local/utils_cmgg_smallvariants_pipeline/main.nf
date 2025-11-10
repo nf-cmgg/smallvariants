@@ -97,7 +97,7 @@ workflow PIPELINE_INITIALISATION {
     }
     samplesheet_list.each { _meta, _cram, _crai, _gvcf, _gtbi, _vcf, _tbi, _roi, ped, _truth_vcf, _truth_tbi, _truth_bed ->
         if (ped) {
-            pedObject.importPed(ped)
+            pedObject.importPed(ped, overwrite:true)
         }
     }
     pedObject.setEntries(pedObject.getEntries().collect { entry ->
