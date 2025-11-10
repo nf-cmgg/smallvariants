@@ -877,11 +877,8 @@ workflow SMALLVARIANTS {
         //
 
         if(gemini){
-            def ch_vcf2db_input = CustomChannelOperators.joinOnKeys(
-                    ch_final_vcfs.map { meta, vcf, _tbi -> [ meta, vcf ]},
-                    ch_final_peds,
-                    ['id', 'family', 'family_samples']
-                )
+            def ch_vcf2db_input = ch_final_vcfs.map { meta, vcf, _tbi -> [ meta, vcf ]}
+                .join(ch_final_peds, failOnMismatch:true, failOnDuplicate:true)
 
             VCF2DB(
                 ch_vcf2db_input
