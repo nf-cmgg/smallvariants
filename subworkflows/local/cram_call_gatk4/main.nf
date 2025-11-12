@@ -21,13 +21,13 @@ workflow CRAM_CALL_GATK4 {
 
     main:
 
-    def ch_versions  = Channel.empty()
+    def ch_versions  = channel.empty()
 
     //
     // Generate DRAGSTR models (if --dragstr is specified)
     //
 
-    def ch_cram_models = Channel.empty()
+    def ch_cram_models = channel.empty()
     if (dragstr) {
 
         ch_input

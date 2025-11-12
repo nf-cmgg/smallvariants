@@ -27,8 +27,8 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
 
     main:
 
-    def ch_versions = Channel.empty()
-    def ch_vcfs     = Channel.empty()
+    def ch_versions = channel.empty()
+    def ch_vcfs     = channel.empty()
 
     //
     // Get a BED file containing all contigs
@@ -64,7 +64,7 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
     )
     ch_versions = ch_versions.mix(GATK4_GENOMICSDBIMPORT.out.versions.first())
 
-    def ch_beds = Channel.empty()
+    def ch_beds = channel.empty()
     if(!only_merge) {
 
         BCFTOOLS_QUERY(

@@ -23,9 +23,9 @@ workflow VCF_ANNOTATION {
 
     main:
 
-    def ch_annotated_vcfs   = Channel.empty()
-    def ch_reports          = Channel.empty()
-    def ch_versions         = Channel.empty()
+    def ch_annotated_vcfs   = channel.empty()
+    def ch_reports          = channel.empty()
+    def ch_versions         = channel.empty()
 
     def ch_vep_input = ch_vcfs
         .map { meta, vcf, tbi ->

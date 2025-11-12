@@ -75,6 +75,8 @@ workflow {
     // Check for dependencies between parameters
     //
 
+    def List<String> available_callers = ["haplotypecaller", "vardict", "elprep"]
+
     if(params.dbsnp_tbi && !params.dbsnp){
         error("Please specify the dbsnp VCF with --dbsnp VCF")
     }
@@ -98,7 +100,7 @@ workflow {
 
     def callers = params.callers.tokenize(",")
     callers.each { caller ->
-        if(!(caller in GlobalVariables.availableCallers)) { error("\"${caller}\" is not a supported callers please use one or more of these instead: ${GlobalVariables.availableCallers}")}
+        if(!(caller in available_callers)) { error("\"${caller}\" is not a supported callers please use one or more of these instead: ${available_callers.join(', ')}") }
     }
 
     /*
@@ -119,9 +121,6 @@ workflow {
         params.outdir,
         params.input,
         params.ped,
-        params.genomes,
-        params.genome,
-        params.watchdir,
         params.help,
         params.help_full,
         params.show_hidden,
@@ -135,6 +134,7 @@ workflow {
     SMALLVARIANTS (
         // Input channels
         PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.ped_files,
 
         // File inputs
         params.fasta,
@@ -171,7 +171,6 @@ workflow {
         params.automap_repeats,
         params.automap_panel,
         params.outdir,
-        GlobalVariables.pedFiles,
         params.elsites,
         params.msi_baseline,
         params.updio_regions,

@@ -12,7 +12,7 @@ workflow VCF_PED_RTGTOOLS {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     //
     // Remove extra columns from the samples TSV and convert to a VCF header

@@ -10,7 +10,7 @@ workflow VCF_FILTER_BCFTOOLS {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     BCFTOOLS_FILTER(
         ch_vcfs

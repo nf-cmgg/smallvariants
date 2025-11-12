@@ -22,8 +22,8 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     main:
 
-    def ch_versions  = Channel.empty()
-    def ch_reports   = Channel.empty()
+    def ch_versions  = channel.empty()
+    def ch_reports   = channel.empty()
 
     //
     // Merge the CRAM files if there are multiple per sample
@@ -77,7 +77,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     // Optionally convert the CRAM files to BAM
     //
 
-    def ch_ready_bams = Channel.empty()
+    def ch_ready_bams = channel.empty()
     if(output_bam) {
         SAMTOOLS_CONVERT(
             ch_ready_crams,
@@ -118,7 +118,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     // Add the default ROI file to all samples without an ROI file
     // if an ROI BED file has been given through the --roi parameter
-    def ch_missing_rois = Channel.empty()
+    def ch_missing_rois = channel.empty()
     if (ch_default_roi) {
         MERGE_ROI_PARAMS(
             ch_default_roi.map { bed ->
