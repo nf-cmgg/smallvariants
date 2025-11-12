@@ -107,7 +107,7 @@
                     },
                     "gatk4/genomicsdbimport": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "6baf1c4cb0e05d7167c3d9280a03972f7fcbbbcb",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/gatk4/genomicsdbimport/gatk4-genomicsdbimport.diff"
                     },
@@ -188,12 +188,12 @@
                     },
                     "somalier/extract": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "fdb27ae02c9c9408fbac9117e2ca0575e1dc19c6",
                         "installed_by": ["modules"]
                     },
                     "somalier/relate": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "fdb27ae02c9c9408fbac9117e2ca0575e1dc19c6",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/somalier/relate/somalier-relate.diff"
                     },
