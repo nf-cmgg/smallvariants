@@ -294,7 +294,8 @@ output {
         automap >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"
     } }
     updio { path { meta, updio ->
-        updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
+        def filtered = params.updio_regions ? ".filtered" : ""
+        updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}${filtered}"
     } }
     multiqc { path { report ->
         report >> "${params.unique_out}/multiqc_report.html"
