@@ -386,7 +386,7 @@ workflow SMALLVARIANTS {
             ]
 
             def new_meta_validation = meta.subMap(["id", "sample", "family", "duplicate_count"])
-            def new_meta_vcf = meta + [id:meta.family, caller:"input"] - meta.subMap(["sample", "vardict_min_af"])
+            def new_meta_vcf = meta + [id:meta.family, caller:"unknown_caller"] - meta.subMap(["sample", "vardict_min_af"])
 
             def new_meta_gvcf = meta
             if (usedGvcfCallers.size() == 1) {
