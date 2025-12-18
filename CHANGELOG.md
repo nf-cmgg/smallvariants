@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Reworked PED file handling using the `nf-ped` plugin. This should fix the resumeability issues with PED files.
 5. Updated reference to Clinvar annotation VCF to the latest version (clinvar_20251027.vcf.gz).
 
+## Fixes
+
+1. Fixed an issue where a warning about a missing MSI baseline was shown even though MSI shouldn't be run.
+
 ## v1.11.0 - Generous Ghent - [Sept 1 2025]
 
 ## New features
