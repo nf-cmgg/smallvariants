@@ -11,10 +11,6 @@ nextflow_workflow {
     test("vcf_upd_updio - default - family") {
 
         when {
-            params {
-                outdir = "${outputDir}"
-                updio = true
-            }
             workflow {
                 """
                 input[0] = Channel.of([
@@ -46,9 +42,6 @@ nextflow_workflow {
     test("vcf_upd_updio - default - sample") {
         // This should output nothing
         when {
-            params {
-                updio = true
-            }
             workflow {
                 """
                 input[0] = Channel.of([
@@ -80,10 +73,6 @@ nextflow_workflow {
     test("vcf_upd_updio - region - family") {
 
         when {
-            params {
-                outdir = "${outputDir}"
-                updio = true
-            }
             workflow {
                 """
                 input[0] = Channel.of([

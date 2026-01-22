@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. Removed support for watch files due to the maintenance burden and low usage.
 4. Reworked PED file handling using the `nf-ped` plugin. This should fix the resumeability issues with PED files.
 5. Updated reference to Clinvar annotation VCF to the latest version (clinvar_20251027.vcf.gz).
+6. Changed the `--updio` and `--automap` parameters to `--disable_updio` and `--disable_automap`respectively. This change also reverts the functionality of these parameters: UPDio and AutoMap are now run by default unless these parameters are set to true.
 
 ## v1.11.0 - Generous Ghent - [Sept 1 2025]
 
