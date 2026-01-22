@@ -62,7 +62,7 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
                 // So if the output isn't a list, there is always one file and if there is a list,
                 // the amount of files in the list gets counted by .size()
                 def is_list = vcfs instanceof ArrayList
-                count = is_list ? vcfs.size() : 1
+                def count = is_list ? vcfs.size() : 1
                 [ meta, is_list ? vcfs : [vcfs], count ]
                 // Channel containing the list of VCFs and the size of this list
             }
