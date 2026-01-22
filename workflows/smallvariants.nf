@@ -118,8 +118,8 @@ workflow SMALLVARIANTS {
     add_ped                     // boolean: add ped headers to each VCF
     gemini                      // boolean: convert the VCF to a gemini database
     validate                    // boolean: validate the pipeline output when a truth set has been given
-    updio                       // boolean: run UPDio on the final VCFs
-    automap                     // boolean: run Automap on the final VCFs
+    disable_updio               // boolean: disable running UPDio on the final VCFs
+    disable_automap             // boolean: disable running Automap on the final VCFs
     vep_dbnsfp                  // boolean: use the DBNSFP VEP plugin
     vep_spliceai                // boolean: use the SpliceAI VEP plugin
     vep_mastermind              // boolean: use the Mastermind VEP plugin
@@ -891,7 +891,7 @@ workflow SMALLVARIANTS {
         // Run UPDio analysis
         //
 
-        if(updio) {
+        if(!disable_updio) {
             VCF_UPD_UPDIO(
                 ch_final_vcfs,
                 ch_final_peds,
@@ -906,7 +906,7 @@ workflow SMALLVARIANTS {
         // Run automap analysis
         //
 
-        if(automap) {
+        if(!disable_automap) {
             VCF_ROH_AUTOMAP(
                 ch_final_vcfs,
                 ch_automap_repeats,
