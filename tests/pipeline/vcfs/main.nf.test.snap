@@ -6,9 +6,9 @@
                 "Proband_12345/output_<version>_<date>/Proband_12345.unknown_caller.ped",
                 "Proband_12345/output_<version>_<date>/Proband_12345.unknown_caller.vcf.gz",
                 "Proband_12345/output_<version>_<date>/Proband_12345.unknown_caller.vcf.gz.tbi",
-                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24143/NA24143.individual.vcf",
-                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24149/NA24149.individual.vcf",
-                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24385/NA24385.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24143.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24149.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24385.individual.vcf",
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller/NA24385.events_list",
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller/NA24385.log",
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller/NA24385.table",
@@ -42,17 +42,17 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2025-11-25T15:41:15.106725603"
+        "timestamp": "2026-01-23T14:27:16.807215171"
     },
     "pipeline_postprocessing - vcfs - updio regions": {
         "content": [
             [
                 "Proband_12345/output_<version>_<date>/Proband_12345.unknown_caller.ped",
-                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24143/NA24143.individual.vcf",
-                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24149/NA24149.individual.vcf",
-                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24385/NA24385.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24143.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24149.individual.vcf",
+                "Proband_12345/output_<version>_<date>/automap/unknown_caller/NA24385.individual.vcf",
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller.filtered/NA24385.events_list",
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller.filtered/NA24385.log",
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller.filtered/NA24385.table",
@@ -86,8 +86,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2026-01-22T16:42:15.940214769"
+        "timestamp": "2026-01-23T14:28:27.56134652"
     }
 }

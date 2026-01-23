@@ -90,18 +90,18 @@
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz.tbi",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.tsv",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "<version>_<date>/multiqc_report.html",
@@ -110,9 +110,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2026-01-22T16:45:58.652237324"
+        "timestamp": "2026-01-23T14:04:08.756082222"
     },
     "pipeline_variations - annotate + vcfanno": {
         "content": [
@@ -156,18 +156,18 @@
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz.tbi",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.tsv",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "<version>_<date>/multiqc_report.html",
@@ -176,9 +176,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2026-01-22T16:34:19.632333913"
+        "timestamp": "2026-01-23T13:59:55.848752055"
     },
     "pipeline_variations - annotate": {
         "content": [
@@ -222,18 +222,18 @@
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.ped",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim.haplotypecaller.vcf.gz.tbi",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1/sample1.HomRegions.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2/sample2.HomRegions.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.pdf",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.strict.cmgg_bio.tsv",
-                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3/sample3.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample1.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample2.HomRegions.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.pdf",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.strict.cmgg_bio.tsv",
+                "Ashkenazim/output_<version>_<date>/automap/haplotypecaller/sample3.HomRegions.tsv",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "<version>_<date>/multiqc_report.html",
@@ -242,9 +242,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2026-01-22T16:33:12.948578497"
+        "timestamp": "2026-01-23T13:55:29.615831644"
     },
     "pipeline_variations - only_call": {
         "content": [

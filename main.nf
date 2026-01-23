@@ -231,7 +231,7 @@ workflow {
     peds                = SMALLVARIANTS.out.peds
     joint_beds          = SMALLVARIANTS.out.joint_beds
     final_reports       = SMALLVARIANTS.out.final_reports
-    automap             = SMALLVARIANTS.out.automap.map { meta, dir -> [ meta, file("${dir.toUri()}/*") ] }.transpose(by:1)
+    automap             = SMALLVARIANTS.out.automap.map { meta, dir -> [ meta, file("${dir.toUri()}/**") ] }.transpose(by:1)
     updio               = SMALLVARIANTS.out.updio
     multiqc             = SMALLVARIANTS.out.multiqc_report
     multiqc_data        = SMALLVARIANTS.out.multiqc_data
