@@ -290,9 +290,9 @@
                     "type": "boolean",
                     "description": "Keep all aditional contigs for calling instead of filtering them out before."
                 },
-                "updio": {
+                "disable_updio": {
                     "type": "boolean",
-                    "description": "Run UPDio analysis on the final VCFs."
+                    "description": "Disable UPDio analysis on the final VCFs."
                 },
                 "updio_common_cnvs": {
                     "type": "string",
@@ -301,9 +301,9 @@
                     "exists": true,
                     "pattern": "^\\S+\\.tsv$"
                 },
-                "automap": {
+                "disable_automap": {
                     "type": "boolean",
-                    "description": "Run AutoMap analysis on the final VCFs."
+                    "description": "Disable AutoMap analysis on the final VCFs."
                 },
                 "automap_repeats": {
                     "type": "string",

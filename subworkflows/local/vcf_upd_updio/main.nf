@@ -16,10 +16,11 @@ workflow VCF_UPD_UPDIO {
 
     def ch_versions = channel.empty()
 
-    // Filter out all families that have less than 3 samples
+    // Filter out all families that are either too small or too big for UPDio analysis
     def ch_trio_vcfs = ch_vcfs
         .filter { meta, _vcf, _tbi ->
-            meta.family_samples.tokenize(",").size() >= 3
+            def family_size = meta.family_samples.tokenize(",").size()
+            return family_size >= 3 && family_size <= 6
         }
 
     BCFTOOLS_VIEW(
@@ -35,7 +36,8 @@ workflow VCF_UPD_UPDIO {
 
     def ch_trio_peds = ch_peds
         .filter { meta, _ped ->
-            meta.family_samples.tokenize(",").size() >= 3
+            def family_size = meta.family_samples.tokenize(",").size()
+            return family_size >= 3 && family_size <= 6
         }
 
     def ch_trio_vcfs_family = ch_filter_output

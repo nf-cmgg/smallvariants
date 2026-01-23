@@ -186,8 +186,8 @@ workflow {
         params.add_ped,
         params.gemini,
         params.validate,
-        params.updio,
-        params.automap,
+        params.disable_updio,
+        params.disable_automap,
         params.vep_dbnsfp,
         params.vep_spliceai,
         params.vep_mastermind,
@@ -231,7 +231,7 @@ workflow {
     peds                = SMALLVARIANTS.out.peds
     joint_beds          = SMALLVARIANTS.out.joint_beds
     final_reports       = SMALLVARIANTS.out.final_reports
-    automap             = SMALLVARIANTS.out.automap
+    automap             = SMALLVARIANTS.out.automap.map { meta, dir -> [ meta, file("${dir.toUri()}/**") ] }.transpose(by:1)
     updio               = SMALLVARIANTS.out.updio
     multiqc             = SMALLVARIANTS.out.multiqc_report
     multiqc_data        = SMALLVARIANTS.out.multiqc_data
@@ -290,8 +290,8 @@ output {
     final_reports { path { meta, report ->
         report >> "${meta.family}/qc_${params.unique_out}/${report.name}"
     } }
-    automap { path { meta, automap ->
-        automap >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"
+    automap { path { meta, automap_file ->
+        automap_file >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}/${automap_file.name}"
     } }
     updio { path { meta, updio ->
         def filtered = params.updio_regions ? ".filtered" : ""

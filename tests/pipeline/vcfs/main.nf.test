@@ -15,8 +15,6 @@ nextflow_pipeline {
                 gemini    = true
                 add_ped   = true
                 normalize = true
-                updio     = true
-                automap   = true
                 ped = "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped"
             }
         }
@@ -47,7 +45,6 @@ nextflow_pipeline {
             params {
                 outdir = "${outputDir}"
                 input = "${baseDir}/tests/inputs/samplesheet_vcf.csv"
-                updio     = true
                 updio_regions = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/illumina/regions/roi.bed"
                 ped = "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped"
             }

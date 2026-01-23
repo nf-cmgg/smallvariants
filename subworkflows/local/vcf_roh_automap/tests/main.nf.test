@@ -12,7 +12,6 @@ nextflow_workflow {
 
         when {
             params {
-                automap = true
                 automap_panel_name = "cmgg_bio"
             }
             workflow {
@@ -52,7 +51,6 @@ nextflow_workflow {
 
         when {
             params {
-                automap = true
                 automap_panel_name = "cmgg_bio"
             }
             workflow {
