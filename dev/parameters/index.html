@@ -997,8 +997,8 @@
 <td></td>
 </tr>
 <tr>
-<td><code>updio</code></td>
-<td>Run UPDio analysis on the final VCFs.</td>
+<td><code>disable_updio</code></td>
+<td>Disable UPDio analysis on the final VCFs.</td>
 <td><code>boolean</code></td>
 <td></td>
 <td></td>
@@ -1013,8 +1013,8 @@
 <td></td>
 </tr>
 <tr>
-<td><code>automap</code></td>
-<td>Run AutoMap analysis on the final VCFs.</td>
+<td><code>disable_automap</code></td>
+<td>Disable AutoMap analysis on the final VCFs.</td>
 <td><code>boolean</code></td>
 <td></td>
 <td></td>
@@ -1031,6 +1031,14 @@
 <tr>
 <td><code>automap_panel</code></td>
 <td>TXT file with gene panel regions to be used by AutoMap. <details><summary>Help</summary><small>By default the CMGG gene panel list will be used.</small></details></td>
+<td><code>string</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>updio_regions</code></td>
+<td>BED file with regions to be used by UPDio.</td>
 <td><code>string</code></td>
 <td></td>
 <td></td>
@@ -1174,7 +1182,7 @@
 </tr>
 <tr>
 <td><code>publish_dir_mode</code></td>
-<td>Method used to save pipeline results to output directory. <details><summary>Help</summary><small>The Nextflow <code>publishDir</code> option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See <a href="https://www.nextflow.io/docs/latest/process.html#publishdir">Nextflow docs</a> for details.</small></details></td>
+<td>Method used to save pipeline results to output directory. (accepted: <code>symlink</code>|<code>rellink</code>|<code>link</code>|<code>copy</code>|<code>copyNoFollow</code>|<code>move</code>) <details><summary>Help</summary><small>The Nextflow <code>publishDir</code> option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See <a href="https://www.nextflow.io/docs/latest/process.html#publishdir">Nextflow docs</a> for details.</small></details></td>
 <td><code>string</code></td>
 <td>copy</td>
 <td></td>
@@ -1267,6 +1275,38 @@
 <td>https://raw.githubusercontent.com/nf-core/test-datasets/</td>
 <td></td>
 <td>True</td>
+</tr>
+<tr>
+<td><code>trace_report_suffix</code></td>
+<td>Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.</td>
+<td><code>string</code></td>
+<td></td>
+<td></td>
+<td>True</td>
+</tr>
+<tr>
+<td><code>help</code></td>
+<td>Display the help message.</td>
+<td><code>['boolean', 'string']</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>help_full</code></td>
+<td>Display the full detailed help message.</td>
+<td><code>boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>show_hidden</code></td>
+<td>Display hidden parameters in the help message (only works when --help or --help_full are provided).</td>
+<td><code>boolean</code></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
