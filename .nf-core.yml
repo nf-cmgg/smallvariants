@@ -1,4 +1,4 @@
-bump_version:
+bump_version: null
 lint:
   actions_ci: false
   files_exist:
@@ -44,4 +44,4 @@ template:
   skip_features:
     - fastqc
     - is_nfcore
-  version: 1.12.0dev
+  version: 1.12.0
