@@ -30,6 +30,7 @@ lint:
     - manifest.homePage
     - validation.help.afterText
     - validation.summary.afterText
+  included_configs: false
 nf_core_version: 3.4.1
 repository_type: pipeline
 org_path: nf-cmgg
