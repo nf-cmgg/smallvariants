@@ -7,8 +7,6 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.preview.output = true
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
@@ -41,6 +39,10 @@ params.alphamissense        = getGenomeAttribute('alphamissense', params.genomes
 params.alphamissense_tbi    = getGenomeAttribute('alphamissense_tbi', params.genomes, params.genome)
 params.vcfanno_resources    = getGenomeAttribute('vcfanno_resources', params.genomes, params.genome)
 params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
+params.maxentscan           = getGenomeAttribute('maxentscan', params.genomes, params.genome)
+
+
+params.unique_out = "v${workflow.manifest.version.replace('.', '_')}_${new java.util.Date().format( 'yyyy_MM_dd')}"
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,6 +75,8 @@ workflow {
     // Check for dependencies between parameters
     //
 
+    def List<String> available_callers = ["haplotypecaller", "vardict", "elprep"]
+
     if(params.dbsnp_tbi && !params.dbsnp){
         error("Please specify the dbsnp VCF with --dbsnp VCF")
     }
@@ -96,7 +100,7 @@ workflow {
 
     def callers = params.callers.tokenize(",")
     callers.each { caller ->
-        if(!(caller in GlobalVariables.availableCallers)) { error("\"${caller}\" is not a supported callers please use one or more of these instead: ${GlobalVariables.availableCallers}")}
+        if(!(caller in available_callers)) { error("\"${caller}\" is not a supported callers please use one or more of these instead: ${available_callers.join(', ')}") }
     }
 
     /*
@@ -117,9 +121,10 @@ workflow {
         params.outdir,
         params.input,
         params.ped,
-        params.genomes,
-        params.genome,
-        params.watchdir
+        params.help,
+        params.help_full,
+        params.show_hidden,
+        params.unique_out,
     )
 
     //
@@ -129,6 +134,7 @@ workflow {
     SMALLVARIANTS (
         // Input channels
         PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.ped_files,
 
         // File inputs
         params.fasta,
@@ -152,6 +158,7 @@ workflow {
         params.eog_tbi,
         params.alphamissense,
         params.alphamissense_tbi,
+        params.maxentscan,
         params.vcfanno_resources,
         params.vcfanno_config,
         params.multiqc_config,
@@ -164,9 +171,9 @@ workflow {
         params.automap_repeats,
         params.automap_panel,
         params.outdir,
-        GlobalVariables.pedFiles,
         params.elsites,
         params.msi_baseline,
+        params.updio_regions,
 
         // Boolean inputs
         params.dragstr,
@@ -179,13 +186,14 @@ workflow {
         params.add_ped,
         params.gemini,
         params.validate,
-        params.updio,
-        params.automap,
+        params.disable_updio,
+        params.disable_automap,
         params.vep_dbnsfp,
         params.vep_spliceai,
         params.vep_mastermind,
         params.vep_eog,
         params.vep_alphamissense,
+        params.vep_maxentscan,
 
         // Value inputs
         params.genome,
@@ -195,7 +203,6 @@ workflow {
         params.scatter_count,
         params.callers.tokenize(",")
     )
-
     //
     // SUBWORKFLOW: Run completion tasks
     //
@@ -219,12 +226,12 @@ workflow {
     validation          = SMALLVARIANTS.out.validation
     gvcf_reports        = SMALLVARIANTS.out.gvcf_reports
     genomicsdb          = SMALLVARIANTS.out.genomicsdb
-    vcfs                = SMALLVARIANTS.out.vcfs
+    vcfs                = SMALLVARIANTS.out.vcfs.filter { _meta, vcf, _tbi -> vcf.startsWith(workflow.workDir) } // Filtering out input VCFs from the output publishing fixes an issue in the current implementation of the workflow output definitions: https://github.com/nextflow-io/nextflow/issues/5480
     gemini              = SMALLVARIANTS.out.gemini
     peds                = SMALLVARIANTS.out.peds
     joint_beds          = SMALLVARIANTS.out.joint_beds
     final_reports       = SMALLVARIANTS.out.final_reports
-    automap             = SMALLVARIANTS.out.automap
+    automap             = SMALLVARIANTS.out.automap.map { meta, dir -> [ meta, file("${dir.toUri()}/**") ] }.transpose(by:1)
     updio               = SMALLVARIANTS.out.updio
     multiqc             = SMALLVARIANTS.out.multiqc_report
     multiqc_data        = SMALLVARIANTS.out.multiqc_data
@@ -283,11 +290,11 @@ output {
     final_reports { path { meta, report ->
         report >> "${meta.family}/qc_${params.unique_out}/${report.name}"
     } }
-    automap { path { meta, automap ->
-        automap >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}"
+    automap { path { meta, automap_file ->
+        automap_file >> "${meta.family}/output_${params.unique_out}/automap/${meta.caller}/${automap_file.name}"
     } }
     updio { path { meta, updio ->
-        updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}"
+        updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}${params.updio_regions ? '.filtered' : ''}"
     } }
     multiqc { path { report ->
         report >> "${params.unique_out}/multiqc_report.html"

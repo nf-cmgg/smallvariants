@@ -1,0 +1,86 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+    tag "pipeline"
+    tag "pipeline_gvcfs"
+
+    test("pipeline_postprocessing - vcfs") {
+
+        when {
+            params {
+                outdir = "${outputDir}"
+                input = "${baseDir}/tests/inputs/samplesheet_vcf.csv"
+                gemini    = true
+                add_ped   = true
+                normalize = true
+                ped = "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    path("${outputDir}")
+                        .list()
+                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .flatten()
+                        .findAll {
+                            !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
+                        }
+                        .collect {
+                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                        }
+                ).match() }
+            )
+        }
+
+    }
+
+    test("pipeline_postprocessing - vcfs - updio regions") {
+
+        when {
+            params {
+                outdir = "${outputDir}"
+                input = "${baseDir}/tests/inputs/samplesheet_vcf.csv"
+                updio_regions = "https://github.com/nf-cmgg/test-datasets/raw/smallvariants/data/genomics/homo_sapiens/illumina/regions/roi.bed"
+                ped = "https://github.com/nf-cmgg/test-datasets/raw/refs/heads/smallvariants/data/genomics/homo_sapiens/genome/test.ped"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    path("${outputDir}")
+                        .list()
+                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .flatten()
+                        .findAll {
+                            !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
+                        }
+                        .collect {
+                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                        }
+                ).match() }
+            )
+        }
+
+    }
+
+}
+
+def getRecursiveFileNames(fileOrDir, outputDir) {
+    if(file(fileOrDir.toString()).isDirectory()) {
+        return fileOrDir.list().collect { getRecursiveFileNames(it, outputDir) }
+    }
+    return fileOrDir.toString().replace("${outputDir}/", "")
+}
+
+def getDynamicOutputName() {
+    def Map nfcoreYaml = new groovy.yaml.YamlSlurper().parseText(file(".nf-core.yml").text)
+    def date = new java.text.SimpleDateFormat("yyyy_MM_dd").format(new Date())
+    return "v${nfcoreYaml.template.version.replace('.', '_')}_${date}" as String
+}

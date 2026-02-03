@@ -10,7 +10,7 @@ workflow VCF_VALIDATE_SMALL_VARIANTS {
 
     main:
 
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
     def ch_input = ch_vcf.join(ch_beds, failOnDuplicate: true, failOnMismatch: true)
 
     RTGTOOLS_VCFEVAL(
@@ -101,4 +101,3 @@ workflow VCF_VALIDATE_SMALL_VARIANTS {
 
     versions = ch_versions                  // channel: [ versions.yml ]
 }
-

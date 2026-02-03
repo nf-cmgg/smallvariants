@@ -44,8 +44,10 @@ include { UNTAR                                                      } from '../
 include { ENSEMBLVEP_DOWNLOAD                                        } from '../modules/nf-core/ensemblvep/download/main'
 include { BCFTOOLS_STATS                                             } from '../modules/nf-core/bcftools/stats/main'
 include { BCFTOOLS_NORM                                              } from '../modules/nf-core/bcftools/norm/main'
+include { BCFTOOLS_GETSAMPLES                                        } from '../modules/local/bcftools/getsamples/main'
 include { TABIX_TABIX as TABIX_DBSNP                                 } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_GVCF                                  } from '../modules/nf-core/tabix/tabix/main'
+include { TABIX_TABIX as TABIX_VCF                                   } from '../modules/nf-core/tabix/tabix/main'
 include { TABIX_TABIX as TABIX_TRUTH                                 } from '../modules/nf-core/tabix/tabix/main'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_FAMILY                    } from '../modules/nf-core/bcftools/stats/main'
 include { VCF2DB                                                     } from '../modules/nf-core/vcf2db/main'
@@ -63,7 +65,8 @@ workflow SMALLVARIANTS {
 
     take:
     // Input channels
-    ch_samplesheet              // queue channel: The input channel
+    ch_samplesheet              // dataflow queue: The input channel
+    ped_files                   // dataflow value: A channel with a map of family keys and PED files as values
 
     // File inputs
     fasta                       // string: path to the reference fasta
@@ -87,6 +90,7 @@ workflow SMALLVARIANTS {
     eog_tbi                     // string: path to the index of the EOG file
     alphamissense               // string: path to the Alphamissense file
     alphamissense_tbi           // string: path to the index of the Alphamissense file
+    maxentscan                  // string: path to the MaxEntScan directory
     vcfanno_resources           // string: semicolon-separated paths/globs to the VCFanno resources
     vcfanno_config              // string: path to VCFanno config TOML
     multiqc_config              // string: path to the multiqc config file
@@ -99,9 +103,9 @@ workflow SMALLVARIANTS {
     automap_repeats             // string: path to the Automap repeats file
     automap_panel               // string: path to the Automap panel file
     outdir                      // string: path to the output directory
-    pedFiles                    // map:    a map that has the family ID as key and a PED file as value
     elsites                     // string: path to the elsites file for elprep
     msi_baseline                // string: path to the msi_baseline file
+    updio_regions               // string: path to the BED file with regions to be used by UPDio
 
     // Boolean inputs
     dragstr                     // boolean: create a dragstr model and use it for haplotypecaller
@@ -114,13 +118,14 @@ workflow SMALLVARIANTS {
     add_ped                     // boolean: add ped headers to each VCF
     gemini                      // boolean: convert the VCF to a gemini database
     validate                    // boolean: validate the pipeline output when a truth set has been given
-    updio                       // boolean: run UPDio on the final VCFs
-    automap                     // boolean: run Automap on the final VCFs
+    disable_updio               // boolean: disable running UPDio on the final VCFs
+    disable_automap             // boolean: disable running Automap on the final VCFs
     vep_dbnsfp                  // boolean: use the DBNSFP VEP plugin
     vep_spliceai                // boolean: use the SpliceAI VEP plugin
     vep_mastermind              // boolean: use the Mastermind VEP plugin
     vep_eog                     // boolean: use the EOG VEP plugin
     vep_alphamissense           // boolean: use the AlphaMissense VEP plugin
+    vep_maxentscan              // boolean: use the MaxEntScan VEP plugin
 
     // Value inputs
     genome                      // string:  the genome used by the pipeline run
@@ -132,42 +137,48 @@ workflow SMALLVARIANTS {
 
 
     main:
-    def ch_versions      = Channel.empty()
-    def ch_reports       = Channel.empty()
-    def ch_multiqc_files = Channel.empty()
+    def ch_versions      = channel.empty()
+    def ch_reports       = channel.empty()
+    def ch_multiqc_files = channel.empty()
+
+    def List<String> gvcf_callers = ["haplotypecaller", "elprep"]
+    def List<String> bam_callers = ["elprep", "vardict"]
+
 
     //
     // Importing and convert the input files passed through the parameters to channels
     //
 
-    def ch_fasta_ready        = Channel.fromPath(fasta).map{ fasta_file -> [[id:"reference"], fasta_file] }.collect()
-    def ch_fai                = fai                 ? Channel.fromPath(fai).map{ fai_file -> [[id:"reference"], fai_file] }.collect() : null
-    def ch_dict               = dict                ? Channel.fromPath(dict).map{ dict_file -> [[id:"reference"], dict_file] }.collect() : null
-    def ch_elfasta            = elfasta             ? Channel.fromPath(elfasta).map { elfasta_file -> [[id:"reference"], elfasta_file]}.collect() : null
-    def ch_strtablefile       = strtablefile        ? Channel.fromPath(strtablefile).map{ str_file -> [[id:"reference"], str_file] }.collect() : null
-    def ch_sdf                = sdf                 ? Channel.fromPath(sdf).map { sdf_file -> [[id:'reference'], sdf_file] }.collect() : null
+    def ch_fasta_ready        = channel.fromPath(fasta).map{ fasta_file -> [[id:"reference"], fasta_file] }.collect()
+    def ch_fai                = fai                 ? channel.fromPath(fai).map{ fai_file -> [[id:"reference"], fai_file] }.collect() : null
+    def ch_dict               = dict                ? channel.fromPath(dict).map{ dict_file -> [[id:"reference"], dict_file] }.collect() : null
+    def ch_elfasta            = elfasta             ? channel.fromPath(elfasta).map { elfasta_file -> [[id:"reference"], elfasta_file]}.collect() : null
+    def ch_strtablefile       = strtablefile        ? channel.fromPath(strtablefile).map{ str_file -> [[id:"reference"], str_file] }.collect() : null
+    def ch_sdf                = sdf                 ? channel.fromPath(sdf).map { sdf_file -> [[id:'reference'], sdf_file] }.collect() : null
 
-    def ch_default_roi        = roi                 ? Channel.fromPath(roi).collect()                : []
+    def ch_default_roi        = roi                 ? channel.fromPath(roi).collect()                : []
 
-    def ch_dbsnp_ready        = dbsnp               ? Channel.fromPath(dbsnp).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
-    def ch_dbsnp_tbi          = dbsnp_tbi           ? Channel.fromPath(dbsnp_tbi).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
+    def ch_dbsnp_ready        = dbsnp               ? channel.fromPath(dbsnp).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
+    def ch_dbsnp_tbi          = dbsnp_tbi           ? channel.fromPath(dbsnp_tbi).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
 
-    def ch_somalier_sites     = somalier_sites      ? Channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
+    def ch_somalier_sites     = somalier_sites      ? channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
 
-    def ch_vep_cache          = vep_cache           ? Channel.fromPath(vep_cache).collect()          : []
+    def ch_vep_cache          = vep_cache           ? channel.fromPath(vep_cache).collect()          : []
 
-    def ch_vcfanno_config     = vcfanno_config      ? Channel.fromPath(vcfanno_config).collect()     : []
-    def ch_vcfanno_lua        = vcfanno_lua         ? Channel.fromPath(vcfanno_lua).collect()        : []
-    def ch_vcfanno_resources  = vcfanno_resources   ? Channel.of(vcfanno_resources.split(";")).collect{ res -> file(res, checkIfExists:true) } : []
+    def ch_vcfanno_config     = vcfanno_config      ? channel.fromPath(vcfanno_config).collect()     : []
+    def ch_vcfanno_lua        = vcfanno_lua         ? channel.fromPath(vcfanno_lua).collect()        : []
+    def ch_vcfanno_resources  = vcfanno_resources   ? channel.of(vcfanno_resources.split(";")).collect{ res -> file(res, checkIfExists:true) } : []
 
-    def ch_updio_common_cnvs  = updio_common_cnvs   ? Channel.fromPath(updio_common_cnvs).map{ common_cnvs -> [[id:'updio_cnv'], common_cnvs] } : [[],[]]
+    def ch_updio_common_cnvs  = updio_common_cnvs   ? channel.fromPath(updio_common_cnvs).map{ common_cnvs -> [[id:'updio_cnv'], common_cnvs] } : [[],[]]
 
-    def ch_automap_repeats    = automap_repeats     ? Channel.fromPath(automap_repeats).map{ repeats ->  [[id:"repeats"], repeats] }.collect() : []
-    def ch_automap_panel      = automap_panel       ? Channel.fromPath(automap_panel).map{ panel -> [[id:"automap_panel"], panel] }.collect() : [[],[]]
+    def ch_automap_repeats    = automap_repeats     ? channel.fromPath(automap_repeats).map{ repeats ->  [[id:"repeats"], repeats] }.collect() : []
+    def ch_automap_panel      = automap_panel       ? channel.fromPath(automap_panel).map{ panel -> [[id:"automap_panel"], panel] }.collect() : [[],[]]
 
-    def ch_elsites            = elsites             ? Channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
+    def ch_elsites            = elsites             ? channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
-    def ch_msi_baseline       = msi_baseline        ? Channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
+    def ch_msi_baseline       = msi_baseline        ? channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
+
+    def ch_updio_regions      = updio_regions       ? channel.value(file(updio_regions)) : []
 
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
@@ -222,6 +233,14 @@ workflow SMALLVARIANTS {
         else if (vep_alphamissense) {
             error("Please specify '--vep_alphamissense true', '--alphamissense PATH/TO/ALPHAMISSENSE/FILE' and '--alphamissense_tbi PATH/TO/ALPHAMISSENSE/INDEX/FILE' to use the AlphaMissense VEP plugin.")
         }
+
+        // Check if all maxentscan files are given
+        if (maxentscan && vep_maxentscan) {
+            ch_vep_extra_files.add(file(maxentscan, checkIfExists: true))
+        }
+        else if (vep_maxentscan) {
+            error("Please specify '--vep_maxentscan true' and '--maxentscan PATH/TO/MAXENTSCAN/DIRECTORY' to use the MaxEntScan VEP plugin.")
+        }
     }
 
     //
@@ -229,7 +248,7 @@ workflow SMALLVARIANTS {
     //
 
     // DBSNP index
-    def ch_dbsnp_tbi_ready = Channel.empty()
+    def ch_dbsnp_tbi_ready = channel.empty()
     if (ch_dbsnp_ready != [[],[]] && ch_dbsnp_tbi == [[],[]]) {
         TABIX_DBSNP(
             ch_dbsnp_ready
@@ -242,7 +261,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference fasta index
-    def ch_fai_ready = Channel.empty()
+    def ch_fai_ready = channel.empty()
     if (!ch_fai) {
         FAIDX(
             ch_fasta_ready,
@@ -257,7 +276,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference sequence dictionary
-    def ch_dict_ready = Channel.empty()
+    def ch_dict_ready = channel.empty()
     if (!ch_dict) {
         CREATESEQUENCEDICTIONARY(
             ch_fasta_ready
@@ -270,7 +289,7 @@ workflow SMALLVARIANTS {
         ch_dict_ready = ch_dict
     }
 
-    def ch_elfasta_ready = Channel.empty()
+    def ch_elfasta_ready = channel.empty()
     def elprep_used = callers.contains("elprep")
     if (!ch_elfasta && elprep_used) {
         ELPREP_FASTATOELFASTA(
@@ -283,7 +302,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference STR table file
-    def ch_strtablefile_ready = Channel.empty()
+    def ch_strtablefile_ready = channel.empty()
     if (dragstr && !ch_strtablefile) {
         COMPOSESTRTABLEFILE(
             ch_fasta_ready,
@@ -299,7 +318,7 @@ workflow SMALLVARIANTS {
     }
 
     // Reference validation SDF
-    def ch_sdf_ready = Channel.empty()
+    def ch_sdf_ready = channel.empty()
     if (validate && !ch_sdf) {
         RTGTOOLS_FORMAT(
             ch_fasta_ready.map { meta, fasta_file -> [meta, fasta_file, [], []] }
@@ -321,10 +340,10 @@ workflow SMALLVARIANTS {
     }
 
     // VEP annotation cache
-    def ch_vep_cache_ready = Channel.empty()
+    def ch_vep_cache_ready = channel.empty()
     if (!ch_vep_cache && annotate) {
         ENSEMBLVEP_DOWNLOAD(
-            Channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
+            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
         )
         ch_versions = ch_versions.mix(ENSEMBLVEP_DOWNLOAD.out.versions)
 
@@ -337,10 +356,10 @@ workflow SMALLVARIANTS {
     // Split the input channel into the right channels
     //
 
-    def usedGvcfCallers = callers.intersect(GlobalVariables.gvcfCallers)
+    def usedGvcfCallers = callers.intersect(gvcf_callers)
 
     def ch_input = ch_samplesheet
-        .multiMap { meta, cram, crai, gvcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed ->
+        .multiMap { meta, cram, crai, gvcf, gtbi, vcf, tbi, roi_file, truth_vcf, truth_tbi, truth_bed ->
             // Error checks that were not possible using nf-schema
             if (gvcf && usedGvcfCallers.size() >= 2) {
                 error("GVCF input is not supported for runs that use more than one caller that produces a GVCF output")
@@ -348,13 +367,26 @@ workflow SMALLVARIANTS {
             if (gvcf && validate) {
                 error("Validation is not supported for GVCF inputs, use CRAM files instead when using `--validate`.")
             }
+            if (vcf && validate) {
+                error("Validation is not supported for VCF inputs, use CRAM files instead when using `--validate`.")
+            }
+
+            // Don't analyse CRAM and GVCF when VCF is given
+            if (vcf && (cram || crai || gvcf || gtbi)) {
+                log.warn("Found a VCF file for family ${meta.family}, skipping all analysis on CRAM and GVCF files")
+                cram = []
+                crai = []
+                gvcf = []
+                gtbi = []
+            }
 
             // Divide the input files into their corresponding channel
             def new_meta = meta + [
-                type: gvcf && cram ? "gvcf_cram" : gvcf ? "gvcf" : "cram" // Define the type of input data
+                type: vcf ? "vcf" : gvcf && cram ? "gvcf_cram" : gvcf ? "gvcf" : "cram" // Define the type of input data
             ]
 
             def new_meta_validation = meta.subMap(["id", "sample", "family", "duplicate_count"])
+            def new_meta_vcf = meta + [id:meta.family, caller:"unknown_caller"] - meta.subMap(["sample", "vardict_min_af"])
 
             def new_meta_gvcf = meta
             if (usedGvcfCallers.size() == 1) {
@@ -362,9 +394,44 @@ workflow SMALLVARIANTS {
             }
 
             truth_variants: [new_meta_validation, truth_vcf, truth_tbi, truth_bed] // Optional channel containing the truth VCF, its index and the optional BED file
-            gvcf:           [new_meta, gvcf, tbi] // Optional channel containing the GVCFs and their optional indices
+            gvcf:           [new_meta, gvcf, gtbi] // Optional channel containing the GVCFs and their optional indices
             cram:           [new_meta, cram, crai]  // Mandatory channel containing the CRAM files and their optional indices
             roi:            [new_meta, roi_file] // Optional channel containing the ROI BED files for WES samples
+            vcf:            [new_meta_vcf, vcf, tbi] // Optional channel containing the VCFs and their optional indices
+        }
+
+    //
+    // Handle the vcf branch
+    //
+
+    def ch_vcf_branch = ch_input.vcf
+        .filter { _meta, vcf, _tbi -> vcf } // Filter out samples that have no VCF
+        .branch { meta, vcf, tbi ->
+            no_tbi: !tbi
+                return [ meta, vcf ]
+            tbi:    tbi
+                return [ meta, vcf, tbi ]
+        }
+
+    TABIX_VCF(
+        ch_vcf_branch.no_tbi
+    )
+    ch_versions = ch_versions.mix(TABIX_VCF.out.versions.first())
+
+    def ch_indexed_vcfs = ch_vcf_branch.no_tbi
+        .join(TABIX_VCF.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .mix(ch_vcf_branch.tbi)
+
+    BCFTOOLS_GETSAMPLES(
+        ch_indexed_vcfs
+    )
+    ch_versions = ch_versions.mix(BCFTOOLS_GETSAMPLES.out.versions.first())
+
+    def ch_vcfs_ready = BCFTOOLS_GETSAMPLES.out.samples
+        .join(ch_indexed_vcfs, failOnDuplicate:true, failOnMismatch:true)
+        .map { meta, samples, vcf, tbi ->
+            def new_meta = meta + [family_samples: samples.text.readLines().join(",")]
+            [ new_meta, vcf, tbi ]
         }
 
     //
@@ -391,7 +458,7 @@ workflow SMALLVARIANTS {
     def ch_gvcfs_ready = ch_gvcf_branch.no_tbi
         .join(TABIX_GVCF.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         .mix(ch_gvcf_branch.tbi)
-        .combine(callers.intersect(GlobalVariables.gvcfCallers))
+        .combine(callers.intersect(gvcf_callers))
         .map { meta, gvcf, tbi, caller ->
             def new_meta = meta + [caller:caller]
             [ new_meta, gvcf, tbi ]
@@ -401,15 +468,15 @@ workflow SMALLVARIANTS {
     // Run sample preparation
     //
 
-    def create_bam_files = callers.intersect(GlobalVariables.bamCallers).size() > 0 // Only create BAM files when needed
+    def create_bam_files = callers.intersect(bam_callers).size() > 0 // Only create BAM files when needed
     CRAM_PREPARE_SAMTOOLS_BEDTOOLS(
         ch_input.cram.filter { meta, _cram, _crai ->
             // Filter out files that already have a called GVCF when only GVCF callers are used
-            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - GlobalVariables.gvcfCallers)
+            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - gvcf_callers)
         },
         ch_input.roi.filter { meta, _roi_file ->
             // Filter out files that already have a called GVCF when only GVCF callers are used
-            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - GlobalVariables.gvcfCallers)
+            meta.type == "cram" || (meta.type == "gvcf_cram" && callers - gvcf_callers)
         },
         ch_fasta_ready,
         ch_fai_ready,
@@ -427,7 +494,7 @@ workflow SMALLVARIANTS {
     // Split the BED files
     //
 
-    def ch_split_cram_bam = Channel.empty()
+    def ch_split_cram_bam = channel.empty()
     if(create_bam_files) {
         ch_split_cram_bam = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams
             .join(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_bams, failOnDuplicate:true, failOnMismatch:true)
@@ -481,8 +548,8 @@ workflow SMALLVARIANTS {
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.summary_msi.map { _meta, file -> file})
     ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
 
-    def ch_calls = Channel.empty()
-    def ch_gvcf_reports = Channel.empty()
+    def ch_calls = ch_vcfs_ready
+    def ch_gvcf_reports = channel.empty()
     if("haplotypecaller" in callers) {
         //
         // Call variants with GATK4 HaplotypeCaller
@@ -564,13 +631,13 @@ workflow SMALLVARIANTS {
     def ch_joint_beds = GVCF_JOINT_GENOTYPE_GATK4.out.beds
     def ch_final_genomicsdb = GVCF_JOINT_GENOTYPE_GATK4.out.genomicsdb
 
-    def ch_final_vcfs       = Channel.empty()
-    def ch_final_dbs        = Channel.empty()
-    def ch_final_peds       = Channel.empty()
-    def ch_final_reports    = Channel.empty()
-    def ch_final_automap    = Channel.empty()
-    def ch_final_updio      = Channel.empty()
-    def ch_final_validation = Channel.empty()
+    def ch_final_vcfs       = channel.empty()
+    def ch_final_dbs        = channel.empty()
+    def ch_final_peds       = channel.empty()
+    def ch_final_reports    = channel.empty()
+    def ch_final_automap    = channel.empty()
+    def ch_final_updio      = channel.empty()
+    def ch_final_validation = channel.empty()
 
     if (!only_call && !only_merge) {
         def ch_called_variants = ch_calls
@@ -591,7 +658,7 @@ workflow SMALLVARIANTS {
         ch_final_reports = BCFTOOLS_STATS.out.stats
         ch_reports = ch_reports.mix(ch_final_reports.collect { _meta, report -> report })
 
-        def ch_filtered_variants = Channel.empty()
+        def ch_filtered_variants = channel.empty()
         if(filter) {
             VCF_FILTER_BCFTOOLS(
                 ch_called_variants
@@ -602,7 +669,7 @@ workflow SMALLVARIANTS {
             ch_filtered_variants = ch_called_variants
         }
 
-        def ch_normalized_variants = Channel.empty()
+        def ch_normalized_variants = channel.empty()
         if(normalize) {
             BCFTOOLS_NORM(
                 ch_filtered_variants,
@@ -621,8 +688,9 @@ workflow SMALLVARIANTS {
         //
 
         def ch_somalier_input = ch_normalized_variants
-            .map { meta, _vcf, _tbi ->
-                [ meta, pedFiles.containsKey(meta.family) ? pedFiles[meta.family] : [] ]
+            .combine(ped_files)
+            .map { meta, _vcf, _tbi, ped_map ->
+                [ meta, ped_map.get(meta.family, []) ]
             }
 
         //
@@ -646,7 +714,7 @@ workflow SMALLVARIANTS {
         // Add PED headers to the VCFs
         //
 
-        def ch_ped_vcfs = Channel.empty()
+        def ch_ped_vcfs = channel.empty()
         if(add_ped){
 
             VCF_PED_RTGTOOLS(
@@ -809,11 +877,8 @@ workflow SMALLVARIANTS {
         //
 
         if(gemini){
-            def ch_vcf2db_input = CustomChannelOperators.joinOnKeys(
-                    ch_final_vcfs.map { meta, vcf, _tbi -> [ meta, vcf ]},
-                    ch_final_peds,
-                    ['id', 'family', 'family_samples']
-                )
+            def ch_vcf2db_input = ch_final_vcfs.map { meta, vcf, _tbi -> [ meta, vcf ]}
+                .join(ch_final_peds, failOnMismatch:true, failOnDuplicate:true)
 
             VCF2DB(
                 ch_vcf2db_input
@@ -826,11 +891,12 @@ workflow SMALLVARIANTS {
         // Run UPDio analysis
         //
 
-        if(updio) {
+        if(!disable_updio) {
             VCF_UPD_UPDIO(
                 ch_final_vcfs,
                 ch_final_peds,
-                ch_updio_common_cnvs
+                ch_updio_common_cnvs,
+                ch_updio_regions
             )
             ch_versions = ch_versions.mix(VCF_UPD_UPDIO.out.versions)
             ch_final_updio = VCF_UPD_UPDIO.out.updio
@@ -840,7 +906,7 @@ workflow SMALLVARIANTS {
         // Run automap analysis
         //
 
-        if(automap) {
+        if(!disable_automap) {
             VCF_ROH_AUTOMAP(
                 ch_final_vcfs,
                 ch_automap_repeats,
@@ -867,21 +933,21 @@ workflow SMALLVARIANTS {
     // Perform multiQC on all QC data
     //
 
-    def ch_multiqc_config                     = Channel.fromPath(
+    def ch_multiqc_config                     = channel.fromPath(
                                                 "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
     def ch_multiqc_custom_config              = multiqc_config ?
-                                                Channel.fromPath(multiqc_config, checkIfExists: true) :
-                                                Channel.empty()
+                                                channel.fromPath(multiqc_config, checkIfExists: true) :
+                                                channel.empty()
     def ch_multiqc_logo                       = multiqc_logo ?
-                                                Channel.fromPath(multiqc_logo, checkIfExists: true) :
-                                                Channel.empty()
+                                                channel.fromPath(multiqc_logo, checkIfExists: true) :
+                                                channel.empty()
 
     def summary_params                        = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
-    def ch_workflow_summary                   = Channel.value(paramsSummaryMultiqc(summary_params))
+    def ch_workflow_summary                   = channel.value(paramsSummaryMultiqc(summary_params))
     def ch_multiqc_custom_methods_description = multiqc_methods_description ?
                                                 file(multiqc_methods_description, checkIfExists: true) :
                                                 file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-    def ch_methods_description                = Channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
+    def ch_methods_description                = channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
 
     ch_multiqc_files                          = ch_multiqc_files.mix(
                                                     ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),

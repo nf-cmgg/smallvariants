@@ -3,6 +3,23 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.12.0 - Noble Namur - [Feb 3 2026]
+
+## New features
+
+1. Added the `--maxentscan` parameter to specify the path to the MaxEntScan directory. This is required when using the MaxEntScan VEP plugin.
+2. Added the `vcf` and `tbi` fields to the samplesheet to allow for joint genotyping of VCF files as input of the pipeline. Only postprocessing analysis will be run on these VCFs. The used caller will be set to `unknown_caller` here to indicate that these VCFs were not created by the pipeline itself.
+3. Added the `--updio_regions` parameter to specify a BED file with regions to be used by UPDio. Files created with this option will have `.filtered` appended to their parent directory.
+
+## Changes
+
+1. Renamed the `tbi` samplesheet field to `gtbi` to make it more clear that this is the index of the GVCF file.
+2. Process_bed module: add sorting step + git HyperCap profile more memory.
+3. Removed support for watch files due to the maintenance burden and low usage.
+4. Reworked PED file handling using the `nf-ped` plugin. This should fix the resumeability issues with PED files.
+5. Updated reference to Clinvar annotation VCF to the latest version (clinvar_20251027.vcf.gz).
+6. Changed the `--updio` and `--automap` parameters to `--disable_updio` and `--disable_automap`respectively. This change also reverts the functionality of these parameters: UPDio and AutoMap are now run by default unless these parameters are set to true.
+
 ## v1.11.0 - Generous Ghent - [Sept 1 2025]
 
 ## New features

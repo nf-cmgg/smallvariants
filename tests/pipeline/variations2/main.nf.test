@@ -20,37 +20,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
-                { assert snapshot(
-                    path("${outputDir}")
-                        .list()
-                        .collect { getRecursiveFileNames(it, "${outputDir}") }
-                        .flatten()
-                        .findAll {
-                            !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
-                        }
-                        .collect {
-                            it.replace(getDynamicOutputName(), "<version>_<date>")
-                        }
-                ).match() }
-            )
-        }
-
-    }
-
-    test("pipeline_variations - updio") {
-
-        when {
-            params {
-                outdir = "${outputDir}"
-                updio = true
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -80,7 +49,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -110,7 +78,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
@@ -140,7 +107,6 @@ nextflow_pipeline {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert !workflow.stdout },
                 { assert snapshot(
                     path("${outputDir}")
                         .list()

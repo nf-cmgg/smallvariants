@@ -11,7 +11,8 @@
                 "type": "string",
                 "pattern": "^[a-zA-Z0-9_\\.]+$",
                 "meta": ["id", "sample"],
-                "errorMessage": "Sample name should be a string that may contain underscores (_) and dots (.)"
+                "errorMessage": "Sample name should be a string that may contain underscores (_) and dots (.)",
+                "default": ""
             },
             "family": {
                 "type": "string",
@@ -20,64 +21,40 @@
                 "errorMessage": "Family name should be a string that may contain underscores (_) and dots (.)"
             },
             "cram": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.cram$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.cram$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.cram$",
+                "format": "file-path",
+                "exists": true
             },
             "crai": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.cram\\.crai$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.cram\\.crai$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.cram\\.crai$",
+                "format": "file-path",
+                "exists": true
             },
             "gvcf": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.g\\.vcf(\\.gz)?$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.g\\.vcf(\\.gz)?$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.g\\.vcf(\\.gz)?$",
+                "format": "file-path",
+                "exists": true
+            },
+            "gtbi": {
+                "type": "string",
+                "pattern": "^\\S+\\.g\\.vcf\\.gz\\.tbi$",
+                "format": "file-path",
+                "exists": true
+            },
+            "vcf": {
+                "type": "string",
+                "pattern": "^\\S+\\.vcf(\\.gz)?$",
+                "format": "file-path",
+                "exists": true
             },
             "tbi": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.g\\.vcf\\.gz\\.tbi$",
-                        "format": "file-path",
-                        "exists": true
-                    },
-                    {
-                        "type": "string",
-                        "pattern": "^watch:\\S+\\.g\\.vcf\\.gz\\.tbi?$",
-                        "format": "file-path"
-                    }
-                ]
+                "type": "string",
+                "pattern": "^\\S+\\.vcf\\.gz\\.tbi$",
+                "format": "file-path",
+                "exists": true
             },
             "roi": {
                 "type": "string",
@@ -119,12 +96,23 @@
                 "meta": "msi"
             }
         },
-        "required": ["sample"]
+        "anyOf": [
+            {
+                "required": ["sample", "cram"]
+            },
+            {
+                "required": ["sample", "gvcf"]
+            },
+            {
+                "required": ["family", "vcf"]
+            }
+        ]
     },
     "dependentRequired": {
         "truth_tbi": ["truth_vcf"],
         "truth_bed": ["truth_vcf"],
-        "tbi": ["gvcf"],
+        "gtbi": ["gvcf"],
+        "tbi": ["vcf"],
         "crai": ["cram"]
     }
 }

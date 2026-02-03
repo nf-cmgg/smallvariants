@@ -11,10 +11,6 @@ nextflow_workflow {
     test("vcf_upd_updio - default - family") {
 
         when {
-            params {
-                outdir = "${outputDir}"
-                updio = true
-            }
             workflow {
                 """
                 input[0] = Channel.of([
@@ -27,6 +23,7 @@ nextflow_workflow {
                     file(params.ped, checkIfExists:true)
                 ])
                 input[2] = [[],[]]
+                input[3] = []
                 """
             }
         }
@@ -36,7 +33,7 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.updio
-                ).match("default - family") }
+                ).match() }
             )
         }
 
@@ -45,9 +42,6 @@ nextflow_workflow {
     test("vcf_upd_updio - default - sample") {
         // This should output nothing
         when {
-            params {
-                updio = true
-            }
             workflow {
                 """
                 input[0] = Channel.of([
@@ -60,6 +54,7 @@ nextflow_workflow {
                     file(params.ped, checkIfExists:true)
                 ])
                 input[2] = [[],[]]
+                input[3] = []
                 """
             }
         }
@@ -69,7 +64,38 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.updio
-                ).match("default - sample") }
+                ).match() }
+            )
+        }
+
+    }
+
+    test("vcf_upd_updio - region - family") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [id:"Ashkenazim", family:"Ashkenazim", family_samples:"NA24143,NA24149,NA24385", caller:"haplotypecaller"],
+                    file(params.famvcf, checkIfExists:true),
+                    file(params.famtbi, checkIfExists:true)
+                ])
+                input[1] = Channel.of([
+                    [id:"Ashkenazim", family:"Ashkenazim", family_samples:"NA24143,NA24149,NA24385", caller:"haplotypecaller"],
+                    file(params.ped, checkIfExists:true)
+                ])
+                input[2] = [[],[]]
+                input[3] = file(params.bed, checkIfExists:true)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.updio
+                ).match() }
             )
         }
 
