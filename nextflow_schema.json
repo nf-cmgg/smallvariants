@@ -734,6 +734,9 @@
             "$ref": "#/$defs/institutional_config_options"
         },
         {
+            "$ref": "#/$defs/cmgg_institutional_config_options"
+        },
+        {
             "$ref": "#/$defs/generic_options"
         },
         {
