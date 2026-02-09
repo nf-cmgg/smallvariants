@@ -523,7 +523,7 @@ workflow SMALLVARIANTS {
     def msi_warned = false
     def ch_msi_samples = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_crams
         .filter { meta, _cram, _crai ->
-            if(!msi_baseline) {
+            if(!msi_baseline && meta.msi) {
                 if(!msi_warned) {
                     log.warn("MSI samples were found, but no MSI baseline file was provided. Please provide a baseline file using the '--msi_baseline' parameter. Skipping MSI analysis...")
                 }

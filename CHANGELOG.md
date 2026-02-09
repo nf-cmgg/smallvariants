@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 5. Updated reference to Clinvar annotation VCF to the latest version (clinvar_20251027.vcf.gz).
 6. Changed the `--updio` and `--automap` parameters to `--disable_updio` and `--disable_automap`respectively. This change also reverts the functionality of these parameters: UPDio and AutoMap are now run by default unless these parameters are set to true.
 
+## Fixes
+
+1. Fixed an issue where a warning about a missing MSI baseline was shown even though MSI shouldn't be run.
+
 ## v1.11.0 - Generous Ghent - [Sept 1 2025]
 
 ## New features
