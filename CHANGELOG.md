@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changes
 
-- Set default container for `multiqc`to custom cmgg version
+1. Set default container for `multiqc`to custom cmgg version
+
+## Fixes
+
+1. Fixed `wrong number of arguments` error when the `family` field was missing from the samplesheet
 
 ## v1.12.0 - Noble Namur - [Feb 3 2026]
 
