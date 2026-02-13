@@ -653,14 +653,6 @@
 <td></td>
 </tr>
 <tr>
-<td><code>watchdir</code></td>
-<td>A folder to watch for the creation of files that start with <code>watch:</code> in the samplesheet.</td>
-<td><code>string</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>email</code></td>
 <td>Email address for completion summary. <details><summary>Help</summary><small>Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (<code>~/.nextflow/config</code>) then you don't need to specify this on the command line for every run.</small></details></td>
 <td><code>string</code></td>
@@ -765,36 +757,12 @@
 <td>True</td>
 </tr>
 <tr>
-<td><code>genomes_base</code></td>
-<td>Directory base for CMGG reference store (used when <code>--genomes_ignore false</code> is specified)</td>
-<td><code>string</code></td>
-<td>/references/</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>cmgg_config_base</code></td>
-<td>The base directory for the local config files</td>
-<td><code>string</code></td>
-<td>/conf/</td>
-<td></td>
-<td>True</td>
-</tr>
-<tr>
-<td><code>genomes_ignore</code></td>
-<td>Do not load the local references from the path specified with <code>--genomes_base</code></td>
-<td><code>boolean</code></td>
-<td></td>
-<td></td>
-<td>True</td>
-</tr>
-<tr>
 <td><code>igenomes_base</code></td>
 <td>Directory / URL base for iGenomes references.</td>
 <td><code>string</code></td>
 <td></td>
 <td></td>
-<td>True</td>
+<td><code>/references</code></td>
 </tr>
 <tr>
 <td><code>igenomes_ignore</code></td>
@@ -802,7 +770,7 @@
 <td><code>boolean</code></td>
 <td></td>
 <td></td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td><code>msi_baseline</code></td>
@@ -1120,7 +1088,7 @@
 <td><code>custom_config_base</code></td>
 <td>Base directory for Institutional configs. <details><summary>Help</summary><small>If you're running offline, Nextflow will not be able to fetch the institutional config files from the internet. If you don't need them, then this is not a problem. If you do need them, you should download the files from the repo and tell Nextflow where to find them with this parameter.</small></details></td>
 <td><code>string</code></td>
-<td>https://raw.githubusercontent.com/nf-core/configs/master</td>
+<td>https://raw.githubusercontent.com/nf-cmgg/configs/main</td>
 <td></td>
 <td>True</td>
 </tr>
