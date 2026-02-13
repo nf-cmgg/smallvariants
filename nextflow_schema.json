@@ -28,12 +28,6 @@
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
-                "watchdir": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "A folder to watch for the creation of files that start with `watch:` in the samplesheet.",
-                    "fa_icon": "fas fa-folder-open"
-                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
@@ -127,26 +121,6 @@
                     "hidden": true,
                     "description": "Object for genomes"
                 },
-                "genomes_base": {
-                    "type": "string",
-                    "default": "/references/",
-                    "description": "Directory base for CMGG reference store (used when `--genomes_ignore false` is specified)",
-                    "fa_icon": "fas fa-download",
-                    "format": "directory-path"
-                },
-                "cmgg_config_base": {
-                    "type": "string",
-                    "default": "/conf/",
-                    "description": "The base directory for the local config files",
-                    "fa_icon": "fas fa-folder",
-                    "hidden": true
-                },
-                "genomes_ignore": {
-                    "type": "boolean",
-                    "hidden": true,
-                    "description": "Do not load the local references from the path specified with `--genomes_base`",
-                    "fa_icon": "fas fa-ban"
-                },
                 "igenomes_base": {
                     "type": "string",
                     "format": "directory-path",
@@ -158,7 +132,7 @@
                     "type": "boolean",
                     "description": "Do not load the iGenomes reference config.",
                     "fa_icon": "fas fa-ban",
-                    "hidden": true,
+                    "hidden": false,
                     "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
                 },
                 "msi_baseline": {
@@ -365,14 +339,14 @@
                 "custom_config_version": {
                     "type": "string",
                     "description": "Git commit id for Institutional configs.",
-                    "default": "master",
+                    "default": "main",
                     "hidden": true,
                     "fa_icon": "fas fa-users-cog"
                 },
                 "custom_config_base": {
                     "type": "string",
                     "description": "Base directory for Institutional configs.",
-                    "default": "https://raw.githubusercontent.com/nf-core/configs/master",
+                    "default": "https://raw.githubusercontent.com/nf-cmgg/configs/main",
                     "hidden": true,
                     "help_text": "If you're running offline, Nextflow will not be able to fetch the institutional config files from the internet. If you don't need them, then this is not a problem. If you do need them, you should download the files from the repo and tell Nextflow where to find them with this parameter.",
                     "fa_icon": "fas fa-users-cog"
