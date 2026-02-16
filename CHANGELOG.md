@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Fixes
 
 1. Fixed `wrong number of arguments` error when the `family` field was missing from the samplesheet
+2. Bumped `nf-ped` to correctly work on cloud systems
 
 ## v1.12.0 - Noble Namur - [Feb 3 2026]
 
