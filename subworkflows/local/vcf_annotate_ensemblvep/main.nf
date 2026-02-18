@@ -20,7 +20,6 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
     val_sites_per_chunk         //   value: the amount of variants per scattered VCF
 
     main:
-    def ch_versions  = channel.empty()
     def ch_vep_input = channel.empty()
     def ch_scatter   = channel.empty()
 
@@ -49,7 +48,6 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
             [],
             []
         )
-        ch_versions = ch_versions.mix(BCFTOOLS_PLUGINSCATTER.out.versions.first())
 
         //
         // Run the annotation with EnsemblVEP
@@ -93,7 +91,6 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
         ch_fasta,
         ch_vep_extra_files
     )
-    ch_versions = ch_versions.mix(ENSEMBLVEP_VEP.out.versions.first())
 
     def ch_vep_output  = ENSEMBLVEP_VEP.out.vcf
         .join(ENSEMBLVEP_VEP.out.tbi, failOnDuplicate:true, failOnMismatch:true)
@@ -120,7 +117,6 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
         BCFTOOLS_CONCAT(
             ch_concat_input
         )
-        ch_versions = ch_versions.mix(BCFTOOLS_CONCAT.out.versions.first())
 
         //
         // Sort the concatenate output (bcftools concat is unable to do this on its own)
@@ -129,7 +125,6 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
         BCFTOOLS_SORT(
             BCFTOOLS_CONCAT.out.vcf
         )
-        ch_versions = ch_versions.mix(BCFTOOLS_SORT.out.versions.first())
 
         ch_ready_vcfs = BCFTOOLS_SORT.out.vcf
             .join(BCFTOOLS_SORT.out.tbi, failOnDuplicate:true, failOnMismatch:true)
@@ -140,5 +135,4 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
     emit:
     vcf_tbi         = ch_ready_vcfs     // channel: [ val(meta), path(vcf), path(tbi) ]
     vep_reports     = ch_vep_reports    // channel: [ path(html) ]
-    versions        = ch_versions       // channel: [ versions.yml ]
 }

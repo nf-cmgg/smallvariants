@@ -25,7 +25,6 @@ workflow VCF_ANNOTATION {
 
     def ch_annotated_vcfs   = channel.empty()
     def ch_reports          = channel.empty()
-    def ch_versions         = channel.empty()
 
     def ch_vep_input = ch_vcfs
         .map { meta, vcf, tbi ->
@@ -46,8 +45,6 @@ workflow VCF_ANNOTATION {
         ch_vep_extra_files,
         vep_chunk_size
     )
-
-    ch_versions = ch_versions.mix(VCF_ANNOTATE_ENSEMBLVEP.out.versions)
     ch_reports  = ch_reports.mix(VCF_ANNOTATE_ENSEMBLVEP.out.vep_reports)
 
     //
@@ -68,8 +65,6 @@ workflow VCF_ANNOTATION {
             ch_vcfanno_lua,
             ch_vcfanno_resources
         )
-        ch_versions = ch_versions.mix(VCFANNO.out.versions.first())
-
         ch_annotated_vcfs = VCFANNO.out.vcf.join(VCFANNO.out.tbi, failOnDuplicate:true, failOnMismatch:true)
     }
     else {
@@ -79,5 +74,4 @@ workflow VCF_ANNOTATION {
     emit:
     annotated_vcfs  = ch_annotated_vcfs   // [ val(meta), path(vcf), path(tbi) ]
     reports         = ch_reports          // [ path(reports) ]
-    versions        = ch_versions         // [ path(versions) ]
 }

@@ -253,9 +253,7 @@ workflow SMALLVARIANTS {
         TABIX_DBSNP(
             ch_dbsnp_ready
         )
-        ch_versions = ch_versions.mix(TABIX_DBSNP.out.versions)
-
-        ch_dbsnp_tbi_ready = TABIX_DBSNP.out.tbi.collect()
+        ch_dbsnp_tbi_ready = TABIX_DBSNP.out.index.collect()
     } else {
         ch_dbsnp_tbi_ready = ch_dbsnp_tbi
     }
@@ -267,8 +265,6 @@ workflow SMALLVARIANTS {
             ch_fasta_ready,
             [[],[]]
         )
-        ch_versions = ch_versions.mix(FAIDX.out.versions)
-
         ch_fai_ready = FAIDX.out.fai
             .collect()
     } else {
@@ -281,10 +277,7 @@ workflow SMALLVARIANTS {
         CREATESEQUENCEDICTIONARY(
             ch_fasta_ready
         )
-        ch_versions = ch_versions.mix(CREATESEQUENCEDICTIONARY.out.versions)
-
-        ch_dict_ready = CREATESEQUENCEDICTIONARY.out.dict
-            .collect()
+        ch_dict_ready = CREATESEQUENCEDICTIONARY.out.dict.collect()
     } else {
         ch_dict_ready = ch_dict
     }
@@ -309,7 +302,6 @@ workflow SMALLVARIANTS {
             ch_fai_ready,
             ch_dict_ready
         )
-        ch_versions  = ch_versions.mix(COMPOSESTRTABLEFILE.out.versions)
         ch_strtablefile_ready = COMPOSESTRTABLEFILE.out.str_table.collect()
     } else if (dragstr) {
         ch_strtablefile_ready = ch_strtablefile
@@ -323,15 +315,12 @@ workflow SMALLVARIANTS {
         RTGTOOLS_FORMAT(
             ch_fasta_ready.map { meta, fasta_file -> [meta, fasta_file, [], []] }
         )
-        ch_versions  = ch_versions.mix(RTGTOOLS_FORMAT.out.versions)
         ch_sdf_ready = RTGTOOLS_FORMAT.out.sdf.collect()
     }
     else if (validate && sdf.endsWith(".tar.gz")) {
         UNTAR(
             ch_sdf
         )
-        ch_versions = ch_versions.mix(UNTAR.out.versions)
-
         ch_sdf_ready = UNTAR.out.untar.collect()
     } else if(validate) {
         ch_sdf_ready = ch_sdf
@@ -345,8 +334,6 @@ workflow SMALLVARIANTS {
         ENSEMBLVEP_DOWNLOAD(
             channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
         )
-        ch_versions = ch_versions.mix(ENSEMBLVEP_DOWNLOAD.out.versions)
-
         ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect{ _meta, cache -> cache }
     } else {
         ch_vep_cache_ready = ch_vep_cache
@@ -416,10 +403,9 @@ workflow SMALLVARIANTS {
     TABIX_VCF(
         ch_vcf_branch.no_tbi
     )
-    ch_versions = ch_versions.mix(TABIX_VCF.out.versions.first())
 
     def ch_indexed_vcfs = ch_vcf_branch.no_tbi
-        .join(TABIX_VCF.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .join(TABIX_VCF.out.index, failOnDuplicate:true, failOnMismatch:true)
         .mix(ch_vcf_branch.tbi)
 
     BCFTOOLS_GETSAMPLES(
@@ -453,10 +439,9 @@ workflow SMALLVARIANTS {
     TABIX_GVCF(
         ch_gvcf_branch.no_tbi
     )
-    ch_versions = ch_versions.mix(TABIX_GVCF.out.versions)
 
     def ch_gvcfs_ready = ch_gvcf_branch.no_tbi
-        .join(TABIX_GVCF.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .join(TABIX_GVCF.out.index, failOnDuplicate:true, failOnMismatch:true)
         .mix(ch_gvcf_branch.tbi)
         .combine(callers.intersect(gvcf_callers))
         .map { meta, gvcf, tbi, caller ->
@@ -508,7 +493,6 @@ workflow SMALLVARIANTS {
         },
         ch_split_cram_bam
     )
-    ch_versions = ch_versions.mix(INPUT_SPLIT_BEDTOOLS.out.versions)
 
     def ch_caller_inputs = INPUT_SPLIT_BEDTOOLS.out.split
         .multiMap { meta, cram, crai, bam=[], bai=[], bed ->
@@ -654,7 +638,6 @@ workflow SMALLVARIANTS {
             [[],[]],
             [[],[]]
         )
-        ch_versions = ch_versions.mix(BCFTOOLS_STATS.out.versions.first())
         ch_final_reports = BCFTOOLS_STATS.out.stats
         ch_reports = ch_reports.mix(ch_final_reports.collect { _meta, report -> report })
 
@@ -663,7 +646,6 @@ workflow SMALLVARIANTS {
             VCF_FILTER_BCFTOOLS(
                 ch_called_variants
             )
-            ch_versions = ch_versions.mix(VCF_FILTER_BCFTOOLS.out.versions)
             ch_filtered_variants = VCF_FILTER_BCFTOOLS.out.vcfs
         } else {
             ch_filtered_variants = ch_called_variants
@@ -675,8 +657,6 @@ workflow SMALLVARIANTS {
                 ch_filtered_variants,
                 ch_fasta_ready,
             )
-            ch_versions = ch_versions.mix(BCFTOOLS_NORM.out.versions.first())
-
             ch_normalized_variants = BCFTOOLS_NORM.out.vcf
                 .join(BCFTOOLS_NORM.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         } else {
@@ -721,8 +701,6 @@ workflow SMALLVARIANTS {
                 ch_normalized_variants,
                 ch_final_peds
             )
-            ch_versions = ch_versions.mix(VCF_PED_RTGTOOLS.out.versions)
-
             ch_ped_vcfs = VCF_PED_RTGTOOLS.out.ped_vcfs
         } else {
             ch_ped_vcfs = ch_normalized_variants
@@ -785,10 +763,9 @@ workflow SMALLVARIANTS {
                     [ meta, vcf ]
                 }
             )
-            ch_versions = ch_versions.mix(TABIX_TRUTH.out.versions.first())
 
             ch_truths_input.no_tbi
-                .join(TABIX_TRUTH.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+                .join(TABIX_TRUTH.out.index, failOnDuplicate:true, failOnMismatch:true)
                 .map { meta, vcf, _empty, bed, tbi ->
                     [ meta, vcf, tbi, bed ]
                 }
@@ -848,7 +825,6 @@ workflow SMALLVARIANTS {
                 ch_validation_regions,
                 ch_sdf_ready.collect()
             )
-            ch_versions = ch_versions.mix(VCF_VALIDATE_SMALL_VARIANTS.out.versions)
 
             ch_final_validation = VCF_VALIDATE_SMALL_VARIANTS.out.vcfeval_true_positive_vcf.mix(
                 VCF_VALIDATE_SMALL_VARIANTS.out.vcfeval_true_positive_vcf_tbi,

@@ -11,12 +11,9 @@ workflow INPUT_SPLIT_BEDTOOLS {
 
     main:
 
-    def ch_versions = channel.empty()
-
     BEDTOOLS_SPLIT(
         ch_beds
     )
-    ch_versions = ch_versions.mix(BEDTOOLS_SPLIT.out.versions.first())
 
     def ch_split_output = ch_inputs
         .join(BEDTOOLS_SPLIT.out.beds, failOnDuplicate: true, failOnMismatch: true)
@@ -38,5 +35,4 @@ workflow INPUT_SPLIT_BEDTOOLS {
 
     emit:
     split = ch_split_output // channel: [ val(meta), path(input), path(input_index), path(bed) ]
-    versions = ch_versions  // channel: [ versions.yml ]
 }

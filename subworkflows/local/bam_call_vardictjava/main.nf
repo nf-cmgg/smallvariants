@@ -27,7 +27,6 @@ workflow BAM_CALL_VARDICTJAVA {
     VCF_CONCAT_BCFTOOLS(
         VARDICTJAVA.out.vcf
     )
-    ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 
     def ch_annotated = channel.empty()
     if(!(ch_dbsnp instanceof List)) {

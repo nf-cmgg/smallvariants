@@ -39,7 +39,6 @@ workflow BAM_CALL_ELPREP {
     VCF_CONCAT_BCFTOOLS(
         ELPREP_FILTER.out.gvcf
     )
-    ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 
     def ch_annotated = channel.empty()
     if(!(ch_dbsnp instanceof List)) {
@@ -62,7 +61,6 @@ workflow BAM_CALL_ELPREP {
         [[],[]],
         [[],[]]
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_STATS.out.versions.first())
 
     emit:
     gvcfs = ch_annotated                // channel: [ val(meta), path(vcf), path(tbi) ]

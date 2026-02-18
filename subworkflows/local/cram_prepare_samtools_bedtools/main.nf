@@ -43,10 +43,8 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     SAMTOOLS_MERGE(
         ch_cram_branch.multiple,
-        ch_fasta,
-        ch_fai
+        ch_fasta.join(ch_fai).map { meta, fasta, fai -> [ meta, fasta, fai, [] ] },
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_MERGE.out.versions.first())
 
     def ch_merged_crams = SAMTOOLS_MERGE.out.cram
         .join(SAMTOOLS_MERGE.out.crai, failOnDuplicate: true, failOnMismatch: true)
@@ -67,7 +65,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     SAMTOOLS_INDEX(
         ch_ready_crams_branch.not_indexed
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
     def ch_ready_crams = ch_ready_crams_branch.not_indexed
         .join(SAMTOOLS_INDEX.out.crai, failOnDuplicate: true, failOnMismatch: true)
@@ -84,8 +81,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
             ch_fasta,
             ch_fai
         )
-        ch_versions = ch_versions.mix(SAMTOOLS_CONVERT.out.versions.first())
-
         ch_ready_bams = SAMTOOLS_CONVERT.out.bam.join(SAMTOOLS_CONVERT.out.bai, failOnDuplicate:true, failOnMismatch:true)
     }
 
@@ -150,7 +145,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_mosdepth_input,
         ch_fasta
     )
-    ch_versions = ch_versions.mix(MOSDEPTH.out.versions.first())
     def ch_mosdepth_reports = MOSDEPTH.out.summary_txt
         .mix(
             MOSDEPTH.out.global_txt,

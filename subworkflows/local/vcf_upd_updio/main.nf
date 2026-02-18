@@ -29,7 +29,6 @@ workflow VCF_UPD_UPDIO {
         [],
         []
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_VIEW.out.versions.first())
 
     def ch_filter_output = BCFTOOLS_VIEW.out.vcf
         .join(BCFTOOLS_VIEW.out.tbi, failOnDuplicate:true, failOnMismatch:true)

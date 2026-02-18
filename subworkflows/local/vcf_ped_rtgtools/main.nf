@@ -12,8 +12,6 @@ workflow VCF_PED_RTGTOOLS {
 
     main:
 
-    def ch_versions = channel.empty()
-
     //
     // Remove extra columns from the samples TSV and convert to a VCF header
     //
@@ -21,7 +19,6 @@ workflow VCF_PED_RTGTOOLS {
     RTGTOOLS_PEDFILTER(
         ch_peds
     )
-    ch_versions = ch_versions.mix(RTGTOOLS_PEDFILTER.out.versions.first())
 
     //
     // Add the PED headers to the VCF using bcftools annotate --header-lines
@@ -34,14 +31,14 @@ workflow VCF_PED_RTGTOOLS {
         }
 
     BCFTOOLS_ANNOTATE(
-        ch_annotate_input
+        ch_annotate_input,
+        [],
+        []
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_ANNOTATE.out.versions.first())
 
     def ch_ped_vcfs = BCFTOOLS_ANNOTATE.out.vcf
         .join(BCFTOOLS_ANNOTATE.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
     emit:
     ped_vcfs = ch_ped_vcfs  // [ val(meta), path(vcf), path(tbi) ]
-    versions = ch_versions  // [ path(versions) ]
 }

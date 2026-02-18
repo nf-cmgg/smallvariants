@@ -49,7 +49,6 @@ workflow CRAM_CALL_GATK4 {
             ch_dict.map { _meta, dict -> dict },
             ch_strtablefile.map { _meta, str -> str }
         )
-        ch_versions = ch_versions.mix(GATK4_CALIBRATEDRAGSTRMODEL.out.versions.first())
 
         ch_cram_models = ch_original
             .combine(GATK4_CALIBRATEDRAGSTRMODEL.out.dragstr_model, by: 0)
@@ -71,7 +70,6 @@ workflow CRAM_CALL_GATK4 {
         ch_dbsnp,
         ch_dbsnp_tbi
     )
-    ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions.first())
 
     GATK4_HAPLOTYPECALLER.out.vcf
         .join(GATK4_HAPLOTYPECALLER.out.tbi, failOnDuplicate: true, failOnMismatch: true)
@@ -84,7 +82,6 @@ workflow CRAM_CALL_GATK4 {
     VCF_CONCAT_BCFTOOLS(
         ch_called_variants
     )
-    ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 
     BCFTOOLS_STATS(
         VCF_CONCAT_BCFTOOLS.out.vcfs,
@@ -94,8 +91,6 @@ workflow CRAM_CALL_GATK4 {
         [[],[]],
         [[],[]]
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_STATS.out.versions.first())
-
 
     emit:
     gvcfs = VCF_CONCAT_BCFTOOLS.out.vcfs    // channel: [ val(meta), path(vcf), path(tbi) ]
