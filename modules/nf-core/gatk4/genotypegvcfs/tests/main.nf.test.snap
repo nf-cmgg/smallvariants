@@ -17,15 +17,21 @@
                     "test.vcf.gz.tbi"
                 ]
             ],
-            [
-                "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
-            ]
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2024-09-04T14:27:24.926097884"
+        "timestamp": "2026-02-05T15:46:34.634470581"
     },
     "homo_sapiens - [gvcf, idx, [], []], fasta, fai, dict, [], []": {
         "content": [
@@ -45,15 +51,21 @@
                     "test.vcf.gz.tbi"
                 ]
             ],
-            [
-                "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
-            ]
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2024-09-04T14:26:24.426228557"
+        "timestamp": "2026-02-05T15:46:11.446056396"
     },
     "homo_sapiens - [gvcf_gz, tbi, bed, []], fasta, fai, dict, [], []": {
         "content": [
@@ -73,15 +85,21 @@
                     "test.vcf.gz.tbi"
                 ]
             ],
-            [
-                "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
-            ]
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2024-09-04T14:27:04.179308513"
+        "timestamp": "2026-02-05T15:46:26.768611757"
     },
     "homo_sapiens - [gvcf_gz, tbi, [], []], fasta, fai, dict, dbsnp, dbsnp_tbi": {
         "content": [
@@ -101,15 +119,21 @@
                     "test.vcf.gz.tbi"
                 ]
             ],
-            [
-                "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
-            ]
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2024-09-04T14:26:43.9088684"
+        "timestamp": "2026-02-05T15:46:18.984426817"
     },
     "homo_sapiens - [gvcf, idx, [], []], fasta, fai, dict, [], [] - stub": {
         "content": [
@@ -131,7 +155,11 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
                 ],
                 "tbi": [
                     [
@@ -149,16 +177,20 @@
                         "test.vcf.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
+                "versions_gatk4": [
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2024-09-04T14:19:57.615552867"
+        "timestamp": "2026-02-05T15:46:49.187479725"
     },
     "homo_sapiens - [gendb, bed, [], []], fasta, fai, dict, [], []": {
         "content": [
@@ -178,14 +210,20 @@
                     "test.vcf.gz.tbi"
                 ]
             ],
-            [
-                "versions.yml:md5,3c16cbf71737813609ad10d901d92ab3"
-            ]
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_GENOTYPEGVCFS",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.3"
         },
-        "timestamp": "2024-09-04T14:27:46.189794941"
+        "timestamp": "2026-02-05T15:46:43.108044727"
     }
 }

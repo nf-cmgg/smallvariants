@@ -1,4 +1,4 @@
-Changes in module 'nf-core/elprep/filter'
+Changes in component 'nf-core/elprep/filter'
 Changes in 'elprep/filter/main.nf':
 --- modules/nf-core/elprep/filter/main.nf
 +++ modules/nf-core/elprep/filter/main.nf
