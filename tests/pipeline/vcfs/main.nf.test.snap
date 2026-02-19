@@ -15,6 +15,7 @@
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller/NA24385.upd",
                 "Proband_12345/qc_<version>_<date>/Proband_12345.unknown_caller.bcftools_stats.txt",
                 "Proband_12345/qc_<version>_<date>/Proband_12345.unknown_caller.html",
+                "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
                 "<version>_<date>/multiqc_data/bcftools-stats-subtypes.txt",
                 "<version>_<date>/multiqc_data/bcftools_stats_indel-lengths.txt",
                 "<version>_<date>/multiqc_data/bcftools_stats_variant_depths.txt",
@@ -41,11 +42,11 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
+        "timestamp": "2026-02-19T15:30:23.47503228",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.3"
-        },
-        "timestamp": "2026-01-23T14:27:16.807215171"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "pipeline_postprocessing - vcfs - updio regions": {
         "content": [
@@ -60,6 +61,7 @@
                 "Proband_12345/output_<version>_<date>/updio/unknown_caller.filtered/NA24385.upd",
                 "Proband_12345/qc_<version>_<date>/Proband_12345.unknown_caller.bcftools_stats.txt",
                 "Proband_12345/qc_<version>_<date>/Proband_12345.unknown_caller.html",
+                "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
                 "<version>_<date>/multiqc_data/bcftools-stats-subtypes.txt",
                 "<version>_<date>/multiqc_data/bcftools_stats_indel-lengths.txt",
                 "<version>_<date>/multiqc_data/bcftools_stats_variant_depths.txt",
@@ -86,10 +88,10 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
+        "timestamp": "2026-02-19T15:31:03.306230919",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.3"
-        },
-        "timestamp": "2026-01-23T14:28:27.56134652"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

@@ -64,7 +64,6 @@ nextflow_workflow {
                 { assert snapshot(
                     workflow.out.vcf_tbi.collect { [it[0], "${file(it[1]).name},variantsMD5:${path(it[1]).vcf.variantsMD5}", file(it[2]).name] },
                     workflow.out.vep_reports.collect { it instanceof String ? file(it).name : it },
-                    workflow.out.versions.collect { it instanceof String ? file(it).name : it }
                 ).match()}
             )
         }
@@ -117,7 +116,6 @@ nextflow_workflow {
                 { assert snapshot(
                     workflow.out.vcf_tbi.collect { [it[0], "${file(it[1]).name},variantsMD5:${path(it[1]).vcf.variantsMD5}", file(it[2]).name] },
                     workflow.out.vep_reports.collect { it instanceof String ? file(it).name : it },
-                    workflow.out.versions.collect { it instanceof String ? file(it).name : it }
                 ).match()}
             )
         }
@@ -170,7 +168,6 @@ nextflow_workflow {
                 { assert snapshot(
                     workflow.out.vcf_tbi.collect { [it[0], "${file(it[1]).name},variantsMD5:${path(it[1]).vcf.variantsMD5}", file(it[2]).name] },
                     workflow.out.vep_reports.collect { it instanceof String ? file(it).name : it },
-                    workflow.out.versions.collect { it instanceof String ? file(it).name : it }
                 ).match()}
             )
         }

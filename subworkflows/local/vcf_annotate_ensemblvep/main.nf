@@ -94,7 +94,7 @@ workflow VCF_ANNOTATE_ENSEMBLVEP {
 
     def ch_vep_output  = ENSEMBLVEP_VEP.out.vcf
         .join(ENSEMBLVEP_VEP.out.tbi, failOnDuplicate:true, failOnMismatch:true)
-    def ch_vep_reports = ENSEMBLVEP_VEP.out.report
+    def ch_vep_reports = ENSEMBLVEP_VEP.out.report.map { _meta, _process, _tool, report -> report }
 
     // Gather the files back together if they were scattered
     def ch_ready_vcfs = channel.empty()

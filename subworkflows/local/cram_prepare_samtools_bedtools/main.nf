@@ -41,7 +41,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     SAMTOOLS_MERGE(
         ch_cram_branch.multiple,
-        ch_fasta.join(ch_fai).map { meta, fasta, fai -> [ meta, fasta, fai, [] ] },
+        ch_fasta.join(ch_fai).map { meta, fasta, fai -> [ meta, fasta, fai, [] ] }.collect()
     )
 
     def ch_merged_crams = SAMTOOLS_MERGE.out.cram
@@ -76,8 +76,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     if(output_bam) {
         SAMTOOLS_CONVERT(
             ch_ready_crams,
-            ch_fasta,
-            ch_fai
+            ch_fasta.join(ch_fai).collect(),
         )
         ch_ready_bams = SAMTOOLS_CONVERT.out.bam.join(SAMTOOLS_CONVERT.out.bai, failOnDuplicate:true, failOnMismatch:true)
     }
