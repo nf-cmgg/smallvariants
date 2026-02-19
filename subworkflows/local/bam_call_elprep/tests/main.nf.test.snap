@@ -31,15 +31,15 @@
                             "caller": "elprep"
                         }
                     },
-                    "NA24143.elprep.bcftools_stats.txt:md5,36b9f979c03b24d87e2dc710baf3672b"
+                    "NA24143.elprep.bcftools_stats.txt:md5,19cd6dddfba4f25707b11ce3cbe5e1cc"
                 ]
             ]
         ],
+        "timestamp": "2026-02-19T15:55:16.72485335",
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
-        },
-        "timestamp": "2025-01-23T17:21:58.291545093"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "bam_call_elprep - default": {
         "content": [
@@ -73,14 +73,14 @@
                             "caller": "elprep"
                         }
                     },
-                    "NA24143.elprep.bcftools_stats.txt:md5,36b9f979c03b24d87e2dc710baf3672b"
+                    "NA24143.elprep.bcftools_stats.txt:md5,19cd6dddfba4f25707b11ce3cbe5e1cc"
                 ]
             ]
         ],
+        "timestamp": "2026-02-19T15:54:58.724133714",
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
-        },
-        "timestamp": "2025-01-23T17:21:39.582489455"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

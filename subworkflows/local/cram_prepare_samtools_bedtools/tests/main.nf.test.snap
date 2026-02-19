@@ -49,7 +49,7 @@
                         "duplicate_count": 1
                     },
                     "NA24143.per-base.bed.gz:md5,2f773324021d6d1b18c87af240d1a18f",
-                    "NA24143.per-base.bed.gz.csi:md5,fe996e285822f6126adcdca8b7517058"
+                    "NA24143.per-base.bed.gz.csi:md5,70fcdc65b30c5d7fd4001ac3275de5f8"
                 ]
             ],
             [
@@ -90,11 +90,11 @@
                 "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
             ]
         ],
+        "timestamp": "2026-02-19T16:27:09.924789024",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-05-21T11:29:37.849634048"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "cram_prepare_samtools_bedtools - default - WES": {
         "content": [
@@ -136,7 +136,7 @@
                         "duplicate_count": 1
                     },
                     "NA24143.per-base.bed.gz:md5,2f773324021d6d1b18c87af240d1a18f",
-                    "NA24143.per-base.bed.gz.csi:md5,fe996e285822f6126adcdca8b7517058"
+                    "NA24143.per-base.bed.gz.csi:md5,70fcdc65b30c5d7fd4001ac3275de5f8"
                 ]
             ],
             [
@@ -177,11 +177,11 @@
                 "NA24143.mosdepth.summary.txt:md5,81c8294c15457f2234b2fadb52aea405"
             ]
         ],
+        "timestamp": "2026-02-19T15:57:35.364663736",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-05-21T11:29:57.746469202"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "cram_prepare_samtools_bedtools - default - WGS": {
         "content": [
@@ -223,7 +223,7 @@
                         "duplicate_count": 1
                     },
                     "NA24143.per-base.bed.gz:md5,2f773324021d6d1b18c87af240d1a18f",
-                    "NA24143.per-base.bed.gz.csi:md5,fe996e285822f6126adcdca8b7517058"
+                    "NA24143.per-base.bed.gz.csi:md5,70fcdc65b30c5d7fd4001ac3275de5f8"
                 ]
             ],
             [
@@ -253,11 +253,11 @@
                 "NA24143.mosdepth.summary.txt:md5,19d2d22dca7ce7cf665711a59d1c437b"
             ]
         ],
+        "timestamp": "2026-02-19T15:57:01.50471218",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-05-21T11:29:15.532928422"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "cram_prepare_samtools_bedtools - default - merge": {
         "content": [
@@ -270,7 +270,7 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 2
                     },
-                    "NA24143.cram,readsMD5:be28f434d6f7bcfa398488a6611d89c1",
+                    "NA24143.cram",
                     "NA24143.cram.crai"
                 ]
             ],
@@ -283,7 +283,7 @@
                         "family_samples": "NA24143",
                         "duplicate_count": 2
                     },
-                    "NA24143.bam,readsMD5:be28f434d6f7bcfa398488a6611d89c1",
+                    "NA24143.bam",
                     "NA24143.bam.bai"
                 ]
             ],
@@ -309,7 +309,7 @@
                         "duplicate_count": 2
                     },
                     "NA24143.per-base.bed.gz:md5,85e799ea056ba8d127115e012adcbe7a",
-                    "NA24143.per-base.bed.gz.csi:md5,3f40731dbdbef353385d04f51feb43b3"
+                    "NA24143.per-base.bed.gz.csi:md5,fb8f4810f0e8044c2096927ec79aa945"
                 ]
             ],
             [
@@ -350,10 +350,10 @@
                 "NA24143.mosdepth.summary.txt:md5,c02f8681bb0191868b3b31bb46e815b5"
             ]
         ],
+        "timestamp": "2026-02-19T16:31:38.503621766",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-05-21T11:30:33.313182542"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }
