@@ -14,8 +14,6 @@ workflow VCF_UPD_UPDIO {
 
     main:
 
-    def ch_versions = channel.empty()
-
     // Filter out all families that are either too small or too big for UPDio analysis
     def ch_trio_vcfs = ch_vcfs
         .filter { meta, _vcf, _tbi ->
@@ -54,11 +52,9 @@ workflow VCF_UPD_UPDIO {
         ch_trio_vcfs_family,
         ch_cnv
     )
-    ch_versions = ch_versions.mix(UPDIO.out.versions.first())
 
     emit:
     updio = UPDIO.out.updio    // [ val(meta), path(updio_folder) ]
-    versions = ch_versions     // [ path(versions) ]
 }
 
 def get_family_data_from_ped(meta, ped) {

@@ -21,8 +21,6 @@ workflow CRAM_CALL_GATK4 {
 
     main:
 
-    def ch_versions  = channel.empty()
-
     //
     // Generate DRAGSTR models (if --dragstr is specified)
     //
@@ -95,6 +93,4 @@ workflow CRAM_CALL_GATK4 {
     emit:
     gvcfs = VCF_CONCAT_BCFTOOLS.out.vcfs    // channel: [ val(meta), path(vcf), path(tbi) ]
     reports = BCFTOOLS_STATS.out.stats      // channel: [ val(meta), path(stats) ]
-    versions = ch_versions                  // channel: [ versions.yml ]
-
 }

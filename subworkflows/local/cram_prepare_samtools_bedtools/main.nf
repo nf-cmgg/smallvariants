@@ -21,8 +21,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         output_bam           // boolean: Also output BAM files
 
     main:
-
-    def ch_versions  = channel.empty()
     def ch_reports   = channel.empty()
 
     //
@@ -109,7 +107,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_roi_branch.found,
         ch_fai
     )
-    ch_versions = ch_versions.mix(MERGE_ROI_SAMPLE.out.versions.first())
 
     // Add the default ROI file to all samples without an ROI file
     // if an ROI BED file has been given through the --roi parameter
@@ -121,7 +118,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
             },
             ch_fai
         )
-        ch_versions = ch_versions.mix(MERGE_ROI_PARAMS.out.versions)
 
         ch_missing_rois = ch_roi_branch.missing
             .combine(MERGE_ROI_PARAMS.out.bed.map { _meta, bed -> bed })
@@ -164,7 +160,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_beds_to_process,
         ch_fai
     )
-    ch_versions = ch_versions.mix(PROCESS_BEDS.out.versions)
 
     def ch_ready_beds = PROCESS_BEDS.out.bed
 
@@ -175,6 +170,5 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     ready_beds          = ch_ready_beds         // [ val(meta), path(bed) ]
     perbase_beds        = ch_perbase_beds       // [ val(meta), path(bed), path(csi) ]
     mosdepth_reports    = ch_mosdepth_reports   // [ val(meta), path(report) ]
-    versions            = ch_versions           // [ path(versions) ]
     reports             = ch_reports            // [ path(reports) ]
 }

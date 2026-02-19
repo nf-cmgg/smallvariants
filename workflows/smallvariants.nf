@@ -137,7 +137,6 @@ workflow SMALLVARIANTS {
 
 
     main:
-    def ch_versions      = channel.empty()
     def ch_reports       = channel.empty()
     def ch_multiqc_files = channel.empty()
 
@@ -410,7 +409,6 @@ workflow SMALLVARIANTS {
     BCFTOOLS_GETSAMPLES(
         ch_indexed_vcfs
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_GETSAMPLES.out.versions.first())
 
     def ch_vcfs_ready = BCFTOOLS_GETSAMPLES.out.samples
         .join(ch_indexed_vcfs, failOnDuplicate:true, failOnMismatch:true)
@@ -467,7 +465,6 @@ workflow SMALLVARIANTS {
         ch_default_roi,
         create_bam_files
     )
-    ch_versions = ch_versions.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.versions)
     ch_reports  = ch_reports.mix(CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.reports)
     def ch_single_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.ready_beds
     def ch_perbase_beds = CRAM_PREPARE_SAMTOOLS_BEDTOOLS.out.perbase_beds
@@ -551,7 +548,6 @@ workflow SMALLVARIANTS {
             dragstr
         )
         ch_gvcfs_ready = ch_gvcfs_ready.mix(CRAM_CALL_GATK4.out.gvcfs)
-        ch_versions = ch_versions.mix(CRAM_CALL_GATK4.out.versions)
         ch_reports  = ch_reports.mix(CRAM_CALL_GATK4.out.reports.map { _meta, report -> report })
         ch_gvcf_reports = ch_gvcf_reports.mix(CRAM_CALL_GATK4.out.reports)
     }
@@ -572,10 +568,8 @@ workflow SMALLVARIANTS {
             ch_dbsnp_tbi_ready
         )
         ch_gvcfs_ready = ch_gvcfs_ready.mix(BAM_CALL_ELPREP.out.gvcfs)
-        ch_versions = ch_versions.mix(BAM_CALL_ELPREP.out.versions)
         ch_reports  = ch_reports.mix(BAM_CALL_ELPREP.out.reports.map { _meta, report -> report })
         ch_gvcf_reports = ch_gvcf_reports.mix(BAM_CALL_ELPREP.out.reports)
-
     }
 
     if("vardict" in callers) {
@@ -590,8 +584,6 @@ workflow SMALLVARIANTS {
             ch_dbsnp_ready,
             ch_dbsnp_tbi_ready
         )
-        ch_versions = ch_versions.mix(BAM_CALL_VARDICTJAVA.out.versions)
-
         ch_calls = ch_calls.mix(BAM_CALL_VARDICTJAVA.out.vcfs)
     }
 
@@ -608,7 +600,6 @@ workflow SMALLVARIANTS {
         only_merge,
         scatter_count
     )
-    ch_versions = ch_versions.mix(GVCF_JOINT_GENOTYPE_GATK4.out.versions)
     ch_calls = ch_calls.mix(GVCF_JOINT_GENOTYPE_GATK4.out.vcfs)
     def ch_joint_beds = GVCF_JOINT_GENOTYPE_GATK4.out.beds
     def ch_final_genomicsdb = GVCF_JOINT_GENOTYPE_GATK4.out.genomicsdb
@@ -722,7 +713,6 @@ workflow SMALLVARIANTS {
                 vep_chunk_size,
                 vcfanno
             )
-            ch_versions = ch_versions.mix(VCF_ANNOTATION.out.versions)
             ch_reports  = ch_reports.mix(VCF_ANNOTATION.out.reports)
 
             ch_final_vcfs = VCF_ANNOTATION.out.annotated_vcfs
@@ -870,7 +860,6 @@ workflow SMALLVARIANTS {
                 ch_updio_common_cnvs,
                 ch_updio_regions
             )
-            ch_versions = ch_versions.mix(VCF_UPD_UPDIO.out.versions)
             ch_final_updio = VCF_UPD_UPDIO.out.updio
         }
 
@@ -885,7 +874,6 @@ workflow SMALLVARIANTS {
                 ch_automap_panel,
                 genome
             )
-            ch_versions = ch_versions.mix(VCF_ROH_AUTOMAP.out.versions)
             ch_final_automap = VCF_ROH_AUTOMAP.out.automap
         }
     }
@@ -893,10 +881,19 @@ workflow SMALLVARIANTS {
     //
     // Collate and save software versions
     //
-    def ch_collated_versions = softwareVersionsToYAML(ch_versions)
+    def versions = channel.topic("versions")
+        .distinct()
+        .map { process, tool, version ->
+            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
+        }
+        .groupTuple(by:0)
+        .map { process, tool_versions ->
+            tool_versions.unique().sort()
+            "${process}:\n${tool_versions.join('\n')}"
+        }
         .collectFile(
-            storeDir: "${outdir}/${params.unique_out}",
-            name:  ''  + 'pipeline_software_' +  'mqc_'  + 'versions.yml',
+            storeDir: "${outdir}/pipeline_info",
+            name: 'nf_cmgg_smallvariants_software_mqc_versions.yml',
             sort: true,
             newLine: true
         )
@@ -923,7 +920,7 @@ workflow SMALLVARIANTS {
 
     ch_multiqc_files                          = ch_multiqc_files.mix(
                                                     ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
-                                                    ch_collated_versions,
+                                                    versions,
                                                     ch_methods_description.collectFile(
                                                         name: 'methods_description_mqc.yaml',
                                                         sort: false
@@ -960,7 +957,6 @@ workflow SMALLVARIANTS {
     validation          = ch_final_validation           // channel: [ val(meta), path(file) ]
     multiqc_report      = MULTIQC.out.report            // channel: /path/to/multiqc_report.html
     multiqc_data        = MULTIQC.out.data              // channel: /path/to/multiqc_data
-    versions            = ch_versions                   // channel: [ path(versions.yml) ]
 }
 
 /*

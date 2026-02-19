@@ -18,8 +18,6 @@ workflow BAM_CALL_ELPREP {
 
     main:
 
-    def ch_versions  = channel.empty()
-
     ELPREP_FILTER(
         ch_input.map { meta, bam, bai, bed ->
             def new_meta = meta + [caller:'elprep']
@@ -46,7 +44,6 @@ workflow BAM_CALL_ELPREP {
             ch_dbsnp,
             ch_dbsnp_tbi
         )
-        ch_versions = ch_versions.mix(VCF_DBSNP_VCFANNO.out.versions)
         ch_annotated = VCF_DBSNP_VCFANNO.out.vcfs
     } else {
         ch_annotated = VCF_CONCAT_BCFTOOLS.out.vcfs
@@ -64,6 +61,4 @@ workflow BAM_CALL_ELPREP {
     emit:
     gvcfs = ch_annotated                // channel: [ val(meta), path(vcf), path(tbi) ]
     reports = BCFTOOLS_STATS.out.stats  // channel: [ val(meta), path(stats) ]
-    versions = ch_versions              // channel: [ versions.yml ]
-
 }

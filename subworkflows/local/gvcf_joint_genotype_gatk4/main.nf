@@ -27,7 +27,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
 
     main:
 
-    def ch_versions = channel.empty()
     def ch_vcfs     = channel.empty()
 
     //
@@ -85,7 +84,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
             ch_merge_beds_input,
             ch_fai
         )
-        ch_versions = ch_versions.mix(MERGE_BEDS.out.versions.first())
         ch_beds = MERGE_BEDS.out.bed
 
         //
@@ -136,6 +134,4 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
     vcfs = ch_vcfs                                      // [ val(meta), path(vcf), path(tbi) ]
     genomicsdb = GATK4_GENOMICSDBIMPORT.out.genomicsdb  // [ val(meta), path(genomicsdb) ]
     beds = ch_beds                                      // [ val(meta), path(bed) ]
-    versions = ch_versions                              // [ path(versions) ]
-
 }
