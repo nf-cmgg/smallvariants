@@ -14,7 +14,7 @@ process BCFTOOLS_FILTER {
     tuple val(meta), path("*.${extension}"), emit: vcf
     tuple val(meta), path("*.tbi")         , emit: tbi, optional: true
     tuple val(meta), path("*.csi")         , emit: csi, optional: true
-    path  "versions.yml"                   , emit: versions
+    tuple val("${task.process}"), val('bcftools'), eval("bcftools --version | sed -n '1s/bcftools *//p'"), emit: versions_bcftools, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -46,11 +46,6 @@ process BCFTOOLS_FILTER {
         ${filter_2} \\
         ${filter_3} \\
         --output ${prefix}.${extension}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bcftools: \$(bcftools --version 2>&1 | head -n1 | sed 's/^.*bcftools //; s/ .*\$//')
-    END_VERSIONS
     """
 
     stub:
@@ -78,10 +73,5 @@ process BCFTOOLS_FILTER {
     """
     ${create_cmd} ${prefix}.${extension}
     ${create_index}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bcftools: \$(bcftools --version 2>&1 | head -n1 | sed 's/^.*bcftools //; s/ .*\$//')
-    END_VERSIONS
     """
 }

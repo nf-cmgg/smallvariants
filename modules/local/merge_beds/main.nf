@@ -13,7 +13,7 @@ process MERGE_BEDS {
 
     output:
     tuple val(meta), path('*.bed'), emit: bed
-    path  "versions.yml"          , emit: versions
+    tuple val("${task.process}"), val('bedtools'), eval("bedtools --version | sed -e 's/bedtools v//g'"), emit: versions_bedtools, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -28,21 +28,11 @@ process MERGE_BEDS {
     done;
 
     awk '{print \$1"\\t"\$2"\\t"\$3 }' */*.bed | bedtools sort -faidx ${fai} | bedtools merge ${args} > ${prefix}.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bedtools: \$(bedtools --version | sed -e "s/bedtools v//g")
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bedtools: \$(bedtools --version | sed -e "s/bedtools v//g")
-    END_VERSIONS
     """
 }
