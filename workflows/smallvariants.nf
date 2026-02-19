@@ -288,7 +288,6 @@ workflow SMALLVARIANTS {
         ELPREP_FASTATOELFASTA(
             ch_fasta_ready
         )
-        ch_versions = ch_versions.mix(ELPREP_FASTATOELFASTA.out.versions)
         ch_elfasta_ready = ELPREP_FASTATOELFASTA.out.elfasta
     } else {
         ch_elfasta_ready = ch_elfasta
@@ -530,7 +529,6 @@ workflow SMALLVARIANTS {
     )
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.all_msi.map { _meta, file -> file})
     ch_reports  = ch_reports.mix(MSISENSORPRO_PRO.out.summary_msi.map { _meta, file -> file})
-    ch_versions = ch_versions.mix(MSISENSORPRO_PRO.out.versions.first())
 
     def ch_calls = ch_vcfs_ready
     def ch_gvcf_reports = channel.empty()
@@ -684,7 +682,6 @@ workflow SMALLVARIANTS {
             ch_somalier_sites,
             ch_somalier_input
         )
-        ch_versions = ch_versions.mix(VCF_EXTRACT_RELATE_SOMALIER.out.versions)
         ch_final_peds = VCF_EXTRACT_RELATE_SOMALIER.out.peds
         ch_final_reports = ch_final_reports.mix(VCF_EXTRACT_RELATE_SOMALIER.out.html)
         ch_reports = ch_reports.mix(VCF_EXTRACT_RELATE_SOMALIER.out.pairs_tsv.map { _meta, report -> report })
@@ -859,7 +856,6 @@ workflow SMALLVARIANTS {
             VCF2DB(
                 ch_vcf2db_input
             )
-            ch_versions = ch_versions.mix(VCF2DB.out.versions.first())
             ch_final_dbs = VCF2DB.out.db
         }
 

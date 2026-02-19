@@ -34,7 +34,6 @@ workflow BAM_CALL_ELPREP {
         false,
         false
     )
-    ch_versions = ch_versions.mix(ELPREP_FILTER.out.versions.first())
 
     VCF_CONCAT_BCFTOOLS(
         ELPREP_FILTER.out.gvcf

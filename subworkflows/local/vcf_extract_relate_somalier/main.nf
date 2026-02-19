@@ -11,16 +11,12 @@ workflow VCF_EXTRACT_RELATE_SOMALIER {
 
     main:
 
-    def ch_versions = channel.empty()
-
     SOMALIER_EXTRACT(
         ch_vcfs,
         ch_fasta,
         ch_fasta_fai,
         ch_somalier_sites
     )
-
-    ch_versions = ch_versions.mix(SOMALIER_EXTRACT.out.versions.first())
 
     def ch_somalierrelate_input = SOMALIER_EXTRACT.out.extract
         .join(ch_peds, failOnDuplicate:true, failOnMismatch:true)
@@ -33,13 +29,10 @@ workflow VCF_EXTRACT_RELATE_SOMALIER {
         []
     )
 
-    ch_versions = ch_versions.mix(SOMALIER_EXTRACT.out.versions.first())
-
     emit:
     extract        = SOMALIER_EXTRACT.out.extract       // channel: [ val(meta), path(extract) ]
     html           = SOMALIER_RELATE.out.html           // channel: [ val(meta), path(html) ]
     pairs_tsv      = SOMALIER_RELATE.out.pairs_tsv      // channel: [ val(meta), path(tsv) ]
     samples_tsv    = SOMALIER_RELATE.out.samples_tsv    // channel: [ val(meta), path(tsv) ]
     peds           = SOMALIER_RELATE.out.ped            // channel: [ val(meta), path(tsv) ]
-    versions       = ch_versions                        // channel: [ path(versions.yml) ]
 }
