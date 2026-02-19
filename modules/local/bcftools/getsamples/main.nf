@@ -13,7 +13,7 @@ process BCFTOOLS_GETSAMPLES {
     output:
     tuple val(meta), path("*.txt"), emit: samples
     tuple val("${task.process}"), val('bcftools'), eval("bcftools --version | sed -n '1s/bcftools *//p'"), emit: versions_bcftools, topic: versions
-    
+
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
