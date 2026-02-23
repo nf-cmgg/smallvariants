@@ -23,13 +23,13 @@ nextflow_pipeline {
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
-                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .collect { Utils.getRecursiveFileNames(it, "${outputDir}") }
                         .flatten()
                         .findAll {
                             !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
                         }
                         .collect {
-                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                            it.replace(Utils.getDynamicOutputName(), "<version>_<date>")
                         }
                 ).match() }
             )
@@ -53,13 +53,13 @@ nextflow_pipeline {
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
-                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .collect { Utils.getRecursiveFileNames(it, "${outputDir}") }
                         .flatten()
                         .findAll {
                             !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
                         }
                         .collect {
-                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                            it.replace(Utils.getDynamicOutputName(), "<version>_<date>")
                         }
                 ).match() }
             )
@@ -82,13 +82,13 @@ nextflow_pipeline {
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
-                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .collect { Utils.getRecursiveFileNames(it, "${outputDir}") }
                         .flatten()
                         .findAll {
                             !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
                         }
                         .collect {
-                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                            it.replace(Utils.getDynamicOutputName(), "<version>_<date>")
                         }
                 ).match() }
             )
@@ -111,13 +111,13 @@ nextflow_pipeline {
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
-                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .collect { Utils.getRecursiveFileNames(it, "${outputDir}") }
                         .flatten()
                         .findAll {
                             !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
                         }
                         .collect {
-                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                            it.replace(Utils.getDynamicOutputName(), "<version>_<date>")
                         }
                 ).match() }
             )
@@ -141,30 +141,17 @@ nextflow_pipeline {
                 { assert snapshot(
                     path("${outputDir}")
                         .list()
-                        .collect { getRecursiveFileNames(it, "${outputDir}") }
+                        .collect { Utils.getRecursiveFileNames(it, "${outputDir}") }
                         .flatten()
                         .findAll {
                             !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
                         }
                         .collect {
-                            it.replace(getDynamicOutputName(), "<version>_<date>")
+                            it.replace(Utils.getDynamicOutputName(), "<version>_<date>")
                         }
                 ).match() }
             )
         }
 
     }
-}
-
-def getRecursiveFileNames(fileOrDir, outputDir) {
-    if(file(fileOrDir.toString()).isDirectory()) {
-        return fileOrDir.list().collect { getRecursiveFileNames(it, outputDir) }
-    }
-    return fileOrDir.toString().replace("${outputDir}/", "")
-}
-
-def getDynamicOutputName() {
-    def Map nfcoreYaml = new groovy.yaml.YamlSlurper().parseText(file(".nf-core.yml").text)
-    def date = new java.text.SimpleDateFormat("yyyy_MM_dd").format(new Date())
-    return "v${nfcoreYaml.template.version.replace('.', '_')}_${date}" as String
 }

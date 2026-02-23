@@ -12,8 +12,6 @@ workflow BAM_CALL_VARDICTJAVA {
         ch_dbsnp_tbi         // channel: [optional]  [ path(tbi) ] => the dbsnp vcf index file
 
     main:
-    def ch_versions = channel.empty()
-
     VARDICTJAVA(
         ch_input.map { meta, bam, bai, bed ->
             def new_meta = meta + [caller:'vardict']
@@ -22,12 +20,10 @@ workflow BAM_CALL_VARDICTJAVA {
         ch_fasta,
         ch_fai
     )
-    ch_versions = ch_versions.mix(VARDICTJAVA.out.versions.first())
 
     VCF_CONCAT_BCFTOOLS(
         VARDICTJAVA.out.vcf
     )
-    ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
 
     def ch_annotated = channel.empty()
     if(!(ch_dbsnp instanceof List)) {
@@ -36,7 +32,6 @@ workflow BAM_CALL_VARDICTJAVA {
             ch_dbsnp,
             ch_dbsnp_tbi
         )
-        ch_versions = ch_versions.mix(VCF_DBSNP_VCFANNO.out.versions)
         ch_annotated = VCF_DBSNP_VCFANNO.out.vcfs
     } else {
         ch_annotated = VCF_CONCAT_BCFTOOLS.out.vcfs
@@ -50,7 +45,4 @@ workflow BAM_CALL_VARDICTJAVA {
 
     emit:
     vcfs = ch_vcfs          // channel: [ val(meta), path(vcf), path(tbi) ]
-
-    versions = ch_versions  // channel: [ path(versions.yml) ]
-
 }

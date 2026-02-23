@@ -2,6 +2,7 @@ process AUTOMAP_AUTOMAP {
     tag "$meta.id"
     label 'process_single'
 
+    // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     container "cmgg/automap:1.0.0"
 
     input:
@@ -12,7 +13,8 @@ process AUTOMAP_AUTOMAP {
 
     output:
     tuple val(meta), path("${prefix}"), emit: automap
-    path  "versions.yml"              , emit: versions
+    // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    tuple val("${task.process}"), val('automap'), val("1.0.0"), emit: versions_automap, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -20,7 +22,6 @@ process AUTOMAP_AUTOMAP {
 
     def panel_file = panel ? "--panel $panel" : "--panel /usr/local/lib/automap/Resources/Biomodule_20220808_all_genes_hg38.txt"
     def hg_genome = genome ?: "hg38"
-    def VERSION = "1.0.0"
 
     """
     automap \\
@@ -30,11 +31,6 @@ process AUTOMAP_AUTOMAP {
         --repeats $repeats \\
         $panel_file \\
         $args
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        automap: $VERSION
-    END_VERSIONS
     """
 
     stub:
@@ -58,14 +54,8 @@ process AUTOMAP_AUTOMAP {
         "touch ${prefix}/${meta.id}.HomRegions.strict.${panel_name}.tsv"
     ].join(" && ")
 
-    def VERSION = "1.0.0"
     """
     mkdir $prefix
     ${create_outputs}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        automap: $VERSION
-    END_VERSIONS
     """
 }

@@ -13,7 +13,10 @@ process PROCESS_BEDS {
 
     output:
     tuple val(meta), path('*.bed'), emit: bed
-    path  "versions.yml"          , emit: versions
+    tuple val("${task.process}"), val('bedtools'), eval("bedtools --version | sed -e 's/bedtools v//g'"), emit: versions_bedtools, topic: versions
+    tuple val("${task.process}"), val('grep'), eval("grep --version |& sed -n 's/grep (GNU grep) *//p'"), emit: versions_grep, topic: versions
+    tuple val("${task.process}"), val('cat'), eval(" cat --version |& sed -n 's/cat (GNU coreutils) *//p'"), emit: versions_cat, topic: versions
+    tuple val("${task.process}"), val('zcat'), eval("zcat --version |& sed -n 's/zcat (gzip) *//p'"), emit: versions_zcat, topic: versions
 
     script:
     // Remove regions with no coverage from the callable regions BED file and intersect with an optional ROI file
@@ -31,11 +34,6 @@ process PROCESS_BEDS {
         | bedtools sort -faidx ${fai} \\
         ${intersect} \\
         > ${prefix}.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bedtools: \$(bedtools --version | sed -e "s/bedtools v//g")
-    END_VERSIONS
     """
 
     stub:
@@ -43,10 +41,5 @@ process PROCESS_BEDS {
 
     """
     touch ${prefix}.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bedtools: \$(bedtools --version | sed -e "s/bedtools v//g")
-    END_VERSIONS
     """
 }

@@ -13,7 +13,7 @@
                             "split_count": 1
                         }
                     },
-                    "variantsMD5:4dea305eb71decb122709e75af9c833f",
+                    "variantsMD5:d73526a383f2ff1cc784209187b2027f",
                     "vcf.gz.tbi"
                 ],
                 [
@@ -32,11 +32,11 @@
                 ]
             ]
         ],
+        "timestamp": "2026-02-19T16:00:01.06930503",
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
-        },
-        "timestamp": "2025-01-23T17:30:36.436180908"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "gvcf_joint_genotype_gatk4 - single_sample": {
         "content": [
@@ -57,11 +57,11 @@
                 ]
             ]
         ],
+        "timestamp": "2025-01-23T17:29:22.682758973",
         "meta": {
             "nf-test": "0.9.1",
             "nextflow": "24.10.3"
-        },
-        "timestamp": "2025-01-23T17:29:22.682758973"
+        }
     },
     "gvcf_joint_genotype_gatk4 - only_merge": {
         "content": [
@@ -69,11 +69,11 @@
                 
             ]
         ],
+        "timestamp": "2024-11-05T11:43:25.386070284",
         "meta": {
             "nf-test": "0.9.1",
             "nextflow": "24.10.0"
-        },
-        "timestamp": "2024-11-05T11:43:25.386070284"
+        }
     },
     "gvcf_joint_genotype_gatk4 - family": {
         "content": [
@@ -89,15 +89,15 @@
                             "split_count": 1
                         }
                     },
-                    "variantsMD5:4dea305eb71decb122709e75af9c833f",
+                    "variantsMD5:d73526a383f2ff1cc784209187b2027f",
                     "vcf.gz.tbi"
                 ]
             ]
         ],
+        "timestamp": "2026-02-19T15:58:55.052016967",
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
-        },
-        "timestamp": "2025-01-23T17:29:47.754017104"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

@@ -10,8 +10,6 @@ workflow VCF_CONCAT_BCFTOOLS {
 
     main:
 
-    def ch_versions = channel.empty()
-
     ch_vcfs
         .map { meta, vcf, tbi=[] ->
             def new_meta = meta + [id:meta.sample ?: meta.family]
@@ -26,12 +24,9 @@ workflow VCF_CONCAT_BCFTOOLS {
     BCFTOOLS_CONCAT(
         ch_concat_input
     )
-    ch_versions = ch_versions.mix(BCFTOOLS_CONCAT.out.versions.first())
     def ch_vcf_tbi = BCFTOOLS_CONCAT.out.vcf
         .join(BCFTOOLS_CONCAT.out.tbi, failOnDuplicate:true, failOnMismatch:true)
 
     emit:
     vcfs = ch_vcf_tbi       // channel: [ val(meta), path(vcf), path(tbi) ]
-
-    versions = ch_versions  // channel: [ versions.yml ]
 }

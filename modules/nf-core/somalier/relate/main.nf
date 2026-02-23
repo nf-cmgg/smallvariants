@@ -17,7 +17,7 @@ process SOMALIER_RELATE {
     tuple val(meta), path("*.pairs.tsv"),     emit: pairs_tsv
     tuple val(meta), path("*.samples.tsv"),   emit: samples_tsv
     tuple val(meta), path("*.ped"),           emit: ped
-    path "versions.yml",                      emit: versions
+    tuple val("${task.process}"), val('somalier'), eval('somalier 2>&1 | sed -n \'s/.*version: \\([0-9.]*\\).*/\\1/p\''), emit: versions_somalier, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -38,11 +38,6 @@ process SOMALIER_RELATE {
         ${ped_command}
 
     cut -f1-6 ${prefix}.samples.tsv | sed -e 's/-9/0/' > ${prefix}_somalier.ped
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        somalier: \$(echo \$(somalier 2>&1) | sed 's/^.*somalier version: //; s/Commands:.*\$//')
-    END_VERSIONS
     """
 
     stub:
@@ -53,10 +48,5 @@ process SOMALIER_RELATE {
     touch ${prefix}.pairs.tsv
     touch ${prefix}.samples.tsv
     touch ${prefix}_somalier.ped
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        somalier: \$(echo \$(somalier 2>&1) | sed 's/^.*somalier version: //; s/Commands:.*\$//')
-    END_VERSIONS
     """
 }

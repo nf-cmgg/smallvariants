@@ -27,7 +27,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
 
     main:
 
-    def ch_versions = channel.empty()
     def ch_vcfs     = channel.empty()
 
     //
@@ -36,9 +35,9 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
 
     GAWK(
         ch_fai,
-        []
+        [],
+        false
     )
-    ch_versions = ch_versions.mix(GAWK.out.versions)
 
     //
     // Create GenomicDBs for each family for each BED file
@@ -62,7 +61,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
         false,
         false
     )
-    ch_versions = ch_versions.mix(GATK4_GENOMICSDBIMPORT.out.versions.first())
 
     def ch_beds = channel.empty()
     if(!only_merge) {
@@ -73,7 +71,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
             [],
             []
         )
-        ch_versions = ch_versions.mix(BCFTOOLS_QUERY.out.versions.first())
 
         def ch_merge_beds_input = BCFTOOLS_QUERY.out.output
             .map { meta, bed ->
@@ -87,7 +84,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
             ch_merge_beds_input,
             ch_fai
         )
-        ch_versions = ch_versions.mix(MERGE_BEDS.out.versions.first())
         ch_beds = MERGE_BEDS.out.bed
 
         //
@@ -101,7 +97,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
             },
             GATK4_GENOMICSDBIMPORT.out.genomicsdb.map { meta, genomicsdb -> [ meta, genomicsdb, [] ]}
         )
-        ch_versions = ch_versions.mix(INPUT_SPLIT_BEDTOOLS.out.versions)
 
         def ch_genotypegvcfs_input = INPUT_SPLIT_BEDTOOLS.out.split
             .map { meta, genomicsdb, _extra, bed ->
@@ -120,7 +115,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
             ch_dbsnp,
             ch_dbsnp_tbi
         )
-        ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCFS.out.versions.first())
 
         def ch_gather_inputs = GATK4_GENOTYPEGVCFS.out.vcf
             .join(GATK4_GENOTYPEGVCFS.out.tbi, failOnDuplicate: true, failOnMismatch: true)
@@ -132,8 +126,6 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
         VCF_CONCAT_BCFTOOLS(
             ch_gather_inputs
         )
-        ch_versions = ch_versions.mix(VCF_CONCAT_BCFTOOLS.out.versions)
-
         ch_vcfs = VCF_CONCAT_BCFTOOLS.out.vcfs
 
     }
@@ -142,6 +134,4 @@ workflow GVCF_JOINT_GENOTYPE_GATK4 {
     vcfs = ch_vcfs                                      // [ val(meta), path(vcf), path(tbi) ]
     genomicsdb = GATK4_GENOMICSDBIMPORT.out.genomicsdb  // [ val(meta), path(genomicsdb) ]
     beds = ch_beds                                      // [ val(meta), path(bed) ]
-    versions = ch_versions                              // [ path(versions) ]
-
 }
