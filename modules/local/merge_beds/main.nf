@@ -19,14 +19,10 @@ process MERGE_BEDS {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    # Stream all .bed and .bed.gz without inflating on disk
+    # Stream all .bed files without inflating on disk
     (
-        for FILE in */*.bed */*.bed.gz; do
-            if [[ "\$FILE" == "*/*.bed.gz" ]]; then
-                zcat "\$FILE"
-            elif [[ "\$FILE" == "*/*.bed" ]]; then
-                cat "\$FILE"
-            fi
+        for FILE in */*.bed; do
+            cat "\$FILE"
         done
     ) \
     | awk '{print \$1"\\t"\$2"\\t"\$3 }' \
