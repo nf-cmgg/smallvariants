@@ -19,15 +19,20 @@ process MERGE_BEDS {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    for FILE in */*.bed.gz;
-    do
-        if [[ \$FILE != '*/*.bed.gz' ]]
-        then
-            gzip -d -f \$FILE
-        fi
-    done;
-
-    awk '{print \$1"\\t"\$2"\\t"\$3 }' */*.bed | bedtools sort -faidx ${fai} | bedtools merge ${args} > ${prefix}.bed
+    # Stream all .bed and .bed.gz without inflating on disk
+    (
+        for FILE in */*.bed */*.bed.gz; do
+            if [[ "\$FILE" == "*/*.bed.gz" ]]; then
+                zcat "\$FILE"
+            elif [[ "\$FILE" == "*/*.bed" ]]; then
+                cat "\$FILE"
+            fi
+        done
+    ) \
+    | awk '{print \$1"\\t"\$2"\\t"\$3 }' \
+    | bedtools sort -faidx ${fai} -i - \
+    | bedtools merge ${args} \
+    > ${prefix}.bed
     """
 
     stub:
