@@ -26,7 +26,7 @@ process MERGE_BEDS {
         done
     ) \
     | awk '{print \$1"\\t"\$2"\\t"\$3 }' \
-    | bedtools sort -faidx ${fai} -i - \
+    | sort -k1,1 -k2,2n -S 2G --parallel=${task.cpus} \
     | bedtools merge ${args} \
     > ${prefix}.bed
     """
