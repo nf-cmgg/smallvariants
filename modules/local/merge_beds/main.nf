@@ -14,6 +14,7 @@ process MERGE_BEDS {
     output:
     tuple val(meta), path('*.bed'), emit: bed
     tuple val("${task.process}"), val('bedtools'), eval("bedtools --version | sed -e 's/bedtools v//g'"), emit: versions_bedtools, topic: versions
+    tuple val("${task.process}"), val('sort'), eval("sort --version |& sed -n '1s/sort (GNU coreutils) //p'"), emit: versions_sort, topic: versions
 
     script:
     def args = task.ext.args ?: ''
