@@ -4,8 +4,8 @@ process MERGE_BEDS {
 
     conda "bioconda::bedtools=2.31.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bedtools:2.31.1--hf5e1c6e_0' :
-        'biocontainers/bedtools:2.31.1--hf5e1c6e_0' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/7d/7df273d12f0c4d8539440b68876edf39b739cb78bb806418c5b5d057fe11bdbd/data' :
+        'community.wave.seqera.io/library/bedtools:2.31.1--7c4ce4cb07c09ee4' }"
 
     input:
     tuple val(meta), path(bed, stageAs: "?/*")
@@ -14,20 +14,22 @@ process MERGE_BEDS {
     output:
     tuple val(meta), path('*.bed'), emit: bed
     tuple val("${task.process}"), val('bedtools'), eval("bedtools --version | sed -e 's/bedtools v//g'"), emit: versions_bedtools, topic: versions
+    tuple val("${task.process}"), val('sort'), eval("sort --version |& sed -n '1s/sort (GNU coreutils) //p'"), emit: versions_sort, topic: versions
 
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    for FILE in */*.bed.gz;
-    do
-        if [[ \$FILE != '*/*.bed.gz' ]]
-        then
-            gzip -d -f \$FILE
-        fi
-    done;
-
-    awk '{print \$1"\\t"\$2"\\t"\$3 }' */*.bed | bedtools sort -faidx ${fai} | bedtools merge ${args} > ${prefix}.bed
+    # Stream all .bed files without inflating on disk
+    (
+        for FILE in */*.bed; do
+            cat "\$FILE"
+        done
+    ) \
+    | awk '{print \$1"\\t"\$2"\\t"\$3 }' \
+    | sort -k1,1 -k2,2n -S 2G --parallel=${task.cpus} \
+    | bedtools merge ${args} \
+    > ${prefix}.bed
     """
 
     stub:
