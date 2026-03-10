@@ -10,7 +10,6 @@ process PROCESS_BEDS {
 
     input:
     tuple val(meta), path(bed), path(roi)
-    tuple val(meta2), path(fai)
 
     output:
     tuple val(meta), path('*.bed'), emit: bed
@@ -28,7 +27,7 @@ process PROCESS_BEDS {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     def unzip = bed.extension == "gz" ? "zcat" : "cat"
-    def intersect = roi ? "| bedtools intersect -a ${roi} -b - ${args3} -g ${fai}" : ""
+    def intersect = roi ? "| bedtools intersect -a ${roi} -b - ${args3}" : ""
     """
     ${unzip} ${bed} \\
         | grep ${args} \\
