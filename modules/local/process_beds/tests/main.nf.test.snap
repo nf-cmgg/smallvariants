@@ -15,33 +15,40 @@
                     [
                         "PROCESS_BEDS",
                         "bedtools",
-                        "2.31.0"
+                        "2.31.1"
                     ]
                 ],
                 "versions_cat": [
                     [
                         "PROCESS_BEDS",
                         "cat",
-                        ""
+                        "9.4"
                     ]
                 ],
                 "versions_grep": [
                     [
                         "PROCESS_BEDS",
                         "grep",
-                        ""
+                        "3.11"
+                    ]
+                ],
+                "versions_sort": [
+                    [
+                        "PROCESS_BEDS",
+                        "sort",
+                        "9.4"
                     ]
                 ],
                 "versions_zcat": [
                     [
                         "PROCESS_BEDS",
                         "zcat",
-                        ""
+                        "1.12"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-02-19T13:24:00.019999398",
+        "timestamp": "2026-03-10T10:41:04.674522253",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"
@@ -63,33 +70,40 @@
                     [
                         "PROCESS_BEDS",
                         "bedtools",
-                        "2.31.0"
+                        "2.31.1"
                     ]
                 ],
                 "versions_cat": [
                     [
                         "PROCESS_BEDS",
                         "cat",
-                        ""
+                        "9.4"
                     ]
                 ],
                 "versions_grep": [
                     [
                         "PROCESS_BEDS",
                         "grep",
-                        ""
+                        "3.11"
+                    ]
+                ],
+                "versions_sort": [
+                    [
+                        "PROCESS_BEDS",
+                        "sort",
+                        "9.4"
                     ]
                 ],
                 "versions_zcat": [
                     [
                         "PROCESS_BEDS",
                         "zcat",
-                        ""
+                        "1.12"
                     ]
                 ]
             }
         ],
-        "timestamp": "2026-02-19T13:24:09.32161452",
+        "timestamp": "2026-03-10T10:41:13.555873592",
         "meta": {
             "nf-test": "0.9.4",
             "nextflow": "25.10.4"

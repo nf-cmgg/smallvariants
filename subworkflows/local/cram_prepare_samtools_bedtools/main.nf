@@ -155,10 +155,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         .join(ch_ready_rois, failOnDuplicate:true, failOnMismatch:true)
 
     // Filter out the regions with no coverage
-    PROCESS_BEDS(
-        ch_beds_to_process,
-        ch_fai
-    )
+    PROCESS_BEDS(ch_beds_to_process)
 
     def ch_ready_beds = PROCESS_BEDS.out.bed
 
