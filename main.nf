@@ -180,7 +180,6 @@ workflow {
         params.annotate,
         params.vcfanno,
         params.only_call,
-        params.only_merge,
         params.filter,
         params.normalize,
         params.add_ped,
@@ -269,7 +268,7 @@ output {
         report >> "${meta.family}/${meta.id}_${params.unique_out}/${meta.id}.${meta.caller}.bcftools_stats.txt"
     }}
     genomicsdb {
-        enabled (params.output_genomicsdb || params.only_merge)
+        enabled params.output_genomicsdb
         path { meta, genomicsdb ->
             genomicsdb >> "${meta.family}/output_${params.unique_out}/${meta.id}_${meta.caller}_genomicsdb"
         }

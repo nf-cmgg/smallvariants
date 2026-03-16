@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## New features
 
+1. Add interval splitting before the genomicsdbimport step to make it more efficient and cluster friendly. Each family will now have multiple genomicsdbs created in parallel instead of one big one.
+
 ## Changes
 
 1. Set default container for `multiqc`to custom cmgg version
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. Move analysis profiles to external repository, referenced by the `custom_config_*` parameters. This allows us to update the default profiles without needing to update the pipeline itself.
 4. Updated the whole pipeline to use topics for versions catching.
 5. Updated the `MERGE_BEDS` process to be more memory efficient. This will prevent errors with large families.
+6. Removed the `--only_merge` parameter.
 
 ## Fixes
 

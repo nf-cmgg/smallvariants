@@ -63,18 +63,6 @@
             "nextflow": "24.10.3"
         }
     },
-    "gvcf_joint_genotype_gatk4 - only_merge": {
-        "content": [
-            [
-                
-            ]
-        ],
-        "timestamp": "2024-11-05T11:43:25.386070284",
-        "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
-        }
-    },
     "gvcf_joint_genotype_gatk4 - family": {
         "content": [
             [

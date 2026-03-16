@@ -125,33 +125,4 @@ nextflow_pipeline {
 
     }
 
-    test("pipeline_variations - only_merge") {
-
-        when {
-            params {
-                outdir = "${outputDir}"
-                only_merge = true
-                output_genomicsdb = true
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert snapshot(
-                    path("${outputDir}")
-                        .list()
-                        .collect { Utils.getRecursiveFileNames(it, "${outputDir}") }
-                        .flatten()
-                        .findAll {
-                            !(it.contains("/execution_") || it.contains("/params_") || it.contains("/pipeline_"))
-                        }
-                        .collect {
-                            it.replace(Utils.getDynamicOutputName(), "<version>_<date>")
-                        }
-                ).match() }
-            )
-        }
-
-    }
 }

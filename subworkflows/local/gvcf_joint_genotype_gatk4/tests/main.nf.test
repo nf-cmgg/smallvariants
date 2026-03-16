@@ -34,8 +34,7 @@ nextflow_workflow {
                 ])
                 input[4] = [[],[]]
                 input[5] = [[],[]]
-                input[6] = false
-                input[7] = 2
+                input[6] = 2
                 """
             }
         }
@@ -80,8 +79,7 @@ nextflow_workflow {
                 ])
                 input[4] = [[],[]]
                 input[5] = [[],[]]
-                input[6] = false
-                input[7] = 2
+                input[6] = 2
                 """
             }
         }
@@ -91,47 +89,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     workflow.out.vcfs.collect { [it[0], "variantsMD5:${path(it[1]).vcf.variantsMD5}", it[2][-10..-1]] }
-                ).match() }
-            )
-        }
-
-    }
-
-    test("gvcf_joint_genotype_gatk4 - only_merge") {
-
-        when {
-            workflow {
-                """
-                input[0] = Channel.of([
-                    [id:"NA24143", sample:"NA24143", family:"Ashkenazim", family_samples:"NA24143", caller:"haplotypecaller"],
-                    file(params.gvcf1, checkIfExists:true),
-                    file(params.gtbi1, checkIfExists:true)
-                ])
-                input[1] = Channel.value([
-                    [id:"fasta"],
-                    file(params.fasta, checkIfExists:true)
-                ])
-                input[2] = Channel.value([
-                    [id:"fai"],
-                    file(params.fai, checkIfExists:true)
-                ])
-                input[3] = Channel.value([
-                    [id:"dict"],
-                    file(params.dict, checkIfExists:true)
-                ])
-                input[4] = [[],[]]
-                input[5] = [[],[]]
-                input[6] = true
-                input[7] = 2
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert snapshot(
-                    workflow.out.vcfs
                 ).match() }
             )
         }
@@ -171,8 +128,7 @@ nextflow_workflow {
                 ])
                 input[4] = [[],[]]
                 input[5] = [[],[]]
-                input[6] = false
-                input[7] = 2
+                input[6] = 2
                 """
             }
         }

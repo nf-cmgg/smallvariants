@@ -112,7 +112,6 @@ workflow SMALLVARIANTS {
     annotate                    // boolean: perform annotation
     vcfanno                     // boolean: use vcfanno annotations
     only_call                   // boolean: only perform variant calling
-    only_merge                  // boolean: run the pipeline until after the family merge
     filter                      // boolean: filter the VCFs
     normalize                   // boolean: perform normalization
     add_ped                     // boolean: add ped headers to each VCF
@@ -597,7 +596,6 @@ workflow SMALLVARIANTS {
         ch_dict_ready,
         ch_dbsnp_ready,
         ch_dbsnp_tbi_ready,
-        only_merge,
         scatter_count
     )
     ch_calls = ch_calls.mix(GVCF_JOINT_GENOTYPE_GATK4.out.vcfs)
@@ -612,7 +610,7 @@ workflow SMALLVARIANTS {
     def ch_final_updio      = channel.empty()
     def ch_final_validation = channel.empty()
 
-    if (!only_call && !only_merge) {
+    if (!only_call) {
         def ch_called_variants = ch_calls
             .map { meta, vcf, tbi ->
                 def new_meta = meta - meta.subMap(["type", "vardict_min_af"])
