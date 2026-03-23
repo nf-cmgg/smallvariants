@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## New features
 
+1. Added [`nf-teams`](https://github.com/nvnieuwk/nf-teams) to the default plugins.
+
 ## Changes
 
 1. Set default container for `multiqc`to custom cmgg version
