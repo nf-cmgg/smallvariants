@@ -34,7 +34,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         .groupTuple()
         .branch { meta, cram, crai ->
             multiple: cram.size() > 1
-                return [meta.target, cram]
+                return [meta.target, cram, crai]
             single:   cram.size() == 1
                 return [meta.target, cram[0], crai[0]]
         }
