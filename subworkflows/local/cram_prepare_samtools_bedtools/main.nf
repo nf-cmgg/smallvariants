@@ -45,7 +45,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     )
 
     def ch_merged_crams = SAMTOOLS_MERGE.out.cram
-        .join(SAMTOOLS_MERGE.out.crai, failOnDuplicate: true, failOnMismatch: true)
+        .join(SAMTOOLS_MERGE.out.index, failOnDuplicate: true, failOnMismatch: true)
 
     //
     // Index the CRAM files which have no index
@@ -65,7 +65,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     )
 
     def ch_ready_crams = ch_ready_crams_branch.not_indexed
-        .join(SAMTOOLS_INDEX.out.crai, failOnDuplicate: true, failOnMismatch: true)
+        .join(SAMTOOLS_INDEX.out.index, failOnDuplicate: true, failOnMismatch: true)
         .mix(ch_ready_crams_branch.indexed)
 
     //

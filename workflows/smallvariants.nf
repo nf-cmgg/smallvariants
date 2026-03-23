@@ -902,14 +902,16 @@ workflow SMALLVARIANTS {
     // Perform multiQC on all QC data
     //
 
-    def ch_multiqc_config                     = channel.fromPath(
-                                                "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
     def ch_multiqc_custom_config              = multiqc_config ?
                                                 channel.fromPath(multiqc_config, checkIfExists: true) :
-                                                channel.empty()
+                                                channel.value([])
+    def ch_multiqc_config                     = channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+                                                .combine(ch_multiqc_custom_config)
+                                                .collect()
+                                                .map { configs -> [configs] }
     def ch_multiqc_logo                       = multiqc_logo ?
                                                 channel.fromPath(multiqc_logo, checkIfExists: true) :
-                                                channel.empty()
+                                                channel.value([])
 
     def summary_params                        = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
     def ch_workflow_summary                   = channel.value(paramsSummaryMultiqc(summary_params))
@@ -928,15 +930,14 @@ workflow SMALLVARIANTS {
                                                     ch_reports
                                                 )
 
+    def ch_multiqc_input = ch_multiqc_files.collect().map { files -> [files] } 
+        .combine(ch_multiqc_config)
+        .combine(ch_multiqc_logo.toList())
+        .map { files, configs, logo ->
+            [ [id: 'multiqc'], files, configs, logo, [], [] ]
+        }
 
-    MULTIQC (
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        ch_multiqc_custom_config.toList(),
-        ch_multiqc_logo.toList(),
-        [],
-        []
-    )
+    MULTIQC(ch_multiqc_input)
 
     emit:
     merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]

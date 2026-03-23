@@ -7,9 +7,8 @@
                 "nf-core": {
                     "bcftools/annotate": {
                         "branch": "master",
-                        "git_sha": "6383d8fe58f9498eecd5aa303e71a4a932d1e9f6",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/bcftools/annotate/bcftools-annotate.diff"
+                        "git_sha": "3d9c2f4beaa4f62b3f006928fd9095a496d1e5a8",
+                        "installed_by": ["modules"]
                     },
                     "bcftools/concat": {
                         "branch": "master",
@@ -84,7 +83,7 @@
                     },
                     "ensemblvep/vep": {
                         "branch": "master",
-                        "git_sha": "34505e1fc5e9f4fd641210ca440acff6bd33b842",
+                        "git_sha": "890fdcff71928fc1470d3e669d4c430c8c770297",
                         "installed_by": ["modules"]
                     },
                     "gatk4/calibratedragstrmodel": {
@@ -119,7 +118,7 @@
                     },
                     "gawk": {
                         "branch": "master",
-                        "git_sha": "76b1f53edcf72798d8515c82f4728ad44b3dd902",
+                        "git_sha": "c0da8f3a26835d663873001382a708f75766fec6",
                         "installed_by": ["modules"]
                     },
                     "mosdepth": {
@@ -135,7 +134,7 @@
                     },
                     "multiqc": {
                         "branch": "master",
-                        "git_sha": "575e1a4b51a9bad7a8cd1316a88fb85684ef7c7b",
+                        "git_sha": "cb9f4bec379866ca560f7f79d9a9a06bea8c9b51",
                         "installed_by": ["modules"]
                     },
                     "rtgtools/format": {
@@ -161,22 +160,22 @@
                     },
                     "samtools/convert": {
                         "branch": "master",
-                        "git_sha": "51fa714751883254ede046c50acf20076b46ca81",
+                        "git_sha": "156feda0cb6589cd29c04902004fa3b53bc00205",
                         "installed_by": ["modules"]
                     },
                     "samtools/faidx": {
                         "branch": "master",
-                        "git_sha": "b2e78932ef01165fd85829513eaca29eff8e640a",
+                        "git_sha": "156feda0cb6589cd29c04902004fa3b53bc00205",
                         "installed_by": ["modules"]
                     },
                     "samtools/index": {
                         "branch": "master",
-                        "git_sha": "1d2fbdcbca677bbe8da0f9d0d2bb7c02f2cab1c9",
+                        "git_sha": "156feda0cb6589cd29c04902004fa3b53bc00205",
                         "installed_by": ["modules"]
                     },
                     "samtools/merge": {
                         "branch": "master",
-                        "git_sha": "b2e78932ef01165fd85829513eaca29eff8e640a",
+                        "git_sha": "156feda0cb6589cd29c04902004fa3b53bc00205",
                         "installed_by": ["modules"]
                     },
                     "somalier/extract": {
