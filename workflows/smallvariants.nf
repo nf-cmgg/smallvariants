@@ -162,7 +162,7 @@ workflow SMALLVARIANTS {
 
     def ch_somalier_sites     = somalier_sites      ? channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
 
-    def ch_vep_cache          = vep_cache           ? channel.fromPath(vep_cache).collect()          : []
+    def ch_vep_cache          = vep_cache           ? channel.of([ [id:'cache'], file(vep_cache) ]).collect()          : []
 
     def ch_vcfanno_config     = vcfanno_config      ? channel.fromPath(vcfanno_config).collect()     : []
     def ch_vcfanno_lua        = vcfanno_lua         ? channel.fromPath(vcfanno_lua).collect()        : []
@@ -332,7 +332,7 @@ workflow SMALLVARIANTS {
         ENSEMBLVEP_DOWNLOAD(
             channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
         )
-        ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect{ _meta, cache -> cache }
+        ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect()
     } else {
         ch_vep_cache_ready = ch_vep_cache
     }
