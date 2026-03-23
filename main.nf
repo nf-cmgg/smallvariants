@@ -296,10 +296,10 @@ output {
     updio { path { meta, updio ->
         updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}${params.updio_regions ? '.filtered' : ''}"
     } }
-    multiqc { path { report ->
+    multiqc { path { _meta, report ->
         report >> "${params.unique_out}/multiqc_report.html"
     } }
-    multiqc_data { path { _folder ->
+    multiqc_data { path { _meta, _folder ->
         "${params.unique_out}/"
     } }
 }
