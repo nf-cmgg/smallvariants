@@ -930,7 +930,7 @@ workflow SMALLVARIANTS {
                                                     ch_reports
                                                 )
 
-    def ch_multiqc_input = ch_multiqc_files.collect().map { files -> [files] } 
+    def ch_multiqc_input = ch_multiqc_files.collect().map { files -> [files] }
         .combine(ch_multiqc_config)
         .combine(ch_multiqc_logo.toList())
         .map { files, configs, logo ->
