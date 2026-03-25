@@ -51,7 +51,7 @@ nextflow_workflow {
                 input[2] = "WBcel235"
                 input[3] = "caenorhabditis_elegans"
                 input[4] = "110"
-                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, cache -> cache }
+                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache
                 input[6] = []
                 input[7] = 5
                 """
@@ -103,7 +103,7 @@ nextflow_workflow {
                 input[2] = "WBcel235"
                 input[3] = "caenorhabditis_elegans"
                 input[4] = "110"
-                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, cache -> cache }
+                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache
                 input[6] = []
                 input[7] = 100
                 """
@@ -155,7 +155,7 @@ nextflow_workflow {
                 input[2] = "WBcel235"
                 input[3] = "caenorhabditis_elegans"
                 input[4] = "110"
-                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, cache -> cache }
+                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache
                 input[6] = []
                 input[7] = []
                 """

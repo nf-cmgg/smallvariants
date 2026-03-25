@@ -27,13 +27,11 @@ workflow VCF_PED_RTGTOOLS {
     def ch_annotate_input = ch_vcfs
         .join(RTGTOOLS_PEDFILTER.out.output, failOnDuplicate:true, failOnMismatch:true)
         .map { meta, vcf, tbi, ped_vcf ->
-            [ meta, vcf, tbi, [], [], ped_vcf ]
+            [ meta, vcf, tbi, [], [], [], ped_vcf, [] ]
         }
 
     BCFTOOLS_ANNOTATE(
-        ch_annotate_input,
-        [],
-        []
+        ch_annotate_input
     )
 
     def ch_ped_vcfs = BCFTOOLS_ANNOTATE.out.vcf

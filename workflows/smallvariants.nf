@@ -162,7 +162,7 @@ workflow SMALLVARIANTS {
 
     def ch_somalier_sites     = somalier_sites      ? channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
 
-    def ch_vep_cache          = vep_cache           ? channel.fromPath(vep_cache).collect()          : []
+    def ch_vep_cache          = vep_cache           ? channel.of([ [id:'cache'], file(vep_cache) ]).collect()          : []
 
     def ch_vcfanno_config     = vcfanno_config      ? channel.fromPath(vcfanno_config).collect()     : []
     def ch_vcfanno_lua        = vcfanno_lua         ? channel.fromPath(vcfanno_lua).collect()        : []
@@ -332,7 +332,7 @@ workflow SMALLVARIANTS {
         ENSEMBLVEP_DOWNLOAD(
             channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
         )
-        ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect{ _meta, cache -> cache }
+        ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect()
     } else {
         ch_vep_cache_ready = ch_vep_cache
     }
@@ -902,14 +902,16 @@ workflow SMALLVARIANTS {
     // Perform multiQC on all QC data
     //
 
-    def ch_multiqc_config                     = channel.fromPath(
-                                                "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
     def ch_multiqc_custom_config              = multiqc_config ?
                                                 channel.fromPath(multiqc_config, checkIfExists: true) :
-                                                channel.empty()
+                                                channel.value([])
+    def ch_multiqc_config                     = channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+                                                .combine(ch_multiqc_custom_config)
+                                                .collect()
+                                                .map { configs -> [configs] }
     def ch_multiqc_logo                       = multiqc_logo ?
                                                 channel.fromPath(multiqc_logo, checkIfExists: true) :
-                                                channel.empty()
+                                                channel.value([])
 
     def summary_params                        = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
     def ch_workflow_summary                   = channel.value(paramsSummaryMultiqc(summary_params))
@@ -928,15 +930,14 @@ workflow SMALLVARIANTS {
                                                     ch_reports
                                                 )
 
+    def ch_multiqc_input = ch_multiqc_files.collect().map { files -> [files] }
+        .combine(ch_multiqc_config)
+        .combine(ch_multiqc_logo.toList())
+        .map { files, configs, logo ->
+            [ [id: 'multiqc'], files, configs, logo, [], [] ]
+        }
 
-    MULTIQC (
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        ch_multiqc_custom_config.toList(),
-        ch_multiqc_logo.toList(),
-        [],
-        []
-    )
+    MULTIQC(ch_multiqc_input)
 
     emit:
     merged_crams        = ch_merged_crams               // channel: [ val(meta), path(cram), path(crai) ]
