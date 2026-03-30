@@ -56,8 +56,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -124,8 +122,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -193,8 +189,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -318,8 +312,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],

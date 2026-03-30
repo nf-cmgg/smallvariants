@@ -39,8 +39,6 @@
                 "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim_haplotypecaller_genomicsdb",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -107,8 +105,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -175,8 +171,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -243,8 +237,6 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
@@ -293,8 +285,6 @@
                 "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
                 "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
-                "<version>_<date>/multiqc_data/.stub",
-                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
