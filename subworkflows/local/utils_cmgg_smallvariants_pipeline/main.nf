@@ -122,7 +122,7 @@ workflow PIPELINE_INITIALISATION {
             def new_meta = meta + [
                 id:normalize_id(meta.id),
                 sample:normalize_id(meta.sample),
-                family:normalize_id(meta.family ?: meta.sample)
+                family:normalize_id(meta.family ?: "")
             ]
 
             // Pipeline logic
@@ -184,6 +184,8 @@ workflow PIPELINE_INITIALISATION {
     def pedFiles = channel.value(pedObject.getFamilies().collectEntries { family ->
         [ family, pedObject.writePed(families: [family]) ]
     })
+
+    ch_samplesheet.view()
 
     emit:
     samplesheet = ch_samplesheet
