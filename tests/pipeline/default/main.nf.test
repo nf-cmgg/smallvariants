@@ -42,6 +42,7 @@ nextflow_pipeline {
             params {
                 outdir = "${outputDir}"
                 input = "${projectDir}/tests/inputs/samplesheet_one.csv"
+                ped = null
             }
         }
 
