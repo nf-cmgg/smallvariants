@@ -185,8 +185,6 @@ workflow PIPELINE_INITIALISATION {
         [ family, pedObject.writePed(families: [family]) ]
     })
 
-    ch_samplesheet.view()
-
     emit:
     samplesheet = ch_samplesheet
     ped_files = pedFiles
