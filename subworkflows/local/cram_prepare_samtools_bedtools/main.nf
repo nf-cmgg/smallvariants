@@ -138,7 +138,8 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     MOSDEPTH(
         ch_mosdepth_input,
-        ch_fasta
+        ch_fasta,
+        ['NO_COVERAGE', 'LOW_COVERAGE', 'CALLABLE']
     )
     def ch_mosdepth_reports = MOSDEPTH.out.summary_txt
         .mix(
