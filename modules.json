@@ -123,7 +123,7 @@
                     },
                     "mosdepth": {
                         "branch": "master",
-                        "git_sha": "6832b69ef7f98c54876d6436360b6b945370c615",
+                        "git_sha": "171cec903f5993a3b28662582bbb349fc8959d35",
                         "installed_by": ["modules"]
                     },
                     "msisensorpro/pro": {
