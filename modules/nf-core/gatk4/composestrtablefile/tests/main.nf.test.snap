@@ -2,14 +2,20 @@
     "test-gatk4-composestrtablefile": {
         "content": [
             "genome.zip",
-            [
-                "versions.yml:md5,755f9a44a99148151b624d70eb6ce260"
-            ]
+            {
+                "versions_gatk4": [
+                    [
+                        "GATK4_COMPOSESTRTABLEFILE",
+                        "gatk4",
+                        "4.6.2.0"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2024-08-26T13:37:10.366333"
+        "timestamp": "2026-01-21T15:59:16.584704516"
     }
 }

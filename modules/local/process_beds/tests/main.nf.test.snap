@@ -2,18 +2,6 @@
     "homo_sapiens - bed": {
         "content": [
             {
-                "0": [
-                    [
-                        {
-                            "id": "test",
-                            "single_end": false
-                        },
-                        "test.bed:md5,ffd6f70b7fa85ffb46fb66a4cf9afb70"
-                    ]
-                ],
-                "1": [
-                    "versions.yml:md5,c6be2bd45c01066eacc08f419bce67d6"
-                ],
                 "bed": [
                     [
                         {
@@ -23,32 +11,52 @@
                         "test.bed:md5,ffd6f70b7fa85ffb46fb66a4cf9afb70"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,c6be2bd45c01066eacc08f419bce67d6"
+                "versions_bedtools": [
+                    [
+                        "PROCESS_BEDS",
+                        "bedtools",
+                        "2.31.1"
+                    ]
+                ],
+                "versions_cat": [
+                    [
+                        "PROCESS_BEDS",
+                        "cat",
+                        "9.4"
+                    ]
+                ],
+                "versions_grep": [
+                    [
+                        "PROCESS_BEDS",
+                        "grep",
+                        "3.11"
+                    ]
+                ],
+                "versions_sort": [
+                    [
+                        "PROCESS_BEDS",
+                        "sort",
+                        "9.4"
+                    ]
+                ],
+                "versions_zcat": [
+                    [
+                        "PROCESS_BEDS",
+                        "zcat",
+                        "1.12"
+                    ]
                 ]
             }
         ],
+        "timestamp": "2026-03-10T10:41:04.674522253",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
-        },
-        "timestamp": "2025-05-26T09:44:52.68329149"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "homo_sapiens - bed - stub": {
         "content": [
             {
-                "0": [
-                    [
-                        {
-                            "id": "test",
-                            "single_end": false
-                        },
-                        "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "1": [
-                    "versions.yml:md5,c6be2bd45c01066eacc08f419bce67d6"
-                ],
                 "bed": [
                     [
                         {
@@ -58,15 +66,47 @@
                         "test.bed:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,c6be2bd45c01066eacc08f419bce67d6"
+                "versions_bedtools": [
+                    [
+                        "PROCESS_BEDS",
+                        "bedtools",
+                        "2.31.1"
+                    ]
+                ],
+                "versions_cat": [
+                    [
+                        "PROCESS_BEDS",
+                        "cat",
+                        "9.4"
+                    ]
+                ],
+                "versions_grep": [
+                    [
+                        "PROCESS_BEDS",
+                        "grep",
+                        "3.11"
+                    ]
+                ],
+                "versions_sort": [
+                    [
+                        "PROCESS_BEDS",
+                        "sort",
+                        "9.4"
+                    ]
+                ],
+                "versions_zcat": [
+                    [
+                        "PROCESS_BEDS",
+                        "zcat",
+                        "1.12"
+                    ]
                 ]
             }
         ],
+        "timestamp": "2026-03-10T10:41:13.555873592",
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.3"
-        },
-        "timestamp": "2025-01-23T16:45:35.803097114"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     }
 }

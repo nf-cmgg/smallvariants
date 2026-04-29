@@ -35,7 +35,7 @@ nextflow_workflow {
                     workflow.out.automap.collect { it.collect {
                         def dirname = it
                         it instanceof Map ? it : path(it).list().collect {
-                            return getRecursiveFileNames(it, dirname.split("/")[0..-2].join("/"))
+                            return Utils.getRecursiveFileNames(it, dirname.split("/")[0..-2].join("/"))
                         }
                     }}
                 ).match("default - family") }
@@ -78,11 +78,4 @@ nextflow_workflow {
 
     }
 
-}
-
-def getRecursiveFileNames(fileOrDir, outputDir) {
-    if(file(fileOrDir.toString()).isDirectory()) {
-        return fileOrDir.list().collect { getRecursiveFileNames(it, outputDir) }
-    }
-    return fileOrDir.toString().replace("${outputDir}/", "")
 }

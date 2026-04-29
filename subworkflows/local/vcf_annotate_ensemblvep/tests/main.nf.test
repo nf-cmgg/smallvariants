@@ -51,7 +51,7 @@ nextflow_workflow {
                 input[2] = "WBcel235"
                 input[3] = "caenorhabditis_elegans"
                 input[4] = "110"
-                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, cache -> cache }
+                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache
                 input[6] = []
                 input[7] = 5
                 """
@@ -64,7 +64,6 @@ nextflow_workflow {
                 { assert snapshot(
                     workflow.out.vcf_tbi.collect { [it[0], "${file(it[1]).name},variantsMD5:${path(it[1]).vcf.variantsMD5}", file(it[2]).name] },
                     workflow.out.vep_reports.collect { it instanceof String ? file(it).name : it },
-                    workflow.out.versions.collect { it instanceof String ? file(it).name : it }
                 ).match()}
             )
         }
@@ -104,7 +103,7 @@ nextflow_workflow {
                 input[2] = "WBcel235"
                 input[3] = "caenorhabditis_elegans"
                 input[4] = "110"
-                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, cache -> cache }
+                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache
                 input[6] = []
                 input[7] = 100
                 """
@@ -117,7 +116,6 @@ nextflow_workflow {
                 { assert snapshot(
                     workflow.out.vcf_tbi.collect { [it[0], "${file(it[1]).name},variantsMD5:${path(it[1]).vcf.variantsMD5}", file(it[2]).name] },
                     workflow.out.vep_reports.collect { it instanceof String ? file(it).name : it },
-                    workflow.out.versions.collect { it instanceof String ? file(it).name : it }
                 ).match()}
             )
         }
@@ -157,7 +155,7 @@ nextflow_workflow {
                 input[2] = "WBcel235"
                 input[3] = "caenorhabditis_elegans"
                 input[4] = "110"
-                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, cache -> cache }
+                input[5] = ENSEMBLVEP_DOWNLOAD.out.cache
                 input[6] = []
                 input[7] = []
                 """
@@ -170,7 +168,6 @@ nextflow_workflow {
                 { assert snapshot(
                     workflow.out.vcf_tbi.collect { [it[0], "${file(it[1]).name},variantsMD5:${path(it[1]).vcf.variantsMD5}", file(it[2]).name] },
                     workflow.out.vep_reports.collect { it instanceof String ? file(it).name : it },
-                    workflow.out.versions.collect { it instanceof String ? file(it).name : it }
                 ).match()}
             )
         }

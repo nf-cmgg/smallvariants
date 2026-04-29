@@ -10,14 +10,12 @@ workflow VCF_VALIDATE_SMALL_VARIANTS {
 
     main:
 
-    def ch_versions = channel.empty()
     def ch_input = ch_vcf.join(ch_beds, failOnDuplicate: true, failOnMismatch: true)
 
     RTGTOOLS_VCFEVAL(
         ch_input,
         ch_vcfeval_sdf
     )
-    ch_versions = ch_versions.mix(RTGTOOLS_VCFEVAL.out.versions.first())
 
     def ch_rocplot_input = RTGTOOLS_VCFEVAL.out.snp_roc
         .map { meta, tsv ->
@@ -49,8 +47,6 @@ workflow VCF_VALIDATE_SMALL_VARIANTS {
     RTGTOOLS_ROCPLOT(
         ch_rocplot_input
     )
-
-    ch_versions = ch_versions.mix(RTGTOOLS_ROCPLOT.out.versions.first())
 
     def rocplot_out_png = RTGTOOLS_ROCPLOT.out.png
         .branch { meta, _png ->
@@ -98,6 +94,4 @@ workflow VCF_VALIDATE_SMALL_VARIANTS {
     rtgtools_snp_svg_rocplot                = ch_rtgtools_snp_svg_rocplot                // channel: [ meta, svg ]
     rtgtools_non_snp_svg_rocplot            = ch_rtgtools_non_snp_svg_rocplot            // channel: [ meta, svg ]
     rtgtools_weighted_svg_rocplot           = ch_rtgtools_weighted_svg_rocplot           // channel: [ meta, svg ]
-
-    versions = ch_versions                  // channel: [ versions.yml ]
 }

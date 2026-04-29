@@ -13,8 +13,6 @@ workflow VCF_ROH_AUTOMAP {
         val_genome  // value: [mandatory] => The genome to be used by automap
     main:
 
-    def ch_versions = channel.empty()
-
     def hg_genome = val_genome == "GRCh38" ? "hg38" : val_genome == "GRCh37" ? "hg19" : val_genome
 
     if(!["hg38", "hg19"].contains(hg_genome)) {
@@ -27,7 +25,6 @@ workflow VCF_ROH_AUTOMAP {
         AUTOMAP_REPEATS(
             channel.value([[id:"${val_genome}_repeats"], val_genome])
         )
-        ch_versions = ch_versions.mix(AUTOMAP_REPEATS.out.versions)
         ch_valid_repeats = AUTOMAP_REPEATS.out.repeats.collect()
     } else {
         ch_valid_repeats = ch_repeats
@@ -39,9 +36,7 @@ workflow VCF_ROH_AUTOMAP {
         ch_panel,
         hg_genome
     )
-    ch_versions = ch_versions.mix(AUTOMAP_AUTOMAP.out.versions.first())
 
     emit:
     automap = AUTOMAP_AUTOMAP.out.automap   // [ val(meta), path(automap_folder) ]
-    versions = ch_versions                  // [ path(versions) ]
 }

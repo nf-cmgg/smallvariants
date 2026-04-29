@@ -122,7 +122,7 @@ workflow PIPELINE_INITIALISATION {
             def new_meta = meta + [
                 id:normalize_id(meta.id),
                 sample:normalize_id(meta.sample),
-                family:normalize_id(meta.family)
+                family:normalize_id(meta.family ?: "")
             ]
 
             // Pipeline logic

@@ -3,6 +3,26 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.13.0 - Luxurious Luik - [April 29 2026]
+
+## New features
+
+1. Added [`nf-teams`](https://github.com/nvnieuwk/nf-teams) to the default plugins.
+
+## Changes
+
+1. Set default container for `multiqc`to custom cmgg version
+2. Deprecate `genomes_base` parameter in favor of `igenomes_base` to be more specific about the content of this directory.
+3. Move analysis profiles to external repository, referenced by the `custom_config_*` parameters. This allows us to update the default profiles without needing to update the pipeline itself.
+4. Updated the whole pipeline to use topics for versions catching.
+5. Updated the `MERGE_BEDS` process to be more memory efficient. This will prevent errors with large families.
+
+## Fixes
+
+1. Fixed `wrong number of arguments` error when the `family` field was missing from the samplesheet
+2. Bumped `nf-ped` to correctly work on cloud systems
+3. Set environment variables for mosdepth directly in the process instead of in the config
+
 ## v1.12.0 - Noble Namur - [Feb 3 2026]
 
 ## New features
@@ -19,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 4. Reworked PED file handling using the `nf-ped` plugin. This should fix the resumeability issues with PED files.
 5. Updated reference to Clinvar annotation VCF to the latest version (clinvar_20251027.vcf.gz).
 6. Changed the `--updio` and `--automap` parameters to `--disable_updio` and `--disable_automap`respectively. This change also reverts the functionality of these parameters: UPDio and AutoMap are now run by default unless these parameters are set to true.
+
+## Fixes
+
+1. Fixed an issue where a warning about a missing MSI baseline was shown even though MSI shouldn't be run.
 
 ## v1.11.0 - Generous Ghent - [Sept 1 2025]
 

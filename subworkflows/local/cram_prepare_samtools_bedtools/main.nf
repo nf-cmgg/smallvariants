@@ -21,8 +21,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         output_bam           // boolean: Also output BAM files
 
     main:
-
-    def ch_versions  = channel.empty()
     def ch_reports   = channel.empty()
 
     //
@@ -36,20 +34,18 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         .groupTuple()
         .branch { meta, cram, crai ->
             multiple: cram.size() > 1
-                return [meta.target, cram]
+                return [meta.target, cram, []]
             single:   cram.size() == 1
                 return [meta.target, cram[0], crai[0]]
         }
 
     SAMTOOLS_MERGE(
         ch_cram_branch.multiple,
-        ch_fasta,
-        ch_fai
+        ch_fasta.join(ch_fai).map { meta, fasta, fai -> [ meta, fasta, fai, [] ] }.collect()
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_MERGE.out.versions.first())
 
     def ch_merged_crams = SAMTOOLS_MERGE.out.cram
-        .join(SAMTOOLS_MERGE.out.crai, failOnDuplicate: true, failOnMismatch: true)
+        .join(SAMTOOLS_MERGE.out.index, failOnDuplicate: true, failOnMismatch: true)
 
     //
     // Index the CRAM files which have no index
@@ -67,10 +63,9 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     SAMTOOLS_INDEX(
         ch_ready_crams_branch.not_indexed
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
     def ch_ready_crams = ch_ready_crams_branch.not_indexed
-        .join(SAMTOOLS_INDEX.out.crai, failOnDuplicate: true, failOnMismatch: true)
+        .join(SAMTOOLS_INDEX.out.index, failOnDuplicate: true, failOnMismatch: true)
         .mix(ch_ready_crams_branch.indexed)
 
     //
@@ -81,11 +76,8 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     if(output_bam) {
         SAMTOOLS_CONVERT(
             ch_ready_crams,
-            ch_fasta,
-            ch_fai
+            ch_fasta.join(ch_fai).collect(),
         )
-        ch_versions = ch_versions.mix(SAMTOOLS_CONVERT.out.versions.first())
-
         ch_ready_bams = SAMTOOLS_CONVERT.out.bam.join(SAMTOOLS_CONVERT.out.bai, failOnDuplicate:true, failOnMismatch:true)
     }
 
@@ -114,7 +106,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         ch_roi_branch.found,
         ch_fai
     )
-    ch_versions = ch_versions.mix(MERGE_ROI_SAMPLE.out.versions.first())
 
     // Add the default ROI file to all samples without an ROI file
     // if an ROI BED file has been given through the --roi parameter
@@ -126,7 +117,6 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
             },
             ch_fai
         )
-        ch_versions = ch_versions.mix(MERGE_ROI_PARAMS.out.versions)
 
         ch_missing_rois = ch_roi_branch.missing
             .combine(MERGE_ROI_PARAMS.out.bed.map { _meta, bed -> bed })
@@ -148,9 +138,9 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
 
     MOSDEPTH(
         ch_mosdepth_input,
-        ch_fasta
+        ch_fasta,
+        ['NO_COVERAGE', 'LOW_COVERAGE', 'CALLABLE']
     )
-    ch_versions = ch_versions.mix(MOSDEPTH.out.versions.first())
     def ch_mosdepth_reports = MOSDEPTH.out.summary_txt
         .mix(
             MOSDEPTH.out.global_txt,
@@ -166,11 +156,7 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
         .join(ch_ready_rois, failOnDuplicate:true, failOnMismatch:true)
 
     // Filter out the regions with no coverage
-    PROCESS_BEDS(
-        ch_beds_to_process,
-        ch_fai
-    )
-    ch_versions = ch_versions.mix(PROCESS_BEDS.out.versions)
+    PROCESS_BEDS(ch_beds_to_process)
 
     def ch_ready_beds = PROCESS_BEDS.out.bed
 
@@ -181,6 +167,5 @@ workflow CRAM_PREPARE_SAMTOOLS_BEDTOOLS {
     ready_beds          = ch_ready_beds         // [ val(meta), path(bed) ]
     perbase_beds        = ch_perbase_beds       // [ val(meta), path(bed), path(csi) ]
     mosdepth_reports    = ch_mosdepth_reports   // [ val(meta), path(report) ]
-    versions            = ch_versions           // [ path(versions) ]
     reports             = ch_reports            // [ path(reports) ]
 }

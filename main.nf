@@ -231,7 +231,7 @@ workflow {
     peds                = SMALLVARIANTS.out.peds
     joint_beds          = SMALLVARIANTS.out.joint_beds
     final_reports       = SMALLVARIANTS.out.final_reports
-    automap             = SMALLVARIANTS.out.automap.map { meta, dir -> [ meta, file("${dir.toUri()}/**") ] }.transpose(by:1)
+    automap             = SMALLVARIANTS.out.automap.map { meta, dir -> [ meta, files("${dir.toUriString()}/**") ] }.transpose(by:1)
     updio               = SMALLVARIANTS.out.updio
     multiqc             = SMALLVARIANTS.out.multiqc_report
     multiqc_data        = SMALLVARIANTS.out.multiqc_data
@@ -296,10 +296,10 @@ output {
     updio { path { meta, updio ->
         updio >> "${meta.family}/output_${params.unique_out}/updio/${meta.caller}${params.updio_regions ? '.filtered' : ''}"
     } }
-    multiqc { path { report ->
+    multiqc { path { _meta, report ->
         report >> "${params.unique_out}/multiqc_report.html"
     } }
-    multiqc_data { path { _folder ->
+    multiqc_data { path { _meta, _folder ->
         "${params.unique_out}/"
     } }
 }

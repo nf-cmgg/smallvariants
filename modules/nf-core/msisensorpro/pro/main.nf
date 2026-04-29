@@ -18,7 +18,7 @@ process MSISENSORPRO_PRO {
     tuple val(meta), path("${prefix}_all_msi")      , emit: all_msi
     tuple val(meta), path("${prefix}_dis_msi")      , emit: dis_msi
     tuple val(meta), path("${prefix}_unstable_msi") , emit: unstable_msi
-    path "versions.yml"                             , emit: versions
+    tuple val("${task.process}"), val('msisensor-pro'), eval("msisensor-pro --version 2>&1 | sed -nE 's/Version:\\s*//p'") , emit: versions_msisensorpro, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -40,21 +40,11 @@ process MSISENSORPRO_PRO {
     mv ${prefix}_all ${prefix}_all_msi
     mv ${prefix}_dis ${prefix}_dis_msi
     mv ${prefix}_unstable ${prefix}_unstable_msi
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        msisensor-pro: \$(msisensor-pro 2>&1 | sed -nE 's/Version:\\s*//p')
-    END_VERSIONS
     """
 
     stub:
     prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_summary_msi ${prefix}_all_msi ${prefix}_dis_msi ${prefix}_unstable_msi
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        msisensor-pro: \$(msisensor-pro 2>&1 | sed -nE 's/Version:\\s*//p')
-    END_VERSIONS
     """
 }

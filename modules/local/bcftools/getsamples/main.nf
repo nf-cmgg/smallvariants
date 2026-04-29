@@ -12,10 +12,7 @@ process BCFTOOLS_GETSAMPLES {
 
     output:
     tuple val(meta), path("*.txt"), emit: samples
-    path  "versions.yml"          , emit: versions
-
-    when:
-    task.ext.when == null || task.ext.when
+    tuple val("${task.process}"), val('bcftools'), eval("bcftools --version | sed -n '1s/bcftools *//p'"), emit: versions_bcftools, topic: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -27,11 +24,6 @@ process BCFTOOLS_GETSAMPLES {
         $vcf \\
         --list-samples \\
         > ${prefix}.txt
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bcftools: \$(bcftools --version 2>&1 | head -n1 | sed 's/^.*bcftools //; s/ .*\$//')
-    END_VERSIONS
     """
 
     stub:
@@ -39,10 +31,5 @@ process BCFTOOLS_GETSAMPLES {
 
     """
     touch ${prefix}.txt
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bcftools: \$(bcftools --version 2>&1 | head -n1 | sed 's/^.*bcftools //; s/ .*\$//')
-    END_VERSIONS
     """
 }

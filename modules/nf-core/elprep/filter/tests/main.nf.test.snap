@@ -2,7 +2,13 @@
     "test-elprep-filter": {
         "content": [
             [
-                
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test.bam,readsMD5:463ac3b905fbf4ddf113a94dbfa8d69f"
+                ]
             ],
             [
                 
@@ -46,19 +52,33 @@
                     "test.assembly_regions.igv:md5,7ec2070b4d4af26532cffbc1c465ba93"
                 ]
             ],
-            [
-                "versions.yml:md5,8193703d0cedd662b76ea48940dac55d"
-            ]
+            {
+                "versions_elprep": [
+                    [
+                        "ELPREP_FILTER",
+                        "elprep",
+                        "5.1.3"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.1",
-            "nextflow": "24.10.0"
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
         },
-        "timestamp": "2024-11-05T15:16:40.979143203"
+        "timestamp": "2026-02-18T16:17:02.297266495"
     },
     "test-elprep-filter-stub": {
         "content": [
-            null,
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test.bam:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            ],
             [
                 
             ],
@@ -95,14 +115,20 @@
                     "test.assembly_regions.igv:md5,d41d8cd98f00b204e9800998ecf8427e"
                 ]
             ],
-            [
-                "versions.yml:md5,8193703d0cedd662b76ea48940dac55d"
-            ]
+            {
+                "versions_elprep": [
+                    [
+                        "ELPREP_FILTER",
+                        "elprep",
+                        "5.1.3"
+                    ]
+                ]
+            }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
         },
-        "timestamp": "2024-10-22T10:45:09.343805413"
+        "timestamp": "2026-02-18T16:17:10.183836201"
     }
 }
