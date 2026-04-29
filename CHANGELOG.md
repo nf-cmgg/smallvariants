@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.13.0 - Luxurious Luik - [March 23 2026]
+## v1.13.0 - Luxurious Luik - [April 29 2026]
 
 ## New features
 
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. Fixed `wrong number of arguments` error when the `family` field was missing from the samplesheet
 2. Bumped `nf-ped` to correctly work on cloud systems
+3. Set environment variables for mosdepth directly in the process instead of in the config
 
 ## v1.12.0 - Noble Namur - [Feb 3 2026]
 
