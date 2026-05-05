@@ -61,6 +61,58 @@ include { getWorkflowVersion      } from './subworkflows/nf-core/utils_nfcore_pi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+// Temporary type casting until Nextflow supports static typing (26.10+)
+
+// Boolean parameters
+params.igenomes_ignore = params.igenomes_ignore != null ? params.igenomes_ignore as Boolean : null
+params.dragstr = params.dragstr != null ? params.dragstr as Boolean : null
+params.validate = params.validate != null ? params.validate as Boolean : null
+params.filter = params.filter != null ? params.filter as Boolean : null
+params.annotate = params.annotate != null ? params.annotate as Boolean : null
+params.add_ped = params.add_ped != null ? params.add_ped as Boolean : null
+params.gemini = params.gemini != null ? params.gemini as Boolean : null
+params.mosdepth_slow = params.mosdepth_slow != null ? params.mosdepth_slow as Boolean : null
+params.only_call = params.only_call != null ? params.only_call as Boolean : null
+params.only_merge = params.only_merge != null ? params.only_merge as Boolean : null
+params.output_genomicsdb = params.output_genomicsdb != null ? params.output_genomicsdb as Boolean : null
+params.normalize = params.normalize != null ? params.normalize as Boolean : null
+params.only_pass = params.only_pass != null ? params.only_pass as Boolean : null
+params.keep_alt_contigs = params.keep_alt_contigs != null ? params.keep_alt_contigs as Boolean : null
+params.disable_updio = params.disable_updio != null ? params.disable_updio as Boolean : null
+params.disable_automap = params.disable_automap != null ? params.disable_automap as Boolean : null
+params.hc_phasing = params.hc_phasing != null ? params.hc_phasing as Boolean : null
+params.disable_hc_dict_validation = params.disable_hc_dict_validation != null ? params.disable_hc_dict_validation as Boolean : null
+params.skip_merged_cram_output = params.skip_merged_cram_output != null ? params.skip_merged_cram_output as Boolean : null
+params.version = params.version != null ? params.version as Boolean : null
+params.plaintext_email = params.plaintext_email != null ? params.plaintext_email as Boolean : null
+params.monochrome_logs = params.monochrome_logs != null ? params.monochrome_logs as Boolean : null
+params.validate_params = params.validate_params != null ? params.validate_params as Boolean : null
+params.help_full = params.help_full != null ? params.help_full as Boolean : null
+params.show_hidden = params.show_hidden != null ? params.show_hidden as Boolean : null
+params.vep_merged = params.vep_merged != null ? params.vep_merged as Boolean : null
+params.vep_dbnsfp = params.vep_dbnsfp != null ? params.vep_dbnsfp as Boolean : null
+params.vep_spliceai = params.vep_spliceai != null ? params.vep_spliceai as Boolean : null
+params.vep_spliceregion = params.vep_spliceregion != null ? params.vep_spliceregion as Boolean : null
+params.vep_mastermind = params.vep_mastermind != null ? params.vep_mastermind as Boolean : null
+params.vep_maxentscan = params.vep_maxentscan != null ? params.vep_maxentscan as Boolean : null
+params.vep_eog = params.vep_eog != null ? params.vep_eog as Boolean : null
+params.vep_alphamissense = params.vep_alphamissense != null ? params.vep_alphamissense as Boolean : null
+params.vcfanno = params.vcfanno != null ? params.vcfanno as Boolean : null
+
+// Integer parameters
+params.scatter_count = params.scatter_count != null ? params.scatter_count as Integer : null
+params.merge_distance = params.merge_distance != null ? params.merge_distance as Integer : null
+params.min_callable_coverage = params.min_callable_coverage != null ? params.min_callable_coverage as Integer : null
+params.vep_chunk_size = params.vep_chunk_size != null ? params.vep_chunk_size as Integer : null
+params.vep_cache_version = params.vep_cache_version != null ? params.vep_cache_version as Integer : null
+
+// Float parameters
+params.vardict_min_af = params.vardict_min_af != null ? params.vardict_min_af as Float : null
+params.vep_version = params.vep_version != null ? params.vep_version as Float : null
+
+// Special parameters
+params.help = params.help != null ? params.help.toString() == 'false' || params.help.toString() == 'true' ? params.help as Boolean : params.help : null
+
 workflow {
 
     main:
