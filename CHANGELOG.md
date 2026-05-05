@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v1.13.1dev
 
+The minimum Nextflow version has been bumped to 26.04.0
+
 ## Fixes
 
 1. Typecast parameters correctly whenever in strict syntax mode
