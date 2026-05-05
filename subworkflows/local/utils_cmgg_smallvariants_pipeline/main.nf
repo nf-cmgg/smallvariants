@@ -30,9 +30,9 @@ workflow PIPELINE_INITIALISATION {
     version           // boolean: Display version and exit
     validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
     nextflow_cli_args //   array: List of positional nextflow CLI args
-    outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input samplesheet
-    pedFile           //  string: Path to the common PED file
+    outdir            //    path: The output directory where the results will be saved
+    input             //    path: Path to input samplesheet
+    pedFile           //    path: Path to the common PED file
     help              // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
@@ -55,19 +55,19 @@ workflow PIPELINE_INITIALISATION {
     // Validate parameters and generate parameter summary to stdout
     //
 
-    def command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
+    // def command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
 
-    UTILS_NFSCHEMA_PLUGIN (
-        workflow,
-        validate_params,
-        null,
-        help,
-        help_full,
-        show_hidden,
-        "",
-        "",
-        command
-    )
+    // UTILS_NFSCHEMA_PLUGIN (
+    //     workflow,
+    //     validate_params,
+    //     null,
+    //     help,
+    //     help_full,
+    //     show_hidden,
+    //     "",
+    //     "",
+    //     command
+    // )
 
 
     //

@@ -15,35 +15,6 @@
 
 include { getGenomeAttribute } from './subworkflows/local/utils_cmgg_smallvariants_pipeline'
 
-// Take another look at this later!
-params.fasta                = getGenomeAttribute('fasta', params.genomes, params.genome)
-params.fai                  = getGenomeAttribute('fai', params.genomes, params.genome)
-params.dict                 = getGenomeAttribute('dict', params.genomes, params.genome)
-params.elfasta              = getGenomeAttribute('elfasta', params.genomes, params.genome)
-params.strtablefile         = getGenomeAttribute('strtablefile', params.genomes, params.genome)
-params.sdf                  = getGenomeAttribute('sdf', params.genomes, params.genome)
-params.dbsnp                = getGenomeAttribute('dbsnp', params.genomes, params.genome)
-params.dbsnp_tbi            = getGenomeAttribute('dbsnp_tbi', params.genomes, params.genome)
-params.vep_cache            = getGenomeAttribute('vep_cache', params.genomes, params.genome)
-params.dbnsfp               = getGenomeAttribute('dbnsfp', params.genomes, params.genome)
-params.dbnsfp_tbi           = getGenomeAttribute('dbnsfp_tbi', params.genomes, params.genome)
-params.spliceai_indel       = getGenomeAttribute('spliceai_indel', params.genomes, params.genome)
-params.spliceai_indel_tbi   = getGenomeAttribute('spliceai_indel_tbi', params.genomes, params.genome)
-params.spliceai_snv         = getGenomeAttribute('spliceai_snv', params.genomes, params.genome)
-params.spliceai_snv_tbi     = getGenomeAttribute('spliceai_snv_tbi', params.genomes, params.genome)
-params.mastermind           = getGenomeAttribute('mastermind', params.genomes, params.genome)
-params.mastermind_tbi       = getGenomeAttribute('mastermind_tbi', params.genomes, params.genome)
-params.eog                  = getGenomeAttribute('eog', params.genomes, params.genome)
-params.eog_tbi              = getGenomeAttribute('eog_tbi', params.genomes, params.genome)
-params.alphamissense        = getGenomeAttribute('alphamissense', params.genomes, params.genome)
-params.alphamissense_tbi    = getGenomeAttribute('alphamissense_tbi', params.genomes, params.genome)
-params.vcfanno_resources    = getGenomeAttribute('vcfanno_resources', params.genomes, params.genome)
-params.vcfanno_config       = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
-params.maxentscan           = getGenomeAttribute('maxentscan', params.genomes, params.genome)
-
-
-params.unique_out = "v${workflow.manifest.version.replace('.', '_')}_${new java.util.Date().format( 'yyyy_MM_dd')}"
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
@@ -61,62 +32,318 @@ include { getWorkflowVersion      } from './subworkflows/nf-core/utils_nfcore_pi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// Temporary type casting until Nextflow supports static typing (26.10+)
+params {
 
-// Boolean parameters
-params.igenomes_ignore = params.igenomes_ignore != null ? params.igenomes_ignore as Boolean : null
-params.dragstr = params.dragstr != null ? params.dragstr as Boolean : null
-params.validate = params.validate != null ? params.validate as Boolean : null
-params.filter = params.filter != null ? params.filter as Boolean : null
-params.annotate = params.annotate != null ? params.annotate as Boolean : null
-params.add_ped = params.add_ped != null ? params.add_ped as Boolean : null
-params.gemini = params.gemini != null ? params.gemini as Boolean : null
-params.mosdepth_slow = params.mosdepth_slow != null ? params.mosdepth_slow as Boolean : null
-params.only_call = params.only_call != null ? params.only_call as Boolean : null
-params.only_merge = params.only_merge != null ? params.only_merge as Boolean : null
-params.output_genomicsdb = params.output_genomicsdb != null ? params.output_genomicsdb as Boolean : null
-params.normalize = params.normalize != null ? params.normalize as Boolean : null
-params.only_pass = params.only_pass != null ? params.only_pass as Boolean : null
-params.keep_alt_contigs = params.keep_alt_contigs != null ? params.keep_alt_contigs as Boolean : null
-params.disable_updio = params.disable_updio != null ? params.disable_updio as Boolean : null
-params.disable_automap = params.disable_automap != null ? params.disable_automap as Boolean : null
-params.hc_phasing = params.hc_phasing != null ? params.hc_phasing as Boolean : null
-params.disable_hc_dict_validation = params.disable_hc_dict_validation != null ? params.disable_hc_dict_validation as Boolean : null
-params.skip_merged_cram_output = params.skip_merged_cram_output != null ? params.skip_merged_cram_output as Boolean : null
-params.version = params.version != null ? params.version as Boolean : null
-params.plaintext_email = params.plaintext_email != null ? params.plaintext_email as Boolean : null
-params.monochrome_logs = params.monochrome_logs != null ? params.monochrome_logs as Boolean : null
-params.validate_params = params.validate_params != null ? params.validate_params as Boolean : null
-params.help_full = params.help_full != null ? params.help_full as Boolean : null
-params.show_hidden = params.show_hidden != null ? params.show_hidden as Boolean : null
-params.vep_merged = params.vep_merged != null ? params.vep_merged as Boolean : null
-params.vep_dbnsfp = params.vep_dbnsfp != null ? params.vep_dbnsfp as Boolean : null
-params.vep_spliceai = params.vep_spliceai != null ? params.vep_spliceai as Boolean : null
-params.vep_spliceregion = params.vep_spliceregion != null ? params.vep_spliceregion as Boolean : null
-params.vep_mastermind = params.vep_mastermind != null ? params.vep_mastermind as Boolean : null
-params.vep_maxentscan = params.vep_maxentscan != null ? params.vep_maxentscan as Boolean : null
-params.vep_eog = params.vep_eog != null ? params.vep_eog as Boolean : null
-params.vep_alphamissense = params.vep_alphamissense != null ? params.vep_alphamissense as Boolean : null
-params.vcfanno = params.vcfanno != null ? params.vcfanno as Boolean : null
+    // Path to comma-separated file containing information about the samples in the experiment.
+    input: Path
 
-// Integer parameters
-params.scatter_count = params.scatter_count != null ? params.scatter_count as Integer : null
-params.merge_distance = params.merge_distance != null ? params.merge_distance as Integer : null
-params.min_callable_coverage = params.min_callable_coverage != null ? params.min_callable_coverage as Integer : null
-params.vep_chunk_size = params.vep_chunk_size != null ? params.vep_chunk_size as Integer : null
-params.vep_cache_version = params.vep_cache_version != null ? params.vep_cache_version as Integer : null
+    // The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.
+    outdir: Path
 
-// Float parameters
-params.vardict_min_af = params.vardict_min_af != null ? params.vardict_min_af as Float : null
-params.vep_version = params.vep_version != null ? params.vep_version as Float : null
+    // Email address for completion summary.
+    email: String
 
-// Special parameters
-params.help = params.help != null ? params.help.toString() == 'false' || params.help.toString() == 'true' ? params.help as Boolean : params.help : null
+    // Path to a pedigree file for all samples in the run. All relational data will be fetched from this file.
+    ped: String
+
+    // Reference genome build. Used to fetch the right reference files.
+    genome: String = 'GRCh38'
+
+    // Path to FASTA genome file.
+    fasta: Path = getGenomeAttribute('fasta', params.genomes, params.genome)
+
+    // Path to FASTA genome index file.
+    fai: Path? = getGenomeAttribute('fai', params.genomes, params.genome)
+
+    // Path to the sequence dictionary generated from the FASTA reference. This is only used when `haplotypecaller` is one of the specified callers.
+    dict: Path? = getGenomeAttribute('dict', params.genomes, params.genome)
+
+    // Path to the STR table file generated from the FASTA reference. This is only used when `--dragstr` has been given.
+    strtablefile: Path? = getGenomeAttribute('strtablefile', params.genomes, params.genome)
+
+    // Path to the SDF folder generated from the reference FASTA file. This is only required when using `--validate`.
+    sdf: Path? = getGenomeAttribute('sdf', params.genomes, params.genome)
+
+    // Path to the ELFASTA genome file. This is used when `elprep` is part of the callers and will be automatically generated when missing.
+    elfasta: Path? = getGenomeAttribute('elfasta', params.genomes, params.genome)
+
+    // Path to the elsites file. This is used when `elprep` is part of the callers.
+    elsites: Path?
+
+    // Object for genomes
+    genomes: Map
+
+    // Directory / URL base for iGenomes references.
+    igenomes_base: String
+
+    // Do not load the iGenomes reference config.
+    igenomes_ignore: Boolean
+
+    // Path to the MSI baseline VCF file.
+    msi_baseline: Path?
+
+    // The amount of scattering that should happen per sample.
+    scatter_count: Integer = 40
+
+    // The merge distance for family BED files
+    merge_distance: Integer = 100000
+
+    // Create DragSTR models to be used with HaplotypeCaller
+    dragstr: Boolean
+
+    // Validate the found variants
+    validate: Boolean
+
+    // Filter the found variants.
+    filter: Boolean
+
+    // Annotate the found variants using Ensembl VEP.
+    annotate: Boolean
+
+    // Add PED INFO header lines to the final VCFs.
+    add_ped: Boolean
+
+    // Create a Gemini databases from the final VCFs.
+    gemini: Boolean
+
+    // Don't run mosdepth in fast-mode
+    mosdepth_slow: Boolean
+
+    // Path to the default ROI (regions of interest) BED file to be used for WES analysis.
+    roi: Path?
+
+    // Path to the dbSNP VCF file. This will be used to set the variant IDs.
+    dbsnp: Path? = getGenomeAttribute('dbsnp', params.genomes, params.genome)
+
+    // Path to the index of the dbSNP VCF file.
+    dbsnp_tbi: Path? = getGenomeAttribute('dbsnp_tbi', params.genomes, params.genome)
+
+    // Path to the VCF file with sites for Somalier to use.
+    somalier_sites: Path? = 'https://github.com/brentp/somalier/files/3412456/sites.hg38.vcf.gz'
+
+    // Only call the variants without doing any post-processing.
+    only_call: Boolean
+
+    // Only run the pipeline until the creation of the genomicsdbs and output them.
+    only_merge: Boolean
+
+    // Output the genomicsDB together with the joint-genotyped VCF.
+    output_genomicsdb: Boolean
+
+    // A comma delimited string of the available callers. Current options are: `haplotypecaller` and `vardict`.
+    callers: String = 'haplotypecaller'
+
+    // The minimum allele frequency for VarDict when no `vardict_min_af` is supplied in the samplesheet.
+    vardict_min_af: Float = 0.1
+
+    // Normalize the variant in the final VCFs.
+    normalize: Boolean
+
+    // Filter out all variants that don't have the PASS filter for vardict. This only works when `--filter` is also given.
+    only_pass: Boolean
+
+    // Keep all aditional contigs for calling instead of filtering them out before.
+    keep_alt_contigs: Boolean
+
+    // Disable UPDio analysis on the final VCFs.
+    disable_updio: Boolean
+
+    // A TSV file containing common CNVs to be used by UPDio.
+    updio_common_cnvs: Path?
+
+    // Disable AutoMap analysis on the final VCFs.
+    disable_automap: Boolean
+
+    // BED file with repeat regions in the genome.
+    automap_repeats: Path?
+
+    // TXT file with gene panel regions to be used by AutoMap.
+    automap_panel: Path?
+
+    // BED file with regions to be used by UPDio.
+    updio_regions: Path?
+
+    // The panel name of the panel given with --automap_panel.
+    automap_panel_name: String = 'cmgg_bio'
+
+    // Perform phasing with HaplotypeCaller.
+    hc_phasing: Boolean
+
+    // The lowest callable coverage to determine callable regions.
+    min_callable_coverage: Integer = 5
+
+    // Don't change this value
+    unique_out: String = "v${workflow.manifest.version.replace('.', '_')}_${new java.util.Date().format('yyyy_MM_dd')}"
+
+    // Disable the sequence dictionary validation in HaplotypeCaller
+    disable_hc_dict_validation: Boolean
+
+    // Don't output the merged CRAM files.
+    skip_merged_cram_output: Boolean
+
+    // Git commit id for Institutional configs.
+    custom_config_version: String = 'main'
+
+    // Base directory for Institutional configs.
+    custom_config_base: String = 'https://raw.githubusercontent.com/nf-cmgg/configs/main'
+
+    // Institutional config name.
+    config_profile_name: String
+
+    // Institutional config description.
+    config_profile_description: String
+
+    // Institutional config contact information.
+    config_profile_contact: String
+
+    // Institutional config URL link.
+    config_profile_url: String
+
+    // Display version and exit.
+    version: Boolean
+
+    // Method used to save pipeline results to output directory.
+    publish_dir_mode: String = 'copy'
+
+    // Email address for completion summary, only when pipeline fails.
+    email_on_fail: String
+
+    // Send plain-text email instead of HTML.
+    plaintext_email: Boolean
+
+    // File size limit when attaching MultiQC reports to summary emails.
+    max_multiqc_email_size: String = '25.MB'
+
+    // Do not use coloured log outputs.
+    monochrome_logs: Boolean
+
+    // Incoming hook URL for messaging service
+    hook_url: String
+
+    // MultiQC report title. Printed as page header, used for filename if not otherwise specified.
+    multiqc_title: String
+
+    // Custom config file to supply to MultiQC.
+    multiqc_config: Path?
+
+    // Custom logo file to supply to MultiQC. File name must also be set in the MultiQC config file
+    multiqc_logo: Path?
+
+    // Custom MultiQC yaml file containing HTML including a methods description.
+    multiqc_methods_description: Path?
+
+    // Boolean whether to validate parameters against the schema at runtime
+    validate_params: Boolean = true
+
+    // Base URL or local path to location of pipeline test dataset files
+    pipelines_testdata_base_path: String = 'https://raw.githubusercontent.com/nf-core/test-datasets/'
+
+    // Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.
+    trace_report_suffix: String
+
+    // Display the help message.
+    help
+
+    // Display the full detailed help message.
+    help_full: Boolean
+
+    // Display hidden parameters in the help message (only works when --help or --help_full are provided).
+    show_hidden: Boolean
+
+    // The amount of sites per split VCF as input to VEP.
+    vep_chunk_size: Integer = 50000
+
+    // The species of the samples.
+    species: String = 'homo_sapiens'
+
+    // Specify if the VEP cache is a merged cache.
+    vep_merged: Boolean = true
+
+    // The path to the VEP cache.
+    vep_cache: Path? = getGenomeAttribute('vep_cache', params.genomes, params.genome)
+
+    // Use the dbNSFP plugin with Ensembl VEP.
+    vep_dbnsfp: Boolean
+
+    // Use the SpliceAI plugin with Ensembl VEP.
+    vep_spliceai: Boolean
+
+    // Use the SpliceRegion plugin with Ensembl VEP.
+    vep_spliceregion: Boolean
+
+    // Use the Mastermind plugin with Ensembl VEP.
+    vep_mastermind: Boolean
+
+    // Use the MaxEntScan plugin with Ensembl VEP.
+    vep_maxentscan: Boolean
+
+    // Use the custom EOG annotation with Ensembl VEP.
+    vep_eog: Boolean
+
+    // Use the AlphaMissense plugin with Ensembl VEP.
+    vep_alphamissense: Boolean
+
+    // The version of the VEP tool to be used.
+    vep_version: Float = 105.0
+
+    // The version of the VEP cache to be used.
+    vep_cache_version: Integer = 105
+
+    // Path to the dbSNFP file.
+    dbnsfp: Path? = getGenomeAttribute('dbnsfp', params.genomes, params.genome)
+
+    // Path to the index of the dbSNFP file.
+    dbnsfp_tbi: Path? = getGenomeAttribute('dbnsfp_tbi', params.genomes, params.genome)
+
+    // Path to the VCF containing indels for spliceAI.
+    spliceai_indel: Path? = getGenomeAttribute('spliceai_indel', params.genomes, params.genome)
+
+    // Path to the index of the VCF containing indels for spliceAI.
+    spliceai_indel_tbi: Path? = getGenomeAttribute('spliceai_indel_tbi', params.genomes, params.genome)
+
+    // Path to the VCF containing SNVs for spliceAI.
+    spliceai_snv: Path? = getGenomeAttribute('spliceai_snv', params.genomes, params.genome)
+
+    // Path to the index of the VCF containing SNVs for spliceAI.
+    spliceai_snv_tbi: Path? = getGenomeAttribute('spliceai_snv_tbi', params.genomes, params.genome)
+
+    // Path to the VCF for Mastermind.
+    mastermind: Path? = getGenomeAttribute('mastermind', params.genomes, params.genome)
+
+    // Path to the index of the VCF for Mastermind.
+    mastermind_tbi: Path? = getGenomeAttribute('mastermind_tbi', params.genomes, params.genome)
+
+    // Path to the TSV for AlphaMissense.
+    alphamissense: Path? = getGenomeAttribute('alphamissense', params.genomes, params.genome)
+
+    // Path to the index of the TSV for AlphaMissense.
+    alphamissense_tbi: Path? = getGenomeAttribute('alphamissense_tbi', params.genomes, params.genome)
+
+    // Path to the VCF containing EOG annotations.
+    eog: Path? = getGenomeAttribute('eog', params.genomes, params.genome)
+
+    // Path to the index of the VCF containing EOG annotations.
+    eog_tbi: Path? = getGenomeAttribute('eog_tbi', params.genomes, params.genome)
+
+    // Path to the directory containing the MaxEntScan reference annotations.
+    maxentscan: Path? = getGenomeAttribute('maxentscan', params.genomes, params.genome)
+
+    // Run annotations with vcfanno.
+    vcfanno: Boolean
+
+    // The path to the VCFanno config TOML.
+    vcfanno_config: Path? = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
+
+    // The path to a Lua script to be used in VCFanno.
+    vcfanno_lua: Path?
+
+    // A semicolon-seperated list of resource files for VCFanno, please also supply their indices using this parameter.
+    vcfanno_resources: String? = getGenomeAttribute('vcfanno_resources', params.genomes, params.genome)
+}
 
 workflow {
 
     main:
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         VALIDATE INPUTS
@@ -161,7 +388,7 @@ workflow {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
-    def multiqc_logo = params.multiqc_logo   ?: "$projectDir/assets/CMGG_logo.png"
+    def multiqc_logo = params.multiqc_logo ?: file("$projectDir/assets/CMGG_logo.png")
 
     //
     // SUBWORKFLOW: Run initialisation tasks
