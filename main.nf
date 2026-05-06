@@ -41,10 +41,10 @@ params {
     outdir: Path
 
     // Email address for completion summary.
-    email: String
+    email: String?
 
     // Path to a pedigree file for all samples in the run. All relational data will be fetched from this file.
-    ped: String
+    ped: Path?
 
     // Reference genome build. Used to fetch the right reference files.
     genome: String = 'GRCh38'
@@ -74,10 +74,10 @@ params {
     genomes: Map
 
     // Directory / URL base for iGenomes references.
-    igenomes_base: String
+    igenomes_base: String = '/references'
 
     // Do not load the iGenomes reference config.
-    igenomes_ignore: Boolean
+    igenomes_ignore: Boolean = false
 
     // Path to the MSI baseline VCF file.
     msi_baseline: Path?
@@ -89,25 +89,25 @@ params {
     merge_distance: Integer = 100000
 
     // Create DragSTR models to be used with HaplotypeCaller
-    dragstr: Boolean
+    dragstr: Boolean = false
 
     // Validate the found variants
-    validate: Boolean
+    validate: Boolean = false
 
     // Filter the found variants.
-    filter: Boolean
+    filter: Boolean = false
 
     // Annotate the found variants using Ensembl VEP.
-    annotate: Boolean
+    annotate: Boolean = false
 
     // Add PED INFO header lines to the final VCFs.
-    add_ped: Boolean
+    add_ped: Boolean = false
 
     // Create a Gemini databases from the final VCFs.
-    gemini: Boolean
+    gemini: Boolean = false
 
     // Don't run mosdepth in fast-mode
-    mosdepth_slow: Boolean
+    mosdepth_slow: Boolean = false
 
     // Path to the default ROI (regions of interest) BED file to be used for WES analysis.
     roi: Path?
@@ -122,13 +122,13 @@ params {
     somalier_sites: Path? = 'https://github.com/brentp/somalier/files/3412456/sites.hg38.vcf.gz'
 
     // Only call the variants without doing any post-processing.
-    only_call: Boolean
+    only_call: Boolean = false
 
     // Only run the pipeline until the creation of the genomicsdbs and output them.
-    only_merge: Boolean
+    only_merge: Boolean = false
 
     // Output the genomicsDB together with the joint-genotyped VCF.
-    output_genomicsdb: Boolean
+    output_genomicsdb: Boolean = false
 
     // A comma delimited string of the available callers. Current options are: `haplotypecaller` and `vardict`.
     callers: String = 'haplotypecaller'
@@ -137,22 +137,22 @@ params {
     vardict_min_af: Float = 0.1
 
     // Normalize the variant in the final VCFs.
-    normalize: Boolean
+    normalize: Boolean = false
 
     // Filter out all variants that don't have the PASS filter for vardict. This only works when `--filter` is also given.
-    only_pass: Boolean
+    only_pass: Boolean = false
 
     // Keep all aditional contigs for calling instead of filtering them out before.
-    keep_alt_contigs: Boolean
+    keep_alt_contigs: Boolean = false
 
     // Disable UPDio analysis on the final VCFs.
-    disable_updio: Boolean
+    disable_updio: Boolean = false
 
     // A TSV file containing common CNVs to be used by UPDio.
     updio_common_cnvs: Path?
 
     // Disable AutoMap analysis on the final VCFs.
-    disable_automap: Boolean
+    disable_automap: Boolean = false
 
     // BED file with repeat regions in the genome.
     automap_repeats: Path?
@@ -167,7 +167,7 @@ params {
     automap_panel_name: String = 'cmgg_bio'
 
     // Perform phasing with HaplotypeCaller.
-    hc_phasing: Boolean
+    hc_phasing: Boolean = false
 
     // The lowest callable coverage to determine callable regions.
     min_callable_coverage: Integer = 5
@@ -176,10 +176,10 @@ params {
     unique_out: String = "v${workflow.manifest.version.replace('.', '_')}_${new java.util.Date().format('yyyy_MM_dd')}"
 
     // Disable the sequence dictionary validation in HaplotypeCaller
-    disable_hc_dict_validation: Boolean
+    disable_hc_dict_validation: Boolean = false
 
     // Don't output the merged CRAM files.
-    skip_merged_cram_output: Boolean
+    skip_merged_cram_output: Boolean = false
 
     // Git commit id for Institutional configs.
     custom_config_version: String = 'main'
@@ -188,40 +188,40 @@ params {
     custom_config_base: String = 'https://raw.githubusercontent.com/nf-cmgg/configs/main'
 
     // Institutional config name.
-    config_profile_name: String
+    config_profile_name: String?
 
     // Institutional config description.
-    config_profile_description: String
+    config_profile_description: String?
 
     // Institutional config contact information.
-    config_profile_contact: String
+    config_profile_contact: String?
 
     // Institutional config URL link.
-    config_profile_url: String
+    config_profile_url: String?
 
     // Display version and exit.
-    version: Boolean
+    version: Boolean = false
 
     // Method used to save pipeline results to output directory.
     publish_dir_mode: String = 'copy'
 
     // Email address for completion summary, only when pipeline fails.
-    email_on_fail: String
+    email_on_fail: String?
 
     // Send plain-text email instead of HTML.
-    plaintext_email: Boolean
+    plaintext_email: Boolean = false
 
     // File size limit when attaching MultiQC reports to summary emails.
     max_multiqc_email_size: String = '25.MB'
 
     // Do not use coloured log outputs.
-    monochrome_logs: Boolean
+    monochrome_logs: Boolean = false
 
     // Incoming hook URL for messaging service
-    hook_url: String
+    hook_url: String?
 
     // MultiQC report title. Printed as page header, used for filename if not otherwise specified.
-    multiqc_title: String
+    multiqc_title: String?
 
     // Custom config file to supply to MultiQC.
     multiqc_config: Path?
@@ -242,13 +242,13 @@ params {
     trace_report_suffix: String
 
     // Display the help message.
-    help
+    help = false
 
     // Display the full detailed help message.
-    help_full: Boolean
+    help_full: Boolean = false
 
     // Display hidden parameters in the help message (only works when --help or --help_full are provided).
-    show_hidden: Boolean
+    show_hidden: Boolean = false
 
     // The amount of sites per split VCF as input to VEP.
     vep_chunk_size: Integer = 50000
@@ -263,25 +263,25 @@ params {
     vep_cache: Path? = getGenomeAttribute('vep_cache', params.genomes, params.genome)
 
     // Use the dbNSFP plugin with Ensembl VEP.
-    vep_dbnsfp: Boolean
+    vep_dbnsfp: Boolean = false
 
     // Use the SpliceAI plugin with Ensembl VEP.
-    vep_spliceai: Boolean
+    vep_spliceai: Boolean = false
 
     // Use the SpliceRegion plugin with Ensembl VEP.
-    vep_spliceregion: Boolean
+    vep_spliceregion: Boolean = false
 
     // Use the Mastermind plugin with Ensembl VEP.
-    vep_mastermind: Boolean
+    vep_mastermind: Boolean = false
 
     // Use the MaxEntScan plugin with Ensembl VEP.
-    vep_maxentscan: Boolean
+    vep_maxentscan: Boolean = false
 
     // Use the custom EOG annotation with Ensembl VEP.
-    vep_eog: Boolean
+    vep_eog: Boolean = false
 
     // Use the AlphaMissense plugin with Ensembl VEP.
-    vep_alphamissense: Boolean
+    vep_alphamissense: Boolean = false
 
     // The version of the VEP tool to be used.
     vep_version: Float = 105.0
@@ -329,7 +329,7 @@ params {
     maxentscan: Path? = getGenomeAttribute('maxentscan', params.genomes, params.genome)
 
     // Run annotations with vcfanno.
-    vcfanno: Boolean
+    vcfanno: Boolean = false
 
     // The path to the VCFanno config TOML.
     vcfanno_config: Path? = getGenomeAttribute('vcfanno_config', params.genomes, params.genome)
