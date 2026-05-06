@@ -55,19 +55,20 @@ workflow PIPELINE_INITIALISATION {
     // Validate parameters and generate parameter summary to stdout
     //
 
-    // def command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
+    def command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
 
-    // UTILS_NFSCHEMA_PLUGIN (
-    //     workflow,
-    //     validate_params,
-    //     null,
-    //     help,
-    //     help_full,
-    //     show_hidden,
-    //     "",
-    //     "",
-    //     command
-    // )
+    UTILS_NFSCHEMA_PLUGIN (
+        workflow,
+        validate_params,
+        null,
+        help,
+        help_full,
+        show_hidden,
+        "",
+        "",
+        command,
+        false
+    )
 
 
     //
