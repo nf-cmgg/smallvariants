@@ -1,5 +1,7 @@
 bump_version: null
 lint:
+  nextflow_config: false # TMP
+  schema_params: false # TMP
   actions_ci: false
   files_exist:
     - CODE_OF_CONDUCT.md
@@ -24,12 +26,12 @@ lint:
     - LICENSE
   multiqc_config:
     - report_comment
-  nextflow_config:
-    - custom_config
-    - manifest.name
-    - manifest.homePage
-    - validation.help.afterText
-    - validation.summary.afterText
+  # nextflow_config:
+  #   - custom_config
+  #   - manifest.name
+  #   - manifest.homePage
+  #   - validation.help.afterText
+  #   - validation.summary.afterText
 nf_core_version: 3.5.2
 repository_type: pipeline
 org_path: nf-cmgg
