@@ -71,7 +71,7 @@ params {
     elsites: Path?
 
     // Object for genomes
-    genomes: Map
+    genomes: Map = [:]
 
     // Directory / URL base for iGenomes references.
     igenomes_base: String = '/references'
