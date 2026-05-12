@@ -56,12 +56,14 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T14:43:34.531014048",
+        "timestamp": "2026-05-12T09:21:38.769050592",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -149,12 +151,14 @@
                 "Ashkenazim/qc_<version>_<date>/NA24385.vardict.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/NA24385.vardict.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T14:45:21.661204426",
+        "timestamp": "2026-05-12T09:22:56.929385651",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -215,12 +219,14 @@
                 "Ashkenazim/qc_<version>_<date>/NA24385.vardict.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/NA24385.vardict.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T14:42:12.91035183",
+        "timestamp": "2026-05-12T09:20:23.304275325",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     }

@@ -39,12 +39,14 @@
                 "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "Ashkenazim/output_<version>_<date>/Ashkenazim_haplotypecaller_genomicsdb",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:23:54.550420011",
+        "timestamp": "2026-05-12T09:30:49.014989045",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -105,12 +107,14 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:22:11.019442568",
+        "timestamp": "2026-05-12T09:29:19.482306522",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -171,12 +175,14 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:20:57.253219573",
+        "timestamp": "2026-05-12T09:28:19.817992301",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -237,12 +243,14 @@
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.bcftools_stats.txt",
                 "Ashkenazim/qc_<version>_<date>/Ashkenazim.haplotypecaller.html",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:19:34.624777268",
+        "timestamp": "2026-05-12T09:27:10.139021755",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -285,12 +293,14 @@
                 "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.region.dist.txt",
                 "Ashkenazim/NA24385_<version>_<date>/mosdepth/NA24385.summary.txt",
                 "pipeline_info/nf_cmgg_smallvariants_software_mqc_versions.yml",
+                "<version>_<date>/multiqc_data/.stub",
+                "<version>_<date>/multiqc_report.html",
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:23:00.792905865",
+        "timestamp": "2026-05-12T09:30:02.063811217",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     }
