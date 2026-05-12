@@ -61,9 +61,9 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:29:21.197989718",
+        "timestamp": "2026-05-12T09:34:49.439539044",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -129,9 +129,9 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:25:19.329155402",
+        "timestamp": "2026-05-12T09:31:45.643437775",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -198,9 +198,9 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:26:42.712860413",
+        "timestamp": "2026-05-12T09:32:42.10671078",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     },
@@ -323,9 +323,9 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T15:28:05.077177758",
+        "timestamp": "2026-05-12T09:33:49.648555774",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     }
