@@ -20,6 +20,7 @@ lint:
     - .github/workflows/linting.yml
     - CODE_OF_CONDUCT.md
     - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .gitattributes
     - .prettierignore
     - LICENSE
   multiqc_config:
