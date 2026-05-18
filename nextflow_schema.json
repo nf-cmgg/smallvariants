@@ -221,7 +221,6 @@
                 },
                 "somalier_sites": {
                     "type": "string",
-                    "default": "https://github.com/brentp/somalier/files/3412456/sites.hg38.vcf.gz",
                     "fa_icon": "far fa-file-alt",
                     "description": "Path to the VCF file with sites for Somalier to use.",
                     "pattern": "^\\S+\\.vcf\\.gz",

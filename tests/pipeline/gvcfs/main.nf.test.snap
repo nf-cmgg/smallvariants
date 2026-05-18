@@ -26,9 +26,9 @@
                 "<version>_<date>/samplesheet.csv"
             ]
         ],
-        "timestamp": "2026-02-19T14:48:55.147756232",
+        "timestamp": "2026-05-12T09:25:33.264391841",
         "meta": {
-            "nf-test": "0.9.4",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.4"
         }
     }
