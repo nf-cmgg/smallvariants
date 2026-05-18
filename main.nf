@@ -119,7 +119,7 @@ params {
     dbsnp_tbi: Path? = getGenomeAttribute('dbsnp_tbi', params.genomes, params.genome)
 
     // Path to the VCF file with sites for Somalier to use.
-    somalier_sites: Path? = 'https://github.com/brentp/somalier/files/3412456/sites.hg38.vcf.gz'
+    somalier_sites: Path? = getGenomeAttribute('somalier_sites', params.genomes, params.genome)
 
     // Only call the variants without doing any post-processing.
     only_call: Boolean = false
