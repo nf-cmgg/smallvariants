@@ -27,8 +27,6 @@ lint:
     - LICENSE
   multiqc_config:
     - report_comment
-  nextflow_config: false
-  schema_params: false
 nf_core_version: 4.0.2
 repository_type: pipeline
 org_path: nf-cmgg
