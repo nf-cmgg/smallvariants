@@ -27,18 +27,15 @@ lint:
     - LICENSE
   multiqc_config:
     - report_comment
-  # nextflow_config:
-  #   - custom_config
-  #   - manifest.name
-  #   - manifest.homePage
-  #   - validation.help.afterText
-  #   - validation.summary.afterText
-nf_core_version: 3.5.2
+  nextflow_config: false
+  schema_params: false
+nf_core_version: 4.0.2
 repository_type: pipeline
 org_path: nf-cmgg
 template:
   author: nvnieuwk
-  description: A nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data
+  description: A nextflow pipeline for calling and annotating small variants from
+    short DNA reads for WES and WGS data
   force: false
   is_nfcore: false
   name: smallvariants
