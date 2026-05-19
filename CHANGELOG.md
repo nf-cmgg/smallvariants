@@ -11,6 +11,7 @@ The minimum Nextflow version has been bumped to 26.04.0
 ## Fixes
 
 1. Typecast parameters correctly whenever in strict syntax mode
+2. Bumped nf-core template to 4.0.2
 
 ## v1.13.0 - Luxurious Luik - [April 29 2026]
 
