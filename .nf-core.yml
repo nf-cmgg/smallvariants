@@ -32,8 +32,7 @@ repository_type: pipeline
 org_path: nf-cmgg
 template:
   author: nvnieuwk
-  description: A nextflow pipeline for calling and annotating small variants from
-    short DNA reads for WES and WGS data
+  description: A nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data
   force: false
   is_nfcore: false
   name: smallvariants
@@ -42,4 +41,4 @@ template:
   skip_features:
     - fastqc
     - is_nfcore
-  version: 1.13.1dev
+  version: 1.13.1
