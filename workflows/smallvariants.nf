@@ -329,7 +329,8 @@ workflow SMALLVARIANTS {
     def ch_vep_cache_ready = channel.empty()
     if (!vep_cache && annotate) {
         ENSEMBLVEP_DOWNLOAD(
-            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
+            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect(),
+            false
         )
         ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect()
     } else {
