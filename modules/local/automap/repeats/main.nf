@@ -3,7 +3,7 @@ process AUTOMAP_REPEATS {
     label 'process_single'
 
     // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    container "cmgg/automap:1.0.0"
+    container "quay.io/cmgg/automap:1.0.0"
 
     input:
     tuple val(meta), val(genome)

@@ -249,7 +249,7 @@ workflow SMALLVARIANTS {
     def ch_dbsnp_tbi_ready = channel.empty()
     if (dbsnp && !dbsnp_tbi) {
         TABIX_DBSNP(
-            ch_dbsnp_ready
+            ch_dbsnp_ready.map { meta, dbsnp_file -> [meta, dbsnp_file, [], []] }
         )
         ch_dbsnp_tbi_ready = TABIX_DBSNP.out.index.collect()
     } else {
@@ -329,7 +329,8 @@ workflow SMALLVARIANTS {
     def ch_vep_cache_ready = channel.empty()
     if (!vep_cache && annotate) {
         ENSEMBLVEP_DOWNLOAD(
-            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
+            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect(),
+            false
         )
         ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect()
     } else {
@@ -398,7 +399,7 @@ workflow SMALLVARIANTS {
         }
 
     TABIX_VCF(
-        ch_vcf_branch.no_tbi
+        ch_vcf_branch.no_tbi.map { meta, vcf -> [meta, vcf, [], []] }
     )
 
     def ch_indexed_vcfs = ch_vcf_branch.no_tbi
@@ -433,7 +434,7 @@ workflow SMALLVARIANTS {
         }
 
     TABIX_GVCF(
-        ch_gvcf_branch.no_tbi
+        ch_gvcf_branch.no_tbi.map { meta, gvcf -> [meta, gvcf, [], []] }
     )
 
     def ch_gvcfs_ready = ch_gvcf_branch.no_tbi
@@ -746,7 +747,7 @@ workflow SMALLVARIANTS {
             // Create truth VCF indices if none were given
             TABIX_TRUTH(
                 ch_truths_input.no_tbi.map { meta, vcf, _tbi, _bed ->
-                    [ meta, vcf ]
+                    [ meta, vcf, [], [] ]
                 }
             )
 
