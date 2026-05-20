@@ -31,14 +31,14 @@
                             "caller": "haplotypecaller"
                         }
                     },
-                    "NA24143.haplotypecaller.bcftools_stats.txt:md5,63d81443db3b1e15ad38146edb838ace"
+                    "NA24143.haplotypecaller.bcftools_stats.txt:md5,bfbc3167f905a792a03baa7a863ba348"
                 ]
             ]
         ],
-        "timestamp": "2026-02-19T15:56:02.842770086",
+        "timestamp": "2026-05-20T13:11:38.486363663",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.1"
         }
     },
     "cram_call_gatk4 - dragstr": {
@@ -73,14 +73,14 @@
                             "caller": "haplotypecaller"
                         }
                     },
-                    "NA24143.haplotypecaller.bcftools_stats.txt:md5,d006249d9c92a737fc96cc2534f5fc4d"
+                    "NA24143.haplotypecaller.bcftools_stats.txt:md5,61bed936831954b48c4bdb05525086d5"
                 ]
             ]
         ],
-        "timestamp": "2026-02-19T15:56:46.610208344",
+        "timestamp": "2026-05-20T13:12:35.928498305",
         "meta": {
-            "nf-test": "0.9.4",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.1"
         }
     }
 }
