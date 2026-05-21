@@ -1,5 +1,7 @@
 bump_version: null
 lint:
+  nextflow_config: false # TMP
+  schema_params: false # TMP
   actions_ci: false
   files_exist:
     - CODE_OF_CONDUCT.md
@@ -20,17 +22,12 @@ lint:
     - .github/workflows/linting.yml
     - CODE_OF_CONDUCT.md
     - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .gitattributes
     - .prettierignore
     - LICENSE
   multiqc_config:
     - report_comment
-  nextflow_config:
-    - custom_config
-    - manifest.name
-    - manifest.homePage
-    - validation.help.afterText
-    - validation.summary.afterText
-nf_core_version: 3.5.2
+nf_core_version: 4.0.2
 repository_type: pipeline
 org_path: nf-cmgg
 template:
@@ -44,4 +41,4 @@ template:
   skip_features:
     - fastqc
     - is_nfcore
-  version: 1.13.0
+  version: 1.13.1

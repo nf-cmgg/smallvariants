@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf-cmgg/smallvariants/master/assets/schema_input.json",
+    "$id": "https://raw.githubusercontent.com/nf-cmgg/smallvariants/main/assets/schema_input.json",
     "title": "nf-cmgg/smallvariants pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",

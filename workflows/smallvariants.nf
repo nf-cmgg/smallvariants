@@ -69,43 +69,43 @@ workflow SMALLVARIANTS {
     ped_files                   // dataflow value: A channel with a map of family keys and PED files as values
 
     // File inputs
-    fasta                       // string: path to the reference fasta
-    fai                         // string: path to the index of the reference fasta
-    dict                        // string: path to the sequence dictionary file
-    elfasta                     // string: path to the elfasta reference file
-    strtablefile                // string: path to the strtable file
-    sdf                         // string: path to the SDF directory
-    dbsnp                       // string: path to the DBSNP VCF file
-    dbsnp_tbi                   // string: path to the index of the DBSNP VCF file
-    vep_cache                   // string: path to the VEP cache
-    dbnsfp                      // string: path to the DBNSFP file
-    dbnsfp_tbi                  // string: path to the index of the DBNSFP file
-    spliceai_indel              // string: path to the SpliceAI indels file
-    spliceai_indel_tbi          // string: path to the index of the SpliceAI indels file
-    spliceai_snv                // string: path to the SpliceAI SNV file
-    spliceai_snv_tbi            // string: path to the index of the SpliceAI SNV file
-    mastermind                  // string: path to the Mastermind file
-    mastermind_tbi              // string: path to the index of the Mastermind file
-    eog                         // string: path to the EOG file
-    eog_tbi                     // string: path to the index of the EOG file
-    alphamissense               // string: path to the Alphamissense file
-    alphamissense_tbi           // string: path to the index of the Alphamissense file
-    maxentscan                  // string: path to the MaxEntScan directory
+    fasta                       // path: path to the reference fasta
+    fai                         // path: path to the index of the reference fasta
+    dict                        // path: path to the sequence dictionary file
+    elfasta                     // path: path to the elfasta reference file
+    strtablefile                // path: path to the strtable file
+    sdf                         // path: path to the SDF directory
+    dbsnp                       // path: path to the DBSNP VCF file
+    dbsnp_tbi                   // path: path to the index of the DBSNP VCF file
+    vep_cache                   // path: path to the VEP cache
+    dbnsfp                      // path: path to the DBNSFP file
+    dbnsfp_tbi                  // path: path to the index of the DBNSFP file
+    spliceai_indel              // path: path to the SpliceAI indels file
+    spliceai_indel_tbi          // path: path to the index of the SpliceAI indels file
+    spliceai_snv                // path: path to the SpliceAI SNV file
+    spliceai_snv_tbi            // path: path to the index of the SpliceAI SNV file
+    mastermind                  // path: path to the Mastermind file
+    mastermind_tbi              // path: path to the index of the Mastermind file
+    eog                         // path: path to the EOG file
+    eog_tbi                     // path: path to the index of the EOG file
+    alphamissense               // path: path to the Alphamissense file
+    alphamissense_tbi           // path: path to the index of the Alphamissense file
+    maxentscan                  // path: path to the MaxEntScan directory
     vcfanno_resources           // string: semicolon-separated paths/globs to the VCFanno resources
-    vcfanno_config              // string: path to VCFanno config TOML
-    multiqc_config              // string: path to the multiqc config file
-    multiqc_logo                // string: path to the multiqc logo
-    multiqc_methods_description // string: path to the multiqc methods description
-    roi                         // string: path to the default ROI BED file
-    somalier_sites              // string: path to the Somalier sites file
-    vcfanno_lua                 // string: path to the VCFanno Lua script
-    updio_common_cnvs           // string: path to the file containing common UPDio CNVs
-    automap_repeats             // string: path to the Automap repeats file
-    automap_panel               // string: path to the Automap panel file
-    outdir                      // string: path to the output directory
-    elsites                     // string: path to the elsites file for elprep
-    msi_baseline                // string: path to the msi_baseline file
-    updio_regions               // string: path to the BED file with regions to be used by UPDio
+    vcfanno_config              // path: path to VCFanno config TOML
+    multiqc_config              // path: path to the multiqc config file
+    multiqc_logo                // path: path to the multiqc logo
+    multiqc_methods_description // path: path to the multiqc methods description
+    roi                         // path: path to the default ROI BED file
+    somalier_sites              // path: path to the Somalier sites file
+    vcfanno_lua                 // path: path to the VCFanno Lua script
+    updio_common_cnvs           // path: path to the file containing common UPDio CNVs
+    automap_repeats             // path: path to the Automap repeats file
+    automap_panel               // path: path to the Automap panel file
+    outdir                      // path: path to the output directory
+    elsites                     // path: path to the elsites file for elprep
+    msi_baseline                // path: path to the msi_baseline file
+    updio_regions               // path: path to the BED file with regions to be used by UPDio
 
     // Boolean inputs
     dragstr                     // boolean: create a dragstr model and use it for haplotypecaller
@@ -143,41 +143,40 @@ workflow SMALLVARIANTS {
     def List<String> gvcf_callers = ["haplotypecaller", "elprep"]
     def List<String> bam_callers = ["elprep", "vardict"]
 
-
     //
     // Importing and convert the input files passed through the parameters to channels
     //
 
-    def ch_fasta_ready        = channel.fromPath(fasta).map{ fasta_file -> [[id:"reference"], fasta_file] }.collect()
-    def ch_fai                = fai                 ? channel.fromPath(fai).map{ fai_file -> [[id:"reference"], fai_file] }.collect() : null
-    def ch_dict               = dict                ? channel.fromPath(dict).map{ dict_file -> [[id:"reference"], dict_file] }.collect() : null
-    def ch_elfasta            = elfasta             ? channel.fromPath(elfasta).map { elfasta_file -> [[id:"reference"], elfasta_file]}.collect() : null
-    def ch_strtablefile       = strtablefile        ? channel.fromPath(strtablefile).map{ str_file -> [[id:"reference"], str_file] }.collect() : null
-    def ch_sdf                = sdf                 ? channel.fromPath(sdf).map { sdf_file -> [[id:'reference'], sdf_file] }.collect() : null
+    def ch_fasta_ready        = channel.value([[id:"reference"], fasta])
+    def ch_fai                = fai                 ? channel.value([[id:"reference"], fai]) : null
+    def ch_dict               = dict                ? channel.value([[id:"reference"], dict]) : null
+    def ch_elfasta            = elfasta             ? channel.value([[id:"reference"], elfasta]) : null
+    def ch_strtablefile       = strtablefile        ? channel.value([[id:"reference"], strtablefile]) : null
+    def ch_sdf                = sdf                 ? channel.value([[id:'reference'], sdf]) : null
 
-    def ch_default_roi        = roi                 ? channel.fromPath(roi).collect()                : []
+    def ch_default_roi        = roi                 ? channel.value(roi) : []
 
-    def ch_dbsnp_ready        = dbsnp               ? channel.fromPath(dbsnp).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
-    def ch_dbsnp_tbi          = dbsnp_tbi           ? channel.fromPath(dbsnp_tbi).collect { dbsnp_file -> [[id:"dbsnp"], dbsnp_file] } : [[],[]]
+    def ch_dbsnp_ready        = dbsnp               ? channel.value([[id:"dbsnp"], dbsnp]) : [[],[]]
+    def ch_dbsnp_tbi          = dbsnp_tbi           ? channel.value([[id:"dbsnp"], dbsnp_tbi]) : [[],[]]
 
-    def ch_somalier_sites     = somalier_sites      ? channel.fromPath(somalier_sites).collect { sites_file -> [[id:"somalier_sites"], sites_file] } : [[],[]]
+    def ch_somalier_sites     = somalier_sites      ? channel.value([[id:"somalier_sites"], somalier_sites]) : [[],[]]
 
-    def ch_vep_cache          = vep_cache           ? channel.of([ [id:'cache'], file(vep_cache) ]).collect()          : []
+    def ch_vep_cache          = vep_cache           ? channel.value([[id:'cache'], file(vep_cache)]) : []
 
-    def ch_vcfanno_config     = vcfanno_config      ? channel.fromPath(vcfanno_config).collect()     : []
-    def ch_vcfanno_lua        = vcfanno_lua         ? channel.fromPath(vcfanno_lua).collect()        : []
-    def ch_vcfanno_resources  = vcfanno_resources   ? channel.of(vcfanno_resources.split(";")).collect{ res -> file(res, checkIfExists:true) } : []
+    def ch_vcfanno_config     = vcfanno_config      ? channel.value(vcfanno_config) : []
+    def ch_vcfanno_lua        = vcfanno_lua         ? channel.value(vcfanno_lua) : []
+    def ch_vcfanno_resources  = vcfanno_resources   ? channel.value(vcfanno_resources.split(";").collect{ res -> file(res, checkIfExists:true) }) : []
 
-    def ch_updio_common_cnvs  = updio_common_cnvs   ? channel.fromPath(updio_common_cnvs).map{ common_cnvs -> [[id:'updio_cnv'], common_cnvs] } : [[],[]]
+    def ch_updio_common_cnvs  = updio_common_cnvs   ? channel.value([[id:'updio_cnv'], updio_common_cnvs]) : [[],[]]
 
-    def ch_automap_repeats    = automap_repeats     ? channel.fromPath(automap_repeats).map{ repeats ->  [[id:"repeats"], repeats] }.collect() : []
-    def ch_automap_panel      = automap_panel       ? channel.fromPath(automap_panel).map{ panel -> [[id:"automap_panel"], panel] }.collect() : [[],[]]
+    def ch_automap_repeats    = automap_repeats     ? channel.value([[id:"repeats"], automap_repeats]) : []
+    def ch_automap_panel      = automap_panel       ? channel.value([[id:"automap_panel"], automap_panel]) : [[],[]]
 
     def ch_elsites            = elsites             ? channel.fromPath(elsites).map{ elsites_file -> [[id:'elsites'], elsites_file] }.collect() : [[],[]]
 
-    def ch_msi_baseline       = msi_baseline        ? channel.fromPath(msi_baseline).map { msi_file -> [[id:"msi_baseline"], msi_file] }.collect() : [[],[]]
+    def ch_msi_baseline       = msi_baseline        ? channel.value([[id:"msi_baseline"], msi_baseline]) : [[],[]]
 
-    def ch_updio_regions      = updio_regions       ? channel.value(file(updio_regions)) : []
+    def ch_updio_regions      = updio_regions       ? channel.value(updio_regions) : []
 
     //
     // Check for the presence of EnsemblVEP plugins that use extra files
@@ -188,8 +187,8 @@ workflow SMALLVARIANTS {
     if(annotate){
         // Check if all dbnsfp files are given
         if (dbnsfp && dbnsfp_tbi && vep_dbnsfp) {
-            ch_vep_extra_files.add(file(dbnsfp, checkIfExists: true))
-            ch_vep_extra_files.add(file(dbnsfp_tbi, checkIfExists: true))
+            ch_vep_extra_files.add(dbnsfp)
+            ch_vep_extra_files.add(dbnsfp_tbi)
         }
         else if (vep_dbnsfp) {
             error("Please specify '--vep_dbsnfp true', '--dbnsfp PATH/TO/DBNSFP/FILE' and '--dbnspf_tbi PATH/TO/DBNSFP/INDEX/FILE' to use the dbnsfp VEP plugin.")
@@ -197,10 +196,10 @@ workflow SMALLVARIANTS {
 
         // Check if all spliceai files are given
         if (spliceai_snv && spliceai_snv_tbi && spliceai_indel && spliceai_indel_tbi && vep_spliceai) {
-            ch_vep_extra_files.add(file(spliceai_snv, checkIfExists: true))
-            ch_vep_extra_files.add(file(spliceai_snv_tbi, checkIfExists: true))
-            ch_vep_extra_files.add(file(spliceai_indel, checkIfExists: true))
-            ch_vep_extra_files.add(file(spliceai_indel_tbi, checkIfExists: true))
+            ch_vep_extra_files.add(spliceai_snv)
+            ch_vep_extra_files.add(spliceai_snv_tbi)
+            ch_vep_extra_files.add(spliceai_indel)
+            ch_vep_extra_files.add(spliceai_indel_tbi)
         }
         else if (vep_spliceai) {
             error("Please specify '--vep_spliceai true', '--spliceai_snv PATH/TO/SPLICEAI/SNV/FILE', '--spliceai_snv_tbi PATH/TO/SPLICEAI/SNV/INDEX/FILE', '--spliceai_indel PATH/TO/SPLICEAI/INDEL/FILE' and '--spliceai_indel_tbi PATH/TO/SPLICEAI/INDEL/INDEX/FILE' to use the SpliceAI VEP plugin.")
@@ -208,8 +207,8 @@ workflow SMALLVARIANTS {
 
         // Check if all mastermind files are given
         if (mastermind && mastermind_tbi && vep_mastermind) {
-            ch_vep_extra_files.add(file(mastermind, checkIfExists: true))
-            ch_vep_extra_files.add(file(mastermind_tbi, checkIfExists: true))
+            ch_vep_extra_files.add(mastermind)
+            ch_vep_extra_files.add(mastermind_tbi)
         }
         else if (vep_mastermind) {
             error("Please specify '--vep_mastermind true', '--mastermind PATH/TO/MASTERMIND/FILE' and '--mastermind_tbi PATH/TO/MASTERMIND/INDEX/FILE' to use the mastermind VEP plugin.")
@@ -217,8 +216,8 @@ workflow SMALLVARIANTS {
 
         // Check if all EOG files are given
         if (eog && eog_tbi && vep_eog) {
-            ch_vep_extra_files.add(file(eog, checkIfExists: true))
-            ch_vep_extra_files.add(file(eog_tbi, checkIfExists: true))
+            ch_vep_extra_files.add(eog)
+            ch_vep_extra_files.add(eog_tbi)
         }
         else if (vep_eog) {
             error("Please specify '--vep_eog true', '--eog PATH/TO/EOG/FILE' and '--eog_tbi PATH/TO/EOG/INDEX/FILE' to use the EOG custom VEP plugin.")
@@ -226,8 +225,8 @@ workflow SMALLVARIANTS {
 
         // Check if all AlphaMissense files are given
         if (alphamissense && alphamissense_tbi && vep_alphamissense) {
-            ch_vep_extra_files.add(file(alphamissense, checkIfExists: true))
-            ch_vep_extra_files.add(file(alphamissense_tbi, checkIfExists: true))
+            ch_vep_extra_files.add(alphamissense)
+            ch_vep_extra_files.add(alphamissense_tbi)
         }
         else if (vep_alphamissense) {
             error("Please specify '--vep_alphamissense true', '--alphamissense PATH/TO/ALPHAMISSENSE/FILE' and '--alphamissense_tbi PATH/TO/ALPHAMISSENSE/INDEX/FILE' to use the AlphaMissense VEP plugin.")
@@ -235,7 +234,7 @@ workflow SMALLVARIANTS {
 
         // Check if all maxentscan files are given
         if (maxentscan && vep_maxentscan) {
-            ch_vep_extra_files.add(file(maxentscan, checkIfExists: true))
+            ch_vep_extra_files.add(maxentscan)
         }
         else if (vep_maxentscan) {
             error("Please specify '--vep_maxentscan true' and '--maxentscan PATH/TO/MAXENTSCAN/DIRECTORY' to use the MaxEntScan VEP plugin.")
@@ -248,9 +247,9 @@ workflow SMALLVARIANTS {
 
     // DBSNP index
     def ch_dbsnp_tbi_ready = channel.empty()
-    if (ch_dbsnp_ready != [[],[]] && ch_dbsnp_tbi == [[],[]]) {
+    if (dbsnp && !dbsnp_tbi) {
         TABIX_DBSNP(
-            ch_dbsnp_ready
+            ch_dbsnp_ready.map { meta, dbsnp_file -> [meta, dbsnp_file, [], []] }
         )
         ch_dbsnp_tbi_ready = TABIX_DBSNP.out.index.collect()
     } else {
@@ -259,7 +258,7 @@ workflow SMALLVARIANTS {
 
     // Reference fasta index
     def ch_fai_ready = channel.empty()
-    if (!ch_fai) {
+    if (!fai) {
         FAIDX(
             ch_fasta_ready,
             [[],[]]
@@ -272,7 +271,7 @@ workflow SMALLVARIANTS {
 
     // Reference sequence dictionary
     def ch_dict_ready = channel.empty()
-    if (!ch_dict) {
+    if (!dict) {
         CREATESEQUENCEDICTIONARY(
             ch_fasta_ready
         )
@@ -283,7 +282,7 @@ workflow SMALLVARIANTS {
 
     def ch_elfasta_ready = channel.empty()
     def elprep_used = callers.contains("elprep")
-    if (!ch_elfasta && elprep_used) {
+    if (!elfasta && elprep_used) {
         ELPREP_FASTATOELFASTA(
             ch_fasta_ready
         )
@@ -294,7 +293,7 @@ workflow SMALLVARIANTS {
 
     // Reference STR table file
     def ch_strtablefile_ready = channel.empty()
-    if (dragstr && !ch_strtablefile) {
+    if (dragstr && !strtablefile) {
         COMPOSESTRTABLEFILE(
             ch_fasta_ready,
             ch_fai_ready,
@@ -309,13 +308,13 @@ workflow SMALLVARIANTS {
 
     // Reference validation SDF
     def ch_sdf_ready = channel.empty()
-    if (validate && !ch_sdf) {
+    if (validate && !sdf) {
         RTGTOOLS_FORMAT(
             ch_fasta_ready.map { meta, fasta_file -> [meta, fasta_file, [], []] }
         )
         ch_sdf_ready = RTGTOOLS_FORMAT.out.sdf.collect()
     }
-    else if (validate && sdf.endsWith(".tar.gz")) {
+    else if (validate && sdf.toUriString().endsWith(".tar.gz")) {
         UNTAR(
             ch_sdf
         )
@@ -328,9 +327,10 @@ workflow SMALLVARIANTS {
 
     // VEP annotation cache
     def ch_vep_cache_ready = channel.empty()
-    if (!ch_vep_cache && annotate) {
+    if (!vep_cache && annotate) {
         ENSEMBLVEP_DOWNLOAD(
-            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect()
+            channel.of([[id:"vep_cache"], genome == "hg38" ? "GRCh38" : genome, species, vep_cache_version]).collect(),
+            false
         )
         ch_vep_cache_ready = ENSEMBLVEP_DOWNLOAD.out.cache.collect()
     } else {
@@ -399,7 +399,7 @@ workflow SMALLVARIANTS {
         }
 
     TABIX_VCF(
-        ch_vcf_branch.no_tbi
+        ch_vcf_branch.no_tbi.map { meta, vcf -> [meta, vcf, [], []] }
     )
 
     def ch_indexed_vcfs = ch_vcf_branch.no_tbi
@@ -434,7 +434,7 @@ workflow SMALLVARIANTS {
         }
 
     TABIX_GVCF(
-        ch_gvcf_branch.no_tbi
+        ch_gvcf_branch.no_tbi.map { meta, gvcf -> [meta, gvcf, [], []] }
     )
 
     def ch_gvcfs_ready = ch_gvcf_branch.no_tbi
@@ -747,7 +747,7 @@ workflow SMALLVARIANTS {
             // Create truth VCF indices if none were given
             TABIX_TRUTH(
                 ch_truths_input.no_tbi.map { meta, vcf, _tbi, _bed ->
-                    [ meta, vcf ]
+                    [ meta, vcf, [], [] ]
                 }
             )
 

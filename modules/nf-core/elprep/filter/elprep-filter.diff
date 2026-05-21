@@ -1,4 +1,6 @@
 Changes in component 'nf-core/elprep/filter'
+'modules/nf-core/elprep/filter/environment.yml' is unchanged
+'modules/nf-core/elprep/filter/meta.yml' is unchanged
 Changes in 'elprep/filter/main.nf':
 --- modules/nf-core/elprep/filter/main.nf
 +++ modules/nf-core/elprep/filter/main.nf
@@ -28,9 +30,7 @@ Changes in 'elprep/filter/main.nf':
      ${markdup_cmd}
      ${bqsr_cmd}
 
-'modules/nf-core/elprep/filter/environment.yml' is unchanged
-'modules/nf-core/elprep/filter/meta.yml' is unchanged
+'modules/nf-core/elprep/filter/tests/nextflow.config' is unchanged
 'modules/nf-core/elprep/filter/tests/main.nf.test' is unchanged
 'modules/nf-core/elprep/filter/tests/main.nf.test.snap' is unchanged
-'modules/nf-core/elprep/filter/tests/nextflow.config' is unchanged
 ************************************************************

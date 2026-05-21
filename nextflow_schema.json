@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf-cmgg/smallvariants/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/nf-cmgg/smallvariants/main/nextflow_schema.json",
     "title": "nf-cmgg/smallvariants pipeline parameters",
     "description": "A nextflow pipeline for calling and annotating small variants from short DNA reads for WES and WGS data",
     "type": "object",
@@ -221,7 +221,6 @@
                 },
                 "somalier_sites": {
                     "type": "string",
-                    "default": "https://github.com/brentp/somalier/files/3412456/sites.hg38.vcf.gz",
                     "fa_icon": "far fa-file-alt",
                     "description": "Path to the VCF file with sites for Somalier to use.",
                     "pattern": "^\\S+\\.vcf\\.gz",
