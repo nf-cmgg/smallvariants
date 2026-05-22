@@ -46,9 +46,6 @@ params {
     // Path to a pedigree file for all samples in the run. All relational data will be fetched from this file.
     ped: Path?
 
-    // Reference genome build. Used to fetch the right reference files.
-    genome: String = 'GRCh38'
-
     // Path to FASTA genome file.
     fasta: Path = getGenomeAttribute('fasta', params.genomes, params.genome)
 
