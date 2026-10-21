@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Revert the default configs base to the nf-core configs in preparation of converting nf-cmgg/configs to a private repo
 - Added a comment to the multiqc report stating which mosdepth mode was used
 - `VARDICTJAVA`: set the `var2vcf_valid.pl -m` to `6.25` to improve detection of complex indels
-- `MSISENSORPRO_PRO`: use the v1.4.0 container with `-D/--ignore-duplicates` to ignore reads marked as duplicate
+- `MSISENSORPRO_PRO`: use custom v1.4.0 container with `-D/--ignore-duplicates` to ignore reads marked as duplicate
 
 ## v1.13.5
 
