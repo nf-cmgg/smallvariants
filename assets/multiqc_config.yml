@@ -25,11 +25,13 @@ template: "cmgg"
 
 mosdepth_config:
   general_stats_coverage:
+    - 20
+    - 30
+    - 300
+  general_stats_coverage_hidden:
     - 1
     - 5
     - 10
-    - 20
-    - 30
     - 40
     - 50
   include_contigs:
@@ -67,7 +69,7 @@ table_cond_formatting_colours:
   - gray: "#3498db"
 
 msi_sensor_pro_coverage_threshold: 300
-msi_sensor_pro_min_sites: 10
+msi_sensor_pro_min_sites: 16
 msi_high_threshold: 30
 msi_sensor_pro_low_coverage_sites_threshold: 11
 
