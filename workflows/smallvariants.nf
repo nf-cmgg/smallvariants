@@ -383,7 +383,6 @@ workflow SMALLVARIANTS {
             gvcf:           [new_meta, gvcf, gtbi] // Optional channel containing the GVCFs and their optional indices
             cram:           [new_meta, cram, crai]  // Mandatory channel containing the CRAM files and their optional indices
             roi:            [new_meta, roi_file] // Optional channel containing the ROI BED files for WES samples
-            roi_metadata:   [new_meta, roi_file] // Channel for MultiQC metadata report
             vcf:            [new_meta_vcf, vcf, tbi] // Optional channel containing the VCFs and their optional indices
         }
 
@@ -925,7 +924,7 @@ workflow SMALLVARIANTS {
                                                 file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
     def ch_methods_description                = channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
 
-    def ch_roi_metadata                       = ch_input.roi_metadata
+    def ch_roi_metadata                       = ch_input.roi
                                                 .map { meta, roi_file ->
                                                     [ groupKey(meta.id, meta.duplicate_count ?: 1), roi_file ]
                                                 }
@@ -944,7 +943,7 @@ workflow SMALLVARIANTS {
                                                 .toList()
                                                 .map { entries ->
                                                     def lines = [
-                                                        "# id: 'roi_metadata'",
+                                                        "# id: 'roi'",
                                                         "# plot_type: 'generalstats'",
                                                         "# pconfig:",
                                                         "#   - roi:",
