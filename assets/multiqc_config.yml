@@ -27,12 +27,12 @@ mosdepth_config:
   general_stats_coverage:
     - 20
     - 30
+    - 40
     - 300
   general_stats_coverage_hidden:
     - 1
     - 5
     - 10
-    - 40
     - 50
   include_contigs:
     - "chr*"
@@ -51,7 +51,7 @@ custom_data:
     pconfig:
       - roi:
           title: "ROI"
-          description: "Region of interest (BED) used for coverage"
+          description: "Region of interest (BED) used for coverage stats & variant calling"
           scale: false
           placement: 900
 
