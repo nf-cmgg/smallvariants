@@ -37,7 +37,6 @@ nextflow_process {
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/chr21/sequence/multi_intervals.bed', checkIfExists: true)
                 ]
                 input[1] = UNTAR.out.untar
-                println(projectDir)
                 """
             }
         }
