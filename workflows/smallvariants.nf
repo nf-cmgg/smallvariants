@@ -924,6 +924,42 @@ workflow SMALLVARIANTS {
                                                 file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
     def ch_methods_description                = channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
 
+    def ch_roi_metadata                       = ch_input.roi
+                                                .map { meta, roi_file ->
+                                                    [ groupKey(meta.id, meta.duplicate_count ?: 1), roi_file ]
+                                                }
+                                                .groupTuple()
+                                                .map { sample_key, roi_files ->
+                                                    def sample_id = sample_key.toString()
+                                                    def actual_rois = roi_files.findAll { roi_file -> roi_file != [] && roi_file != null && roi_file != "" }
+                                                    def roi_name = "None"
+                                                    if (actual_rois.size() > 0) {
+                                                        roi_name = actual_rois.collect { roi_file -> file(roi_file).name }.unique().join(", ")
+                                                    } else if (roi) {
+                                                        roi_name = file(roi).name
+                                                    }
+                                                    [ sample_id, roi_name ]
+                                                }
+                                                .toList()
+                                                .map { entries ->
+                                                    def lines = [
+                                                        "# id: 'roi'",
+                                                        "# plot_type: 'generalstats'",
+                                                        "# pconfig:",
+                                                        "#   - roi:",
+                                                        "#       title: 'ROI'",
+                                                        "#       description: 'Region of interest (BED) used for coverage'",
+                                                        "#       scale: false",
+                                                        "#       placement: 900",
+                                                        "Sample\troi"
+                                                    ]
+                                                    entries.sort { a, b -> a[0].toString() <=> b[0].toString() }.each { sample_id, roi_name ->
+                                                        lines << "${sample_id}\t${roi_name}"
+                                                    }
+                                                    lines.join("\n") + "\n"
+                                                }
+                                                .collectFile(name: 'roi_metadata_mqc.tsv')
+
     ch_multiqc_files                          = ch_multiqc_files.mix(
                                                     ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'),
                                                     versions,
@@ -931,7 +967,8 @@ workflow SMALLVARIANTS {
                                                         name: 'methods_description_mqc.yaml',
                                                         sort: false
                                                     ),
-                                                    ch_reports
+                                                    ch_reports,
+                                                    ch_roi_metadata
                                                 )
 
     def ch_multiqc_input = ch_multiqc_files.collect().map { files -> [files] }
