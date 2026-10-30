@@ -45,6 +45,20 @@ mosdepth_config:
     - "chrM"
     - "chrEBV"
 
+custom_data:
+  roi_metadata:
+    plot_type: "generalstats"
+    pconfig:
+      - roi:
+          title: "ROI"
+          description: "Region of interest (BED) used for coverage"
+          scale: false
+          placement: 900
+
+sp:
+  roi_metadata:
+    fn: "*roi_metadata_mqc.tsv"
+
 table_cond_formatting_rules:
   msiSensorPro_all_table:
     pass:
