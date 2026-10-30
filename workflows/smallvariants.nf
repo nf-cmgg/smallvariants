@@ -930,7 +930,8 @@ workflow SMALLVARIANTS {
                                                     [ groupKey(meta.id, meta.duplicate_count ?: 1), roi_file ]
                                                 }
                                                 .groupTuple()
-                                                .map { sample_id, roi_files ->
+                                                .map { sample_key, roi_files ->
+                                                    def sample_id = sample_key.toString()
                                                     def actual_rois = roi_files.findAll { roi_file -> roi_file != [] && roi_file != null && roi_file != "" }
                                                     def roi_name = "None"
                                                     if (actual_rois.size() > 0) {
@@ -953,7 +954,7 @@ workflow SMALLVARIANTS {
                                                         "#       placement: 900",
                                                         "Sample\troi"
                                                     ]
-                                                    entries.sort { a, b -> a[0] <=> b[0] }.each { sample_id, roi_name ->
+                                                    entries.sort { a, b -> a[0].toString() <=> b[0].toString() }.each { sample_id, roi_name ->
                                                         lines << "${sample_id}\t${roi_name}"
                                                     }
                                                     lines.join("\n") + "\n"
