@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Use custom v1.4.0 container with `-D/--ignore-duplicates` to ignore reads marked as duplicate.
   - Update MULTIQC parameters
 - Add ROI field in the general stats MULTIQC table
+- Fetch the MSI baseline from the igenomes config
 
 ## v1.13.5
 

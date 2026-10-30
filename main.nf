@@ -77,7 +77,7 @@ params {
     igenomes_ignore: Boolean = false
 
     // Path to the MSI baseline VCF file.
-    msi_baseline: Path?
+    msi_baseline: Path? = getGenomeAttribute('msi_baseline', params.genomes, params.genome)
 
     // The amount of scattering that should happen per sample.
     scatter_count: Integer = 40
