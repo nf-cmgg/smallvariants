@@ -3,6 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.14.0
+
+- Revert the default configs base to the nf-core configs in preparation of converting nf-cmgg/configs to a private repo
+- Added a comment to the multiqc report stating which mosdepth mode was used
+- `VARDICTJAVA`: set the `var2vcf_valid.pl -m` to `6.25` to improve detection of complex indels
+- `MSISENSORPRO_PRO`:
+  - Use custom v1.4.0 container with `-D/--ignore-duplicates` to ignore reads marked as duplicate.
+  - Update MULTIQC parameters
+- Add ROI field in the general stats MULTIQC table
+- Fetch the MSI baseline from the igenomes config
+
 ## v1.13.5
 
 - Set `outdir` type to `String` to avoid file existence checking
