@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.14.1
+
+- Fix Path handling in DBSNP ID annotation of vardict VCFs for cloud systems
+
 ## v1.14.0
 
 - Revert the default configs base to the nf-core configs in preparation of converting nf-cmgg/configs to a private repo
