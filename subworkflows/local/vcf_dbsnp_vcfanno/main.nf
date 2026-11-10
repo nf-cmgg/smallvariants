@@ -29,9 +29,9 @@ workflow VCF_DBSNP_VCFANNO {
 }
 
 def get_vcfanno_config(vcf) {
-    def old_toml = file("${projectDir}/assets/dbsnp.toml", checkIfExists: true)
-    old_toml.copyTo("${workDir}/vcfanno/dbsnp.toml")
-    def new_toml = file("${workDir}/vcfanno/dbsnp.toml")
+    def old_toml = projectDir.resolve("assets/dbsnp.toml")
+    def new_toml = workDir.resolve("vcfanno/dbsnp.toml")
+    old_toml.copyTo(new_toml.toUriString())
     new_toml.text = old_toml.text.replace("DBSNP_FILE", vcf.getName())
     return new_toml
 }
